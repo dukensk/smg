@@ -11,4 +11,5 @@ output_formats = [
     OutputFormat(label='Видео, 1080p, mp4', preset='bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[height<=1080]'),
     OutputFormat(label='Видео, 720p', preset='bestvideo[height<=720]+bestaudio/best[height<=720]'),
     OutputFormat(label='Видео в максимальном качестве', preset='bestvideo+bestaudio/best'),
+    OutputFormat(label='Аудио в максимальном качестве', preset='bestaudio/best'),
 ]
