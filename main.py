@@ -22,6 +22,7 @@ if __name__ == '__main__':
             'noplaylist': True,
             'format': output_format.preset,
             'outtmpl': settings.SAVE_PATH + '/%(title)s.%(ext)s',
+            'concurrent-fragments': 3,
         }
 
         if output_format.postprocessors:
