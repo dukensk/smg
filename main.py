@@ -40,4 +40,3 @@ if __name__ == '__main__':
 
         input('\nДля продолжения нажмите ENTER...')
         clear_console()
-
