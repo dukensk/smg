@@ -36,8 +36,3 @@ def choose_output_format(format_menu: OutputFormatMenu) -> OutputFormat:
 def clear_console():
     """Очищает консоль"""
     os.system('cls' if os.name == 'nt' else 'clear')
-
-
-def download_complete_hook(d):
-    if d['status'] == 'finished':
-        print('Скачивание завершено, запускаем постобработку...')

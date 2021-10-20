@@ -4,7 +4,7 @@ from yt_dlp import DownloadError
 
 import settings
 from smg.preset import OutputFormatMenu
-from smg.service import show_app_header, choose_output_format, clear_console, download_complete_hook
+from smg.service import show_app_header, choose_output_format, clear_console
 
 if __name__ == '__main__':
     # Принудительно переключаем кодировку вывода консоли в UTF-8, чтобы не было проблем с кириллицей
