@@ -1,1 +1,0 @@
-c:\projects\smg\venv\Scripts\python.exe c:\projects\smg\getvideo.py
