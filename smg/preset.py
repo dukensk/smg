@@ -6,6 +6,7 @@ class OutputFormat:
     """Пресет выходного формата"""
     label: str = None
     preset: str = None
+    postprocessors: [{str: str}] = None
 
     def __str__(self):
         return self.label

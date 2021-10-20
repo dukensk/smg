@@ -24,6 +24,9 @@ if __name__ == '__main__':
             'outtmpl': settings.SAVE_PATH + '/%(title)s.%(ext)s',
         }
 
+        if output_format.postprocessors:
+            ydl_opts['postprocessors'] = output_format.postprocessors
+
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([video_url])
