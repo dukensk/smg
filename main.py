@@ -2,6 +2,7 @@ import sys
 import yt_dlp
 
 import settings
+import smg.preset
 from smg.preset import OutputFormatMenu
 from smg.service import show_app_header, choose_output_format, clear_console
 
@@ -14,7 +15,7 @@ if __name__ == '__main__':
 
         video_url = input('Введите URL видео: ')
 
-        output_format_menu = OutputFormatMenu(settings.output_formats)
+        output_format_menu = OutputFormatMenu(smg.preset.output_formats)
         output_format = choose_output_format(output_format_menu)
 
         ydl_opts = {
