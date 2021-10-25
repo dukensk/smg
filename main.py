@@ -1,6 +1,5 @@
 import sys
 import yt_dlp
-from yt_dlp import DownloadError
 
 import settings
 from smg.preset import OutputFormatMenu
@@ -32,7 +31,7 @@ if __name__ == '__main__':
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([video_url])
             print('\nВсе операции успешно завершены. Можно скачать что-нибудь еще.')
-        except DownloadError:
+        except yt_dlp.DownloadError:
             print('\n\nYOU DIED'
                   '\n\nНе удалось скачать видео. Нам очень жаль. :('
                   '\nТак бывает, если оно еще не до конца обработалось на сервисе или вы ввели неправильную ссылку. '
