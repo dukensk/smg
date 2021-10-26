@@ -1,5 +1,8 @@
 import sys
+
+import colorama
 import yt_dlp
+from colorama import init, Fore, Back, Style
 
 import settings
 import smg.preset
@@ -11,6 +14,7 @@ if __name__ == '__main__':
     sys.stdout.reconfigure(encoding='utf-8')
 
     while True:
+        colorama.init(autoreset=True)
         show_app_header()
 
         video_url = input('Введите URL видео: ')
@@ -31,10 +35,11 @@ if __name__ == '__main__':
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([video_url])
-            print('\nВсе операции успешно завершены. Можно скачать что-нибудь еще.')
+            print(Style.DIM + Fore.GREEN + '\nГотово' + Style.RESET_ALL)
+            print('Все операции успешно завершены. Можно скачать что-нибудь еще.')
         except yt_dlp.DownloadError:
-            print('\n\nYOU DIED'
-                  '\n\nНе удалось скачать видео. Нам очень жаль. :('
+            print(Style.DIM + Fore.RED + '\n\nYOU DIED' + Style.RESET_ALL)
+            print('\nНе удалось скачать видео. Нам очень жаль. :('
                   '\nТак бывает, если оно еще не до конца обработалось на сервисе или вы ввели неправильную ссылку. '
                   'Попробуйте позже.')
 
