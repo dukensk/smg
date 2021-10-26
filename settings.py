@@ -9,4 +9,3 @@ load_dotenv(dotenv_path)
 
 SAVE_PATH = os.environ.get('SAVE_PATH', default=get_system_downloads_path())
 '''Путь для сохранения скачанных файлов'''
-
