@@ -35,7 +35,7 @@ if __name__ == '__main__':
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([video_url])
-            print(Style.DIM + Fore.GREEN + '\nГотово' + Style.RESET_ALL)
+            print(Style.DIM + Fore.GREEN + '\nГОТОВО' + Style.RESET_ALL)
             print('Все операции успешно завершены. Можно скачать что-нибудь еще.')
         except yt_dlp.DownloadError:
             print(Style.DIM + Fore.RED + '\n\nYOU DIED' + Style.RESET_ALL)
