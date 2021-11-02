@@ -2,7 +2,7 @@ import sys
 
 import colorama
 import yt_dlp
-from colorama import init, Fore, Back, Style
+from colorama import Fore, Style
 
 import settings
 import smg.preset
