@@ -6,16 +6,16 @@ class OutputFormat:
     """Пресет выходного формата"""
     label: str = None
     preset: str = None
-    postprocessors: [{str: str}] = None
+    postprocessors: list[dict[str, str]] = None
 
     def __str__(self):
         return self.label
 
 
 class OutputFormatMenu:
-    _format_presets: [OutputFormat]
+    _format_presets: list[OutputFormat]
 
-    def __init__(self, format_presets: [OutputFormat]):
+    def __init__(self, format_presets: list[OutputFormat]):
         self._format_presets = format_presets
 
     def __str__(self):
