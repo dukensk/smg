@@ -9,7 +9,8 @@ import smg.preset
 from smg.preset import OutputFormatMenu
 from smg.service import show_app_header, choose_output_format, clear_console
 
-if __name__ == '__main__':
+
+def main():
     # Принудительно переключаем кодировку вывода консоли в UTF-8, чтобы не было проблем с кириллицей
     sys.stdout.reconfigure(encoding='utf-8')
 
@@ -45,3 +46,7 @@ if __name__ == '__main__':
 
         input('\nДля продолжения нажмите ENTER...')
         clear_console()
+
+
+if __name__ == '__main__':
+    main()
