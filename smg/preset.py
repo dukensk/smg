@@ -40,12 +40,12 @@ class OutputFormatMenu:
     @property
     def min_index(self) -> 0:
         """Возвращает минимальный допустимый номер пункта меню"""
-        return 1 if len(self._format_presets) > 0 else 0
+        return 1 if not self.is_empty else 0
 
     @property
     def is_empty(self):
         """Проверяет, является ли меню пустым"""
-        return True if len(self._format_presets) == 0 else False
+        return True if not self._format_presets else False
 
     @property
     def default_output_format(self):
