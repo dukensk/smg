@@ -1,4 +1,5 @@
 import sys
+import io
 
 import colorama
 import yt_dlp
@@ -12,7 +13,8 @@ from smg.service import show_app_header, choose_output_format, clear_console
 
 def main():
     # Принудительно переключаем кодировку вывода консоли в UTF-8, чтобы не было проблем с кириллицей
-    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
     while True:
         colorama.init(autoreset=True)
