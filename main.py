@@ -16,13 +16,13 @@ def main():
     sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
     sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
+    colorama.init(autoreset=True)
+    output_format_menu = OutputFormatMenu(smg.preset.output_formats)
+
     while True:
-        colorama.init(autoreset=True)
         show_app_header()
 
         video_url = input('Введите URL видео: ')
-
-        output_format_menu = OutputFormatMenu(smg.preset.output_formats)
         output_format = choose_output_format(output_format_menu)
 
         ydl_opts = {
