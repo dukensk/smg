@@ -14,9 +14,11 @@ class OutputFormat:
 
 class OutputFormatMenu:
     _format_presets: list[OutputFormat]
+    _default_output_format: OutputFormat
 
     def __init__(self, format_presets: list[OutputFormat]):
         self._format_presets = format_presets
+        self._default_output_format = OutputFormat(label='Видео в максимальном качестве', preset='bestvideo+bestaudio/best')
 
     def __str__(self):
         numbered_list = []
@@ -39,6 +41,16 @@ class OutputFormatMenu:
     def min_index(self) -> 0:
         """Возвращает минимальный допустимый номер пункта меню"""
         return 1 if len(self._format_presets) > 0 else 0
+
+    @property
+    def is_empty(self):
+        """Проверяет, является ли меню пустым"""
+        return True if len(self._format_presets) == 0 else False
+
+    @property
+    def default_output_format(self):
+        """Выходной формат по умолчанию"""
+        return self._default_output_format
 
 
 output_formats = [

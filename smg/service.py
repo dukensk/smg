@@ -13,7 +13,7 @@ def show_app_header():
 def choose_output_format(format_menu: OutputFormatMenu) -> OutputFormat:
     """Выбирает выходной формат из меню на основе ввода пользователя"""
     print('\n' + str(format_menu))
-    output_format = None
+    output_format = None if not format_menu.is_empty else format_menu.default_output_format
 
     while not output_format:
         try:
