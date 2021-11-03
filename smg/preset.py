@@ -38,11 +38,7 @@ class OutputFormatMenu:
     @property
     def min_index(self) -> 0:
         """Возвращает минимальный допустимый номер пункта меню"""
-        if len(self._format_presets) > 0:
-            min_format_index = 1
-        else:
-            min_format_index = 0
-        return min_format_index
+        return 1 if len(self._format_presets) > 0 else 0
 
 
 output_formats = [

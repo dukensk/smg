@@ -1,6 +1,3 @@
-import sys
-import io
-
 import colorama
 import yt_dlp
 from colorama import Fore, Style
@@ -8,14 +5,11 @@ from colorama import Fore, Style
 import settings
 import smg.preset
 from smg.preset import OutputFormatMenu
-from smg.service import show_app_header, choose_output_format, clear_console
+from smg.service import show_app_header, choose_output_format, clear_console, force_terminal_unicode_encoding
 
 
 def main():
-    # Принудительно переключаем кодировку вывода консоли в UTF-8, чтобы не было проблем с кириллицей
-    sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
-    sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
-
+    force_terminal_unicode_encoding()
     colorama.init(autoreset=True)
     output_format_menu = OutputFormatMenu(smg.preset.output_formats)
 

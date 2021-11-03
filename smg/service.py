@@ -1,4 +1,6 @@
 import os
+import sys
+import io
 
 from smg.preset import OutputFormat, OutputFormatMenu
 
@@ -49,3 +51,9 @@ def get_system_downloads_path():
         return location
     else:
         return os.path.join(os.path.expanduser('~'), 'downloads')
+
+
+def force_terminal_unicode_encoding():
+    """Принудительно переключаем кодировку вывода терминале в UTF-8, чтобы не было проблем с кириллицей"""
+    sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
