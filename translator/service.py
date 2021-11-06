@@ -47,6 +47,7 @@ def resample_vo(vo_audio_path: str) -> str:
     subprocess.call(['ffmpeg',
                      '-i', vo_audio_path,
                      '-ar', '44100',
+                     '-ac', '2',
                      '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
                      output_file_path],
                     stdout=subprocess.DEVNULL,
@@ -167,7 +168,7 @@ def merge_video_and_vo(original_video_path: str, vo_audio_path: str):
     output_video_path = replace_audio_in_video(original_video_path, merged_audio_path)
 
     print('Переведенный файл: ' + output_video_path)
-    remove_temp_files(temp_files)
+    # remove_temp_files(temp_files)
 
 
 def merge_audio_and_vo(original_audio_path: str, vo_audio_path: str):
