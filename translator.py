@@ -20,10 +20,10 @@ def main():
         video_url = input('Введите URL видео: ')
         output_format = choose_output_format(output_format_menu)
 
-        vo_url = input('Введите URL VO: ')
-        print('Скачиваем перевод')
+        vo_url = input('Введите URL закадрового перевода: ')
+        print('\nСкачиваем закадровый перевод')
         vo_path = wget.download(vo_url, out=settings.TRANSLATOR_TEMP_PATH, bar=wget.bar_adaptive)
-        print(vo_path)
+        print(Style.DIM + Fore.GREEN + '\nЗАКАДРОВЫЙ ПЕРЕВОД СКАЧАН' + Style.RESET_ALL)
 
         print('\nСкачиваем видео:')
         ydl_opts = {
