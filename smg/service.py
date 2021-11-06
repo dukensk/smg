@@ -30,7 +30,7 @@ def choose_output_format(format_menu: OutputFormatMenu) -> OutputFormat:
                   .format(min_index=format_menu.min_index, max_index=format_menu.max_index))
 
     clear_console()
-    show_app_header()
+    # show_app_header()
     print('Выбран формат: {output_format}\n'.format(output_format=str(output_format)))
     return output_format
 
