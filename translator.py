@@ -7,7 +7,7 @@ import settings
 import translator.preset
 
 from smg.service import force_terminal_unicode_encoding, choose_output_format, clear_console
-from translator.service import show_app_header, merge_video_and_vo
+from translator.service import show_app_header, merge_video_and_vo, merge_audio_and_vo
 
 
 def main():
@@ -41,9 +41,12 @@ def main():
                 yinfo = ydl.extract_info(video_url, download=True)
             print(Style.DIM + Fore.GREEN + 'ВИДЕО СКАЧАНО' + Style.RESET_ALL)
 
-            original_video_path = ydl.prepare_filename(yinfo)
+            original_file_path = ydl.prepare_filename(yinfo)
 
-            merge_video_and_vo(original_video_path, vo_path)
+            if output_format.is_audio_only:
+                merge_audio_and_vo(original_file_path, vo_path)
+            else:
+                merge_video_and_vo(original_file_path, vo_path)
 
             print(Style.DIM + Fore.GREEN + '\nГОТОВО' + Style.RESET_ALL)
             print('Все операции успешно завершены. Можно скачать что-нибудь еще.')

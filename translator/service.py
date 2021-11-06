@@ -1,6 +1,5 @@
 import subprocess
 import os
-import sys
 import pathlib
 
 from colorama import Fore, Style
@@ -128,6 +127,28 @@ def remove_temp_files(temp_files):
         os.remove(file_path)
 
 
+def merge_audio_only(original_audio_path: str, vo_path: str, muffled_audio_path: str):
+    print('\nНакладываем закадровый перевод...')
+    path = pathlib.Path(original_audio_path)
+    filename = path.stem
+    output_ext = "m4a"
+    output_file_path = '{save_path}/{filename}.{ext}' \
+        .format(save_path=settings.TRANSLATOR_SAVE_PATH, filename=filename, ext=output_ext)
+
+    subprocess.call(['ffmpeg',
+                     '-i', vo_path,
+                     '-i', muffled_audio_path,
+                     '-filter_complex', 'amix=inputs=2:duration=first',
+                     '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
+                     output_file_path],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.STDOUT
+                    )
+
+    print(Style.DIM + Fore.GREEN + 'ГОТОВО' + Style.RESET_ALL)
+    return output_file_path
+
+
 def merge_video_and_vo(original_video_path: str, vo_audio_path: str):
     temp_files = [original_video_path, vo_audio_path]
 
@@ -146,4 +167,18 @@ def merge_video_and_vo(original_video_path: str, vo_audio_path: str):
     output_video_path = replace_audio_in_video(original_video_path, merged_audio_path)
 
     print('Переведенный файл: ' + output_video_path)
+    remove_temp_files(temp_files)
+
+
+def merge_audio_and_vo(original_audio_path: str, vo_audio_path: str):
+    temp_files = [original_audio_path, vo_audio_path]
+
+    muffled_audio_path = muffle_audio(original_audio_path)
+    temp_files.append(muffled_audio_path)
+
+    resampled_vo_path = resample_vo(vo_audio_path)
+    temp_files.append(resampled_vo_path)
+
+    output_audio_path = merge_audio_only(original_audio_path, resampled_vo_path, muffled_audio_path)
+    print('Переведенный файл: ' + output_audio_path)
     remove_temp_files(temp_files)
