@@ -49,6 +49,7 @@ def resample_vo(vo_audio_path: str) -> str:
                      '-ar', '44100',
                      '-ac', '2',
                      '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
+                     '-af', 'volume=' + str(settings.TRANSLATOR_VOLUME_BOOST),
                      output_file_path],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.STDOUT)
