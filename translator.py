@@ -66,12 +66,14 @@ def main():
                 print(Style.DIM + Fore.RED + '\n\nYOU DIED' + Style.RESET_ALL)
                 print('\nБез закадрового перевода нет смысла качать видео. :('
                       '\nПопробуйте скачать что-то еще.')
+                print('Проблемное  видео: {video_url}'.format(video_url=video_url))
 
         except yt_dlp.DownloadError:
             print(Style.DIM + Fore.RED + '\n\nYOU DIED' + Style.RESET_ALL)
             print('\nНе удалось скачать видео. Нам очень жаль. :('
                   '\nТак бывает, если оно еще не до конца обработалось на сервисе или вы ввели неправильную ссылку. '
                   'Попробуйте позже.')
+            print('Проблемное  видео: {video_url}'.format(video_url=video_url))
 
         input('\nДля продолжения нажмите ENTER...')
         clear_console()
