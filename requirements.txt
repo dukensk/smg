@@ -4,4 +4,4 @@ pycryptodomex==3.11.0
 python-dotenv==0.19.1
 websockets==10.0
 wget==3.2
-yt-dlp==2021.10.22
+yt-dlp==2021.11.10.1
