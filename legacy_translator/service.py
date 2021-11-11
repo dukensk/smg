@@ -4,7 +4,7 @@ import pathlib
 
 from colorama import Fore, Style
 
-import settings
+import legacy_settings
 
 
 def show_app_header():

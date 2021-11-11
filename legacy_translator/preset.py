@@ -1,4 +1,4 @@
-from smg.preset import OutputFormat
+from legacy_smg.preset import OutputFormat
 
 output_formats = [
     OutputFormat(label='Аудио, m4a  (оптимально для YouTube)', preset='bestaudio[ext=m4a]/best',

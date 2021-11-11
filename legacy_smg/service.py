@@ -2,7 +2,7 @@ import os
 import sys
 import io
 
-from smg.preset import OutputFormat, OutputFormatMenu
+from legacy_smg.preset import OutputFormat, OutputFormatMenu
 
 
 def show_app_header():

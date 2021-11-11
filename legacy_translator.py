@@ -5,19 +5,19 @@ import colorama
 import wget
 import yt_dlp
 from colorama import Fore, Style
-from smg.preset import OutputFormatMenu
-import settings
-import translator.preset
+from legacy_smg.preset import OutputFormatMenu
+import legacy_settings
+import legacy_translator.preset
 
-from smg.service import force_terminal_unicode_encoding, choose_output_format, clear_console
-from translator.service import show_app_header, merge_video_and_vo, merge_audio_and_vo
+from legacy_smg.service import force_terminal_unicode_encoding, choose_output_format, clear_console
+from legacy_translator.service import show_app_header, merge_video_and_vo, merge_audio_and_vo
 
 
 def main():
     force_terminal_unicode_encoding()
     os.chdir(settings.TRANSLATOR_TEMP_PATH)
     colorama.init(autoreset=True)
-    output_format_menu = OutputFormatMenu(translator.preset.output_formats)
+    output_format_menu = OutputFormatMenu(legacy_translator.preset.output_formats)
 
     while True:
         show_app_header()

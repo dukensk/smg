@@ -2,7 +2,7 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 
-from smg.service import get_system_downloads_path
+from legacy_smg.service import get_system_downloads_path
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
