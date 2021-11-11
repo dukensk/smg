@@ -23,7 +23,7 @@ def extract_original_audio(original_video_path: str) -> str:
     filename = path.stem
     output_ext = "m4a"
     output_file_path = '{save_path}/{filename}_en.{ext}' \
-        .format(save_path=settings.TRANSLATOR_TEMP_PATH, filename=filename, ext=output_ext)
+        .format(save_path=legacy_settings.TRANSLATOR_TEMP_PATH, filename=filename, ext=output_ext)
     subprocess.call(['ffmpeg',
                      '-i', original_video_path,
                      '-vn',
@@ -42,14 +42,14 @@ def resample_vo(vo_audio_path: str) -> str:
     filename = path.stem
     output_ext = "m4a"
     output_file_path = '{save_path}/{filename}_resampled.{ext}' \
-        .format(save_path=settings.TRANSLATOR_TEMP_PATH, filename=filename, ext=output_ext)
+        .format(save_path=legacy_settings.TRANSLATOR_TEMP_PATH, filename=filename, ext=output_ext)
 
     subprocess.call(['ffmpeg',
                      '-i', vo_audio_path,
                      '-ar', '44100',
                      '-ac', '2',
-                     '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
-                     '-af', 'volume=' + str(settings.TRANSLATOR_VOLUME_BOOST),
+                     '-ab', legacy_settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
+                     '-af', 'volume=' + str(legacy_settings.TRANSLATOR_VOLUME_BOOST),
                      output_file_path],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.STDOUT)
@@ -64,17 +64,17 @@ def muffle_audio(original_audio_path: str) -> str:
     filename = path.stem
     output_ext = "m4a"
     output_file_path = '{save_path}/{filename}_muffled.{ext}' \
-        .format(save_path=settings.TRANSLATOR_TEMP_PATH, filename=filename, ext=output_ext)
+        .format(save_path=legacy_settings.TRANSLATOR_TEMP_PATH, filename=filename, ext=output_ext)
 
     subprocess.call(['ffmpeg',
                      '-i', original_audio_path,
-                     '-af', 'volume=' + str(settings.TRANSLATOR_VOLUME_ORIGINAL_AUDIO),
+                     '-af', 'volume=' + str(legacy_settings.TRANSLATOR_VOLUME_ORIGINAL_AUDIO),
                      output_file_path],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.STDOUT)
 
     print(Style.DIM + Fore.GREEN + 'ПРИГЛУШИЛИ НА '
-          + str(round((1 - settings.TRANSLATOR_VOLUME_ORIGINAL_AUDIO) * 100)) + '%' + Style.RESET_ALL)
+          + str(round((1 - legacy_settings.TRANSLATOR_VOLUME_ORIGINAL_AUDIO) * 100)) + '%' + Style.RESET_ALL)
     return output_file_path
 
 
@@ -84,13 +84,13 @@ def merge_audio(original_video_path: str, vo_path: str, muffled_audio_path: str)
     filename = path.stem
     output_ext = "m4a"
     output_file_path = '{save_path}/{filename}_merged.{ext}' \
-        .format(save_path=settings.TRANSLATOR_TEMP_PATH, filename=filename, ext=output_ext)
+        .format(save_path=legacy_settings.TRANSLATOR_TEMP_PATH, filename=filename, ext=output_ext)
 
     subprocess.call(['ffmpeg',
                      '-i', vo_path,
                      '-i', muffled_audio_path,
                      '-filter_complex', 'amix=inputs=2:duration=first',
-                     '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
+                     '-ab', legacy_settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
                      output_file_path],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.STDOUT
@@ -106,7 +106,7 @@ def replace_audio_in_video(original_video_path: str, new_audio_path: str):
     filename = path.stem
     output_ext = "mp4"
     output_file_path = '{save_path}/{filename}.{ext}' \
-        .format(save_path=settings.TRANSLATOR_SAVE_PATH, filename=filename, ext=output_ext)
+        .format(save_path=legacy_settings.TRANSLATOR_SAVE_PATH, filename=filename, ext=output_ext)
 
     subprocess.call(['ffmpeg',
                      '-i', original_video_path,
@@ -135,13 +135,13 @@ def merge_audio_only(original_audio_path: str, vo_path: str, muffled_audio_path:
     filename = path.stem
     output_ext = "m4a"
     output_file_path = '{save_path}/{filename}.{ext}' \
-        .format(save_path=settings.TRANSLATOR_SAVE_PATH, filename=filename, ext=output_ext)
+        .format(save_path=legacy_settings.TRANSLATOR_SAVE_PATH, filename=filename, ext=output_ext)
 
     subprocess.call(['ffmpeg',
                      '-i', vo_path,
                      '-i', muffled_audio_path,
                      '-filter_complex', 'amix=inputs=2:duration=first',
-                     '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
+                     '-ab', legacy_settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
                      output_file_path],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.STDOUT
