@@ -28,10 +28,10 @@ def main():
 
         download_attempt = 0
         vo_path = None
-        while not vo_path and download_attempt < settings.TRANSLATOR_DOWNLOAD_ATTEMPTS_LIMIT:
+        while not vo_path and download_attempt < legacy_settings.TRANSLATOR_DOWNLOAD_ATTEMPTS_LIMIT:
             try:
                 print('\nСкачиваем закадровый перевод')
-                vo_path = wget.download(vo_url, out=settings.TRANSLATOR_TEMP_PATH, bar=wget.bar_adaptive)
+                vo_path = wget.download(vo_url, out=legacy_settings.TRANSLATOR_TEMP_PATH, bar=wget.bar_adaptive)
                 print(Style.DIM + Fore.GREEN + '\nЗАКАДРОВЫЙ ПЕРЕВОД СКАЧАН' + Style.RESET_ALL)
             except urllib.error.ContentTooShortError:
                 print(Style.DIM + Fore.RED + '\nНЕ УДАЛОСЬ СКАЧАТЬ ЗАКАДРОВЫЙ ПЕРЕВОД, ПРОБУЕМ СНОВА' + Style.RESET_ALL)
@@ -42,7 +42,7 @@ def main():
         ydl_opts = {
             'noplaylist': True,
             'format': output_format.preset,
-            'outtmpl': settings.TRANSLATOR_TEMP_PATH + '/%(title)s.%(ext)s',
+            'outtmpl': legacy_settings.TRANSLATOR_TEMP_PATH + '/%(title)s.%(ext)s',
             'concurrent-fragments': 3,
         }
 

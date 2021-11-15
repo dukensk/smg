@@ -22,7 +22,7 @@ def main():
         ydl_opts = {
             'noplaylist': True,
             'format': output_format.preset,
-            'outtmpl': settings.SAVE_PATH + '/%(title)s.%(ext)s',
+            'outtmpl': legacy_settings.SAVE_PATH + '/%(title)s.%(ext)s',
             'concurrent-fragments': 3,
         }
 
