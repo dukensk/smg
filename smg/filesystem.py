@@ -13,3 +13,34 @@ def get_system_downloads_path() -> Path:
         return Path(location)
     else:
         return Path.home() / 'Downloads'
+
+
+class File:
+    """Base file class"""
+    _path: Path = None
+
+    def __init__(self, path: Path):
+        self._path = path
+
+    @property
+    def name(self) -> str:
+        """Filename"""
+        return self._path.stem
+
+    @property
+    def extension(self) -> str:
+        """File extension with dot"""
+        return self._path.suffix
+
+    @property
+    def path(self) -> Path:
+        """Path to the file"""
+        return self._path
+
+    @property
+    def name_with_extension(self) -> str:
+        return self.name + self.extension
+
+    def remove(self):
+        """Removes file"""
+        self.path.unlink(missing_ok=False)
