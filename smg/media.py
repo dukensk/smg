@@ -56,6 +56,10 @@ class AudioFile(MediaFile):
         """Codec name"""
         return str(self.media_info.get('streams')[0].get('codec_name'))
 
+    @property
+    def channels(self) -> int:
+        """Count of channels"""
+        return int(self.media_info.get('streams')[0].get('channels'))
 
 
 
