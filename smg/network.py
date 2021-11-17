@@ -56,6 +56,9 @@ class FileDownloader:
     def _show_error_downloading_message(self):
         print(Style.DIM + Fore.RED + '\n' + self.ERROR_DOWNLOADING_MESSAGE + Style.RESET_ALL)
 
+    def _create_file(self, path: Path) -> File:
+        return File(path)
+
     def download(self) -> File | None:
         """Downloads a file"""
         download_attempt = 0
@@ -70,4 +73,4 @@ class FileDownloader:
                 download_attempt += 1
                 file_path = None
 
-        return File(Path(file_path)) if file_path else None
+        return self._create_file(Path(file_path)) if file_path else None
