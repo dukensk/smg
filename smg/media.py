@@ -43,7 +43,6 @@ class MediaFile(File):
         return float(self.media_info.get('format').get('duration'))
 
 
-
 class AudioFile(MediaFile):
     EXTENSION_MP3 = '.mp3'
     EXTENSION_M4A = '.m4a'
