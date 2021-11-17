@@ -46,6 +46,11 @@ class AudioFile(MediaFile):
         """bitrate, kbps"""
         return int(int(self.media_info.get('format').get('bit_rate')) / 1000)
 
+    @property
+    def samplerate(self) -> int:
+        """Sampling frequency, Hz"""
+        return int(self.media_info.get('streams')[0].get('sample_rate'))
+
 
 class VideoFile(MediaFile):
     EXTENSION_MP4 = '.mp4'
