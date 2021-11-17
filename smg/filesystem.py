@@ -58,3 +58,29 @@ class File:
     def size(self) -> int:
         """File size in bytes"""
         return self.path.stat().st_size
+
+    @property
+    def size_in_kb(self) -> float:
+        return self.size / 1024
+
+    @property
+    def size_in_mb(self) -> float:
+        return self.size / (1024 * 1024)
+
+    @property
+    def size_in_gb(self) -> float:
+        return self.size / (1024 * 1024 * 1024)
+
+    @property
+    def formatted_size(self) -> str:
+        if self.size < 1024:
+            size = f'{self.size} Б'
+        elif 1024 <= self.size < 1024 * 1024:
+            size = f'{"%.2f" % self.size_in_kb} Кб'
+        elif 1024 * 1024 <= self.size < 1024 * 1024 * 1024:
+            size = f'{"%.2f" % self.size_in_mb} Мб'
+        elif self.size >= 1024 * 1024 * 1024:
+            size = f'{"%.2f" % self.size_in_gb} Гб'
+        else:
+            size = f'{self.size} Б'
+        return size
