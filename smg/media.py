@@ -1,4 +1,3 @@
-import subprocess
 from json import loads
 from pathlib import Path
 from subprocess import check_output
@@ -21,11 +20,6 @@ class MediaFile(File):
         self._clear_media_info()
 
     @property
-    def duration(self) -> float:
-        """Duration in seconds"""
-        return float(self.media_info.get('format').get('duration'))
-
-    @property
     def media_info(self) -> dict:
         if not self._media_info:
             result = check_output(['ffprobe',
@@ -37,10 +31,20 @@ class MediaFile(File):
             self._media_info = loads(result)
         return self._media_info
 
+    @property
+    def duration(self) -> float:
+        """Duration in seconds"""
+        return float(self.media_info.get('format').get('duration'))
+
 
 class AudioFile(MediaFile):
     EXTENSION_MP3 = '.mp3'
     EXTENSION_M4A = '.m4a'
+
+    @property
+    def bitrate(self) -> int:
+        """bitrate, kbps"""
+        return int(int(self.media_info.get('format').get('bit_rate')) / 1000)
 
 
 class VideoFile(MediaFile):
