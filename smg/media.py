@@ -1,4 +1,5 @@
 from json import loads
+import datetime
 from pathlib import Path
 from subprocess import check_output
 
@@ -32,7 +33,12 @@ class MediaFile(File):
         return self._media_info
 
     @property
-    def duration(self) -> float:
+    def duration(self) -> str:
+        """Duration"""
+        return str(datetime.timedelta(seconds=self.duration_in_seconds))
+
+    @property
+    def duration_in_seconds(self):
         """Duration in seconds"""
         return float(self.media_info.get('format').get('duration'))
 
@@ -60,7 +66,6 @@ class AudioFile(MediaFile):
     def channels(self) -> int:
         """Count of channels"""
         return int(self.media_info.get('streams')[0].get('channels'))
-
 
 
 class VideoFile(MediaFile):
