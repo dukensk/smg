@@ -44,3 +44,12 @@ class File:
     def remove(self):
         """Removes file"""
         self.path.unlink(missing_ok=False)
+
+    def _replace_path_and_remove_old_file(self, path: Path) -> bool:
+        """Replaces the file path and removes the old file"""
+        if path != self.path and path.exists():
+            self.remove()
+            self._path = path
+            return True
+        else:
+            return False
