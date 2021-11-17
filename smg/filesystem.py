@@ -53,3 +53,8 @@ class File:
             return True
         else:
             return False
+
+    @property
+    def size(self) -> int:
+        """File size in bytes"""
+        return self.path.stat().st_size
