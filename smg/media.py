@@ -43,6 +43,7 @@ class MediaFile(File):
         return float(self.media_info.get('format').get('duration'))
 
 
+
 class AudioFile(MediaFile):
     EXTENSION_MP3 = '.mp3'
     EXTENSION_M4A = '.m4a'
@@ -66,6 +67,10 @@ class AudioFile(MediaFile):
     def channels(self) -> int:
         """Count of channels"""
         return int(self.media_info.get('streams')[0].get('channels'))
+
+    def __str__(self):
+        return f'{self.name_with_extension} | {self.duration[:-3]} | {self.bitrate} kbps | {self.samplerate} Hz | ' \
+               f'{self.codec_name} | каналов: {self.channels} | {self.formatted_size}'
 
 
 class VideoFile(MediaFile):
