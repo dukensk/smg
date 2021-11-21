@@ -1,3 +1,3 @@
 @echo off
 cd %~dp0
-..\venv\Scripts\python.exe ..\legacy_main.py
+..\venv\Scripts\python.exe ..\smg.py mediagrabber
