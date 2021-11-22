@@ -1,5 +1,5 @@
 from smg.controllers import Controller
-from smg.translator import VoiceOverDownloader
+from translator.downloaders import VoiceOverDownloader
 
 
 class TranslatorController(Controller):

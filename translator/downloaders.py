@@ -22,5 +22,3 @@ class VoiceOverDownloader(FileDownloader):
 
     def download(self) -> VoiceOver | None:
         return super().download()
-
-
