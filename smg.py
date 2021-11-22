@@ -1,6 +1,6 @@
 import colorama
 
-from smg.main import MainController
+from smg.controllers import MainController
 from smg.service import get_controller_key
 
 
