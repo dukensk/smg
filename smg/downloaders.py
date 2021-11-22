@@ -6,7 +6,7 @@ from colorama import Style, Fore
 
 import settings
 from common.filesystem import File
-from smg.service import is_url
+from common.service import is_url
 
 
 class FileDownloader:
