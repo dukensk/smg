@@ -4,7 +4,7 @@ from pathlib import Path
 from colorama import Style, Fore
 
 import settings
-from smg.media import AudioFile
+from common.media import AudioFile
 
 
 class VoiceOver(AudioFile):

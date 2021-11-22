@@ -1,5 +1,5 @@
-from json import loads
 import datetime
+from json import loads
 from pathlib import Path
 from subprocess import check_output
 
