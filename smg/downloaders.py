@@ -1,5 +1,5 @@
-import urllib
 from pathlib import Path
+from urllib.error import ContentTooShortError
 
 import wget
 from colorama import Style, Fore
@@ -63,7 +63,7 @@ class FileDownloader:
                 self._show_start_downloading_message()
                 file_path = wget.download(self._url, out=str(self._save_path), bar=wget.bar_adaptive)
                 self._show_finish_downloading_message()
-            except urllib.error.ContentTooShortError:
+            except ContentTooShortError:
                 self._show_error_downloading_message()
                 download_attempt += 1
                 file_path = None
