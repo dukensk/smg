@@ -1,3 +1,5 @@
+from colorama import Style, Fore
+
 from common.controllers import Controller
 from mediagrabber.controllers import MediaGrabberController
 from translator.controllers import TranslatorController
@@ -50,16 +52,17 @@ class MainMenu:
         while not controller:
             try:
                 controller_index = int(
-                    input('\nВыберите режим работы приложения [{min_index}-{max_index}]: '
-                          .format(min_index=self.min_index, max_index=self.max_index))
+                    input(f'\nВыберите режим работы приложения [{self.min_index}-{self.max_index}]: ')
                 )
                 controller = self.get_controller_by_index(controller_index)
             except ValueError:
-                print("Вы ввели некорректное значение. Необходимо ввести число в диапазоне от {min_index} до {max_index}"
-                      .format(min_index=self.min_index, max_index=self.max_index))
+                print(
+                    f'\n{Style.DIM}{Fore.RED}ВЫ ВВЕЛИ НЕКОРРЕКТНОЕ ЗНАЧЕНИЕ{Style.RESET_ALL}'
+                    f'\nНеобходимо ввести число в диапазоне от {self.min_index} до {self.max_index}')
             except IndexError:
-                print('Пункта меню с таким номером не существует. Необходимо ввести число в диапазоне от {min_index} до {max_index}'
-                      .format(min_index=self.min_index, max_index=self.max_index))
+                print(
+                    f'\n{Style.DIM}{Fore.RED}ПУНКТА МЕНЮ С ТАКИМ НОМЕРОМ НЕ СУЩЕСТВУЕТ{Style.RESET_ALL}'
+                    f'\nНеобходимо ввести число в диапазоне от {self.min_index} до {self.max_index}')
         return controller
 
 
@@ -72,13 +75,15 @@ class MainController(Controller):
     def menu_title(self) -> str:
         return self.title
 
-    def run(self, controller_key: str = None) -> bool:
+    def run(self, controller_key: str = None):
         while True:
             self.show_app_header()
             self.main(controller_key)
             controller_key = None
-        return True
 
     def main(self, controller_key: str = None):
-        controller = MainMenu(controllers).choose_controller(controller_key) if controller_key else MainMenu(controllers).choose_controller()
+        if controller_key:
+            controller = MainMenu(controllers).choose_controller(controller_key)
+        else:
+            controller = MainMenu(controllers).choose_controller()
         controller.run()
