@@ -64,5 +64,3 @@ class MainMenu:
                     f'\n{Style.DIM}{Fore.LIGHTRED_EX}ПУНКТА МЕНЮ С ТАКИМ НОМЕРОМ НЕ СУЩЕСТВУЕТ{Style.RESET_ALL}'
                     f'\nНеобходимо ввести число в диапазоне от {self.min_index} до {self.max_index}')
         return controller
-
-
