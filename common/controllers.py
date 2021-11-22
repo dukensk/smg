@@ -11,6 +11,7 @@ class Controller(ABC):
     """Base abstract controller class"""
 
     def run(self) -> bool:
+        """Run the controller"""
         is_escaped = False
         while not is_escaped:
             self.show_app_header()
