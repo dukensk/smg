@@ -1,5 +1,9 @@
+from smg.main import MainController
+from smg.service import get_controller_key
+
+
 def main():
-    print('YOU DIED')
+    MainController().run(get_controller_key())
 
 
 if __name__ == '__main__':
