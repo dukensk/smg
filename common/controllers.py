@@ -15,7 +15,7 @@ class Controller(ABC):
         while not is_escaped:
             self.show_app_header()
             self.main()
-            is_escaped = self.is_escaped
+            is_escaped = self._is_escaped
         return True
 
     @abstractmethod
@@ -48,7 +48,7 @@ class Controller(ABC):
         """Controller title in the menu"""
 
     @property
-    def is_escaped(self) -> bool:
+    def _is_escaped(self) -> bool:
         """Asks the user whether to change the application mode"""
         sleep(0.2)
         print('\nВсе операции успешно завершены. Нажмите ENTER, чтобы продолжить или ESC, чтобы сменить режим работы')
