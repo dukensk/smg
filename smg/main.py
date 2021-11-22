@@ -57,11 +57,11 @@ class MainMenu:
                 controller = self.get_controller_by_index(controller_index)
             except ValueError:
                 print(
-                    f'\n{Style.DIM}{Fore.RED}ВЫ ВВЕЛИ НЕКОРРЕКТНОЕ ЗНАЧЕНИЕ{Style.RESET_ALL}'
+                    f'\n{Style.DIM}{Fore.LIGHTRED_EX}ВЫ ВВЕЛИ НЕКОРРЕКТНОЕ ЗНАЧЕНИЕ{Style.RESET_ALL}'
                     f'\nНеобходимо ввести число в диапазоне от {self.min_index} до {self.max_index}')
             except IndexError:
                 print(
-                    f'\n{Style.DIM}{Fore.RED}ПУНКТА МЕНЮ С ТАКИМ НОМЕРОМ НЕ СУЩЕСТВУЕТ{Style.RESET_ALL}'
+                    f'\n{Style.DIM}{Fore.LIGHTRED_EX}ПУНКТА МЕНЮ С ТАКИМ НОМЕРОМ НЕ СУЩЕСТВУЕТ{Style.RESET_ALL}'
                     f'\nНеобходимо ввести число в диапазоне от {self.min_index} до {self.max_index}')
         return controller
 
@@ -82,8 +82,5 @@ class MainController(Controller):
             controller_key = None
 
     def main(self, controller_key: str = None):
-        if controller_key:
-            controller = MainMenu(controllers).choose_controller(controller_key)
-        else:
-            controller = MainMenu(controllers).choose_controller()
+        controller = MainMenu(controllers).choose_controller(controller_key)
         controller.run()
