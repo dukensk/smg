@@ -1,5 +1,5 @@
 from common.controllers import Controller
-from smg.main import MainMenu, controllers
+from smg.main_menu import MainMenu, controllers
 
 
 class MainController(Controller):
