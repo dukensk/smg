@@ -76,6 +76,7 @@ class MainController(Controller):
         while True:
             self.show_app_header()
             self.main(controller_key)
+            controller_key = None
         return True
 
     def main(self, controller_key: str = None):
