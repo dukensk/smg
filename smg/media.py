@@ -3,7 +3,7 @@ import datetime
 from pathlib import Path
 from subprocess import check_output
 
-from smg.filesystem import File
+from common.filesystem import File
 
 
 class MediaFile(File):

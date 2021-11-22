@@ -5,7 +5,7 @@ import wget
 from colorama import Style, Fore
 
 import settings
-from smg.filesystem import File
+from common.filesystem import File
 from smg.service import is_url
 
 

@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-from smg.filesystem import get_system_downloads_path
+from common.filesystem import get_system_downloads_path
 
 dotenv_path = Path(__file__).resolve().parent / '.env'
 load_dotenv(str(dotenv_path))
