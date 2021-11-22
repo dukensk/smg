@@ -1,4 +1,4 @@
-from smg.controllers import Controller
+from common.controllers import Controller
 
 
 class MediaGrabberController(Controller):
