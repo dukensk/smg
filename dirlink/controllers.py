@@ -14,4 +14,4 @@ class DirectLinkController(Controller):
 
     def main(self) -> bool:
         file = DirectLinkDownloader().download()
-        return True
+        return True if file else False
