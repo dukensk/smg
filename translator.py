@@ -1,3 +1,4 @@
+import os
 import urllib
 
 import colorama
@@ -14,6 +15,7 @@ from translator.service import show_app_header, merge_video_and_vo, merge_audio_
 
 def main():
     force_terminal_unicode_encoding()
+    os.chdir(settings.TRANSLATOR_TEMP_PATH)
     colorama.init(autoreset=True)
     output_format_menu = OutputFormatMenu(translator.preset.output_formats)
 
