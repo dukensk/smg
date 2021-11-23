@@ -1,5 +1,6 @@
 from pathlib import Path
 from urllib.error import ContentTooShortError
+import ssl
 
 import wget
 from colorama import Style, Fore
@@ -61,6 +62,7 @@ class FileDownloader:
         while not file_path and download_attempt < settings.DOWNLOAD_ATTEMPTS_LIMIT:
             try:
                 self._show_start_downloading_message()
+                ssl._create_default_https_context = ssl._create_unverified_context
                 file_path = wget.download(self._url, out=str(self._save_path), bar=wget.bar_adaptive)
                 self._show_finish_downloading_message()
             except ContentTooShortError:
