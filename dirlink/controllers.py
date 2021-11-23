@@ -1,4 +1,5 @@
 from common.controllers import Controller
+from dirlink.downloaders import DirectLinkDownloader
 
 
 class DirectLinkController(Controller):
@@ -12,4 +13,5 @@ class DirectLinkController(Controller):
         return 'Скачивание файла по прямой ссылке'
 
     def main(self) -> bool:
+        file = DirectLinkDownloader().download()
         return True
