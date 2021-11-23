@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import settings
-from smg.downloaders import FileDownloader
+from common.downloaders import FileDownloader
 from translator.media import VoiceOver
 
 
