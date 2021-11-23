@@ -15,7 +15,7 @@ from legacy_translator.service import show_app_header, merge_video_and_vo, merge
 
 def main():
     force_terminal_unicode_encoding()
-    os.chdir(settings.TRANSLATOR_TEMP_PATH)
+    os.chdir(legacy_settings.TRANSLATOR_TEMP_PATH)
     colorama.init(autoreset=True)
     output_format_menu = OutputFormatMenu(legacy_translator.preset.output_formats)
 
