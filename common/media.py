@@ -68,6 +68,10 @@ class AudioFile(MediaFile):
         return int(self.media_info.get('streams')[0].get('channels'))
 
     def __str__(self):
+        return f'{self.name_with_extension}'
+
+    @property
+    def info(self) -> str:
         return f'{self.name_with_extension} | {self.duration[:-3]} | {self.bitrate} kbps | {self.samplerate} Hz | ' \
                f'{self.codec_name} | каналов: {self.channels} | {self.formatted_size}'
 
