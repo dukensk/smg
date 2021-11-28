@@ -1,36 +1,36 @@
 import datetime
+from functools import lru_cache
 from json import loads
 from pathlib import Path
 from subprocess import check_output
+
+from colorama import Style, Fore
 
 from common.filesystem import File
 
 
 class MediaFile(File):
-    _media_info: dict
 
     def __init__(self, path: Path):
         super(MediaFile, self).__init__(path)
-        self._media_info = {}
-
-    def _clear_media_info(self):
-        self._media_info.clear()
-
-    def remove(self):
-        super(MediaFile, self).remove()
-        self._clear_media_info()
 
     @property
     def media_info(self) -> dict:
-        if not self._media_info:
-            result = check_output(['ffprobe',
-                                   '-hide_banner', '-loglevel', 'panic',
-                                   '-show_format',
-                                   '-show_streams',
-                                   '-of',
-                                   'json', self.path])
-            self._media_info = loads(result)
-        return self._media_info
+        return self._get_media_info_by_path(self.path)
+
+    @lru_cache(maxsize=1)
+    def _get_media_info_by_path(self, path: Path) -> dict:
+        if not path.exists():
+            raise FileNotFoundError
+
+        result = check_output(['ffprobe',
+                               '-hide_banner', '-loglevel', 'panic',
+                               '-show_format',
+                               '-show_streams',
+                               '-of',
+                               'json', path])
+
+        return loads(result)
 
     @property
     def duration(self) -> str:
@@ -70,8 +70,11 @@ class AudioFile(MediaFile):
 
     @property
     def info(self) -> str:
-        return f'{self.name_with_extension} | аудио | {self.duration[:-3]} | {self.bitrate} kbps | {self.samplerate} Hz | ' \
-               f'{self.codec_name} | каналов: {self.channels} | {self.formatted_size}'
+        try:
+            return f'{self.name_with_extension} | {self.formatted_size} | {self.duration[:-3]} | аудио | ' \
+                   f'{self.codec_name} | {self.bitrate} kbps | {self.samplerate} Hz | каналов: {self.channels}'
+        except FileNotFoundError:
+            return f'\n{Style.DIM}{Fore.LIGHTRED_EX}ОШИБКА:{Style.RESET_ALL} Файла {self.path} не существует'
 
 
 class VideoFile(MediaFile):
