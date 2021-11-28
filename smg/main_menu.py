@@ -1,7 +1,7 @@
 from colorama import Style, Fore
 
 from common.controllers import Controller
-from dirlink.controllers import DirectLinkController
+from directlink.controllers import DirectLinkController
 from mediagrabber.controllers import MediaGrabberController
 from translator.controllers import TranslatorController
 

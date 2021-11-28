@@ -1,5 +1,5 @@
 from common.controllers import Controller
-from dirlink.downloaders import DirectLinkDownloader
+from directlink.downloaders import DirectLinkDownloader
 
 
 class DirectLinkController(Controller):
