@@ -44,8 +44,6 @@ class MediaFile(File):
 
 
 class AudioFile(MediaFile):
-    EXTENSION_MP3 = '.mp3'
-    EXTENSION_M4A = '.m4a'
 
     @property
     def bitrate(self) -> int:
@@ -72,10 +70,45 @@ class AudioFile(MediaFile):
 
     @property
     def info(self) -> str:
-        return f'{self.name_with_extension} | {self.duration[:-3]} | {self.bitrate} kbps | {self.samplerate} Hz | ' \
+        return f'{self.name_with_extension} | аудио | {self.duration[:-3]} | {self.bitrate} kbps | {self.samplerate} Hz | ' \
                f'{self.codec_name} | каналов: {self.channels} | {self.formatted_size}'
 
 
 class VideoFile(MediaFile):
-    EXTENSION_MP4 = '.mp4'
-    EXTENSION_MKV = '.mkv'
+    @property
+    def info(self) -> str:
+        return f'{self.name_with_extension} | {self.formatted_size} | видео'
+
+
+class ImageFile(File):
+    @property
+    def info(self) -> str:
+        return f'{self.name_with_extension} | {self.formatted_size} | изображение'
+
+
+def create_file_object(path: Path) -> File | AudioFile | VideoFile | ImageFile:
+    """Factory function to create a file object according to the extension of the physical file"""
+    file_types = {
+        # audio
+        '.mp3': AudioFile,
+        '.aac': AudioFile,
+        '.m4a': AudioFile,
+        '.ogg': AudioFile,
+        # video
+        '.mp4': VideoFile,
+        '.mkv': VideoFile,
+        '.avi': VideoFile,
+        '.flv': VideoFile,
+        '.webm': VideoFile,
+        # images
+        '.jpg': ImageFile,
+        '.jpeg': ImageFile,
+        '.png': ImageFile,
+        '.bmp': ImageFile,
+    }
+
+    file_type = file_types.get(path.suffix)
+    if not file_type:
+        file_type = File
+
+    return file_type(path)

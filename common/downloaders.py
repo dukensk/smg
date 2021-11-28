@@ -7,6 +7,7 @@ from colorama import Style, Fore
 
 import settings
 from common.filesystem import File
+from common.media import create_file_object
 from common.service import is_url
 
 
@@ -52,8 +53,8 @@ class FileDownloader:
     def _show_error_downloading_message(self):
         print(Style.DIM + Fore.RED + '\n' + self.ERROR_DOWNLOADING_MESSAGE + Style.RESET_ALL)
 
-    def _create_file(self, path: Path) -> File:
-        return File(path)
+    def _create_file(self, path: Path):
+        return create_file_object(path)
 
     def download(self) -> File | None:
         """Downloads a file"""
