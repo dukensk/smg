@@ -1,5 +1,5 @@
 from common.controllers import Controller
-from smg.main_menu import MainMenu, controllers
+from smg.menu import MainMenu, controllers
 
 
 class MainController(Controller):
@@ -20,5 +20,5 @@ class MainController(Controller):
             controller_key = None
 
     def main(self, controller_key: str = None):
-        controller = MainMenu(controllers).choose_controller(controller_key)
+        controller = MainMenu(controllers).choose(controller_key)
         controller.run()
