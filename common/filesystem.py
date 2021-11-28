@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 
+import settings
+
 
 def get_system_downloads_path() -> Path:
     """Returns the default downloads path for linux or windows"""
@@ -84,3 +86,17 @@ class File:
         else:
             size = f'{self.size} Б'
         return size
+
+    def move_to(self, path: Path) -> Path:
+        """
+        Moves the file
+        :param path: path to destination directory
+        :return:
+        """
+        self._path.rename(path / self.name_with_extension)
+        return self.path
+
+    def move_to_downloads(self) -> Path:
+        """Moves the file to the downloads directory"""
+        self.move_to(settings.SAVE_PATH)
+        return self.path
