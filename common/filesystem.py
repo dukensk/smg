@@ -87,14 +87,25 @@ class File:
             size = f'{self.size} Б'
         return size
 
+    def _get_unique_new_path(self, path: Path) -> path:
+        """Returns a unique path to move the file, if a file with the same name already exists, a counter is added to the name"""
+        unique_path = path / self.name_with_extension
+        counter = 0
+        while True:
+            if not unique_path.exists():
+                return unique_path
+            else:
+                counter += 1
+                unique_path = path / f'{self.name} ({counter}){self.extension}'
+
     def move_to(self, path: Path) -> Path:
         """
         Moves the file
         :param path: path to destination directory
         :return:
         """
-        new_path = path / self.name_with_extension
-        if self._path.rename(path / self.name_with_extension):
+        new_path = self._get_unique_new_path(path)
+        if self._path.rename(new_path):
             self._path = new_path
         return self.path
 
