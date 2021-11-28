@@ -93,10 +93,17 @@ class File:
         :param path: path to destination directory
         :return:
         """
-        self._path.rename(path / self.name_with_extension)
+        new_path = path / self.name_with_extension
+        if self._path.rename(path / self.name_with_extension):
+            self._path = new_path
         return self.path
 
     def move_to_downloads(self) -> Path:
         """Moves the file to the downloads directory"""
         self.move_to(settings.SAVE_PATH)
         return self.path
+
+    @property
+    def info(self) -> str:
+        """File information"""
+        return f'{self.name_with_extension} | {self.formatted_size}'
