@@ -33,7 +33,8 @@ class MediaDownloader(ABC, FileDownloader):
         return 3
 
     @property
-    def _postprocessors(self):
+    def _postprocessors(self) -> list[dict[str, str]] | None:
+        '''Postprocessors for converting uploaded media'''
         return None
 
     @property
@@ -74,6 +75,19 @@ class BestQualityVideoDownloader(MediaDownloader):
 
     def download(self) -> VideoFile | None:
         return super(BestQualityVideoDownloader, self).download()
+
+
+class M4aAudioDownloader(MediaDownloader):
+    """M4A audio downloader"""
+
+    def _format(self) -> str:
+        return 'bestaudio[ext=m4a]/best'
+
+    def _postprocessors(self) -> list[dict[str, str]] | None:
+        return [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'}]
+
+    def download(self) -> AudioFile | None:
+        return super(M4aAudioDownloader, self).download()
 
 
 class UniversalMediaDownloader(FileDownloader):
