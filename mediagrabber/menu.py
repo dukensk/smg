@@ -5,7 +5,7 @@ from mediagrabber.downloaders import BestQualityVideoDownloader, MediaDownloader
 
 media_downloaders = {
     'audio_m4a': MenuItem('Аудио, m4a  (оптимально для YouTube)', M4aAudioDownloader),
-    'video_best_quality': MenuItem('Видео в максимальном качестве)', BestQualityVideoDownloader),
+    'video_best_quality': MenuItem('Видео в максимальном качестве', BestQualityVideoDownloader),
 }
 
 
