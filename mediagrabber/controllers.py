@@ -1,4 +1,5 @@
 from common.controllers import Controller
+from mediagrabber.universal_downloader import UniversalMediaDownloader
 
 
 class MediaGrabberController(Controller):
@@ -12,4 +13,9 @@ class MediaGrabberController(Controller):
         return 'Media Grabber'
 
     def main(self) -> bool:
-        return True
+        downloader = UniversalMediaDownloader()
+        media_file = downloader.download()
+
+        if media_file:
+            media_file.move_to_downloads()
+            print(media_file.info)
