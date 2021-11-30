@@ -74,8 +74,7 @@ class FactoryMenu:
                 f'\n{Style.DIM}{Fore.LIGHTRED_EX}ПУНКТА МЕНЮ С ТАКИМ НОМЕРОМ НЕ СУЩЕСТВУЕТ{Style.RESET_ALL}'
                 f'\nНеобходимо ввести число в диапазоне от {self.min_index} до {self.max_index}')
 
-    @staticmethod
-    def _create_instance(object_type: Type):
+    def _create_instance(self, object_type: Type):
         """
         Creates an instance of an object
         :param object_type: тип создаваемого объекта
