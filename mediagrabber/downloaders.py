@@ -8,7 +8,7 @@ from common.downloaders import FileDownloader
 from common.media import AudioFile, VideoFile
 
 
-class MediaDownloader(ABC, FileDownloader):
+class MediaDownloader(FileDownloader, ABC):
     """Abstract media downloader class"""
     INPUT_URL_MESSAGE = 'Введите URL видео'
     """message when requesting file url"""
@@ -34,7 +34,7 @@ class MediaDownloader(ABC, FileDownloader):
 
     @property
     def _postprocessors(self) -> list[dict[str, str]] | None:
-        '''Postprocessors for converting uploaded media'''
+        """Postprocessors for converting uploaded media"""
         return None
 
     @property
@@ -42,7 +42,7 @@ class MediaDownloader(ABC, FileDownloader):
         ydl_opts = {
             'noplaylist': self._noplaylist,
             'format': self._format,
-            'outtmpl': self._save_path / '/%(title)s.%(ext)s',
+            'outtmpl': str(self._save_path) + '/%(title)s.%(ext)s',
             'concurrent-fragments': self._concurent_fragments,
         }
         if self._postprocessors:
@@ -70,6 +70,7 @@ class MediaDownloader(ABC, FileDownloader):
 class BestQualityVideoDownloader(MediaDownloader):
     """Best quality video downloader"""
 
+    @property
     def _format(self) -> str:
         return 'bestvideo+bestaudio/best'
 
@@ -80,6 +81,7 @@ class BestQualityVideoDownloader(MediaDownloader):
 class M4aAudioDownloader(MediaDownloader):
     """M4A audio downloader"""
 
+    @property
     def _format(self) -> str:
         return 'bestaudio[ext=m4a]/best'
 
@@ -88,20 +90,3 @@ class M4aAudioDownloader(MediaDownloader):
 
     def download(self) -> AudioFile | None:
         return super(M4aAudioDownloader, self).download()
-
-
-class UniversalMediaDownloader(FileDownloader):
-    INPUT_URL_MESSAGE = 'Введите URL видео'
-    """message when requesting file url"""
-
-    _downloader: MediaDownloader = None
-
-    def __init__(self, url: str = None):
-        super(UniversalMediaDownloader, self).__init__(url)
-
-    @property
-    def _save_path(self) -> Path:
-        return settings.TEMP_PATH
-
-    def download(self) -> AudioFile | VideoFile | None:
-        return self._downloader.download()
