@@ -14,8 +14,10 @@ class MediaGrabberController(Controller):
 
     def main(self) -> bool:
         downloader = UniversalMediaDownloader()
+        self.show_app_header()
+        # TODO Добавить вывод информации о скачиваемом видео
         media_file = downloader.download()
-
         if media_file:
             media_file.move_to_downloads()
-            print(media_file.info)
+            print('\nИнформация о медиафайле: {media_file.info}')
+            return True
