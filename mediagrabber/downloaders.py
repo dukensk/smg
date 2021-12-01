@@ -172,3 +172,16 @@ class M4aAudioDownloader(MediaDownloader):
 
     def download(self) -> AudioFile | None:
         return super(M4aAudioDownloader, self).download()
+
+
+class Mp4x1080pVideoDownloader(MediaDownloader):
+    """MP4 1080p video downloader"""
+
+    title: str = 'Видео, 1080p, mp4'
+
+    @property
+    def _format(self) -> str:
+        return 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[height<=1080]'
+
+    def download(self) -> AudioFile | None:
+        return super(Mp4x1080pVideoDownloader, self).download()
