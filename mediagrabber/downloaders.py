@@ -237,3 +237,16 @@ class BestQuality1440pVideoDownloader(MediaDownloader):
 
     def download(self) -> VideoFile | None:
         return super(BestQuality1440pVideoDownloader, self).download()
+
+
+class BestQuality4KVideoDownloader(MediaDownloader):
+    """Best quality 4K video downloader"""
+
+    title: str = 'Видео, 4K, наилучшее качество'
+
+    @property
+    def _format(self) -> str:
+        return 'bestvideo[height<=4096]+bestaudio/best[height<=4096]'
+
+    def download(self) -> VideoFile | None:
+        return super(BestQuality4KVideoDownloader, self).download()
