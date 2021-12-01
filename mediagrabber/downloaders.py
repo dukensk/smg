@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import datetime as dt
+from functools import lru_cache
 from pathlib import Path
 import yt_dlp
 from colorama import Style, Fore
@@ -9,6 +10,55 @@ from common.downloaders import FileDownloader
 from common.media import AudioFile, VideoFile
 
 
+class MetaDataLoader:
+    """Media metadata loader"""
+    _url: str
+
+    def __init__(self, url: str = None):
+        self._url = url
+
+    @lru_cache(maxsize=1)
+    def _get_metadata_by_url(self, url: str) -> dict[str, str]:
+        ydl_opts = {
+            'quiet': True
+        }
+        try:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                metadata = ydl.extract_info(url, download=False)
+        except yt_dlp.DownloadError:
+            metadata = {}
+        return metadata
+
+    @property
+    def _metadata(self) -> dict[str, str]:
+        return self._get_metadata_by_url(self._url)
+
+    @property
+    def title(self) -> str | None:
+        """Title of the downloaded media file"""
+        return self._metadata.get('title')
+
+    @property
+    def format(self) -> str | None:
+        """Format of the downloaded media file"""
+        return self._metadata.get('format')
+
+    @property
+    def duration(self) -> str | None:
+        """Duration of the downloaded media file"""
+        return str(dt.timedelta(seconds=float(self._metadata.get('duration'))))
+
+    @property
+    def upload_date(self) -> str | None:
+        """Upload date of the downloaded media file"""
+        return dt.datetime.strptime(self._metadata.get('upload_date'), '%Y%m%d').date().strftime('%d.%m.%Y')
+
+    @property
+    def uploader(self) -> str | None:
+        """Author of the downloaded media file"""
+        return self._metadata.get('uploader')
+
+
 class MediaDownloader(FileDownloader, ABC):
     """Abstract media downloader class"""
 
@@ -16,6 +66,16 @@ class MediaDownloader(FileDownloader, ABC):
 
     INPUT_URL_MESSAGE = 'Введите URL видео'
     """message when requesting file url"""
+
+    _metadata: MetaDataLoader
+
+    def __init__(self, url: str = None):
+        super(MediaDownloader, self).__init__(url)
+        self._init_metadata()
+
+    def _init_metadata(self):
+        if self._url:
+            self._metadata = MetaDataLoader(self._url)
 
     @property
     @abstractmethod
@@ -54,21 +114,16 @@ class MediaDownloader(FileDownloader, ABC):
         return ydl_opts
 
     @property
+    def metadata(self) -> MetaDataLoader:
+        return self._metadata
+
+    @property
     def info(self) -> str:
-        ydl_opts = {
-            "quiet": True
-        }
-        try:
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                meta = ydl.extract_info(self._url, download=False)
-                info = f'Видео: {meta.get("title")}' \
-                       f'\nФормат: {meta.get("format")}' \
-                       f'\nПродолжительность: {str(dt.timedelta(seconds=meta.get("duration")))} | ' \
-                       f'Опубликовано: {dt.datetime.strptime(meta.get("upload_date"), "%Y%m%d").date().strftime("%d.%m.%Y")}' \
-                       f'\nАвтор: {meta.get("uploader")}' \
-                       f'\n\nВыбран профиль загрузки: {self.title}'
-        except yt_dlp.DownloadError:
-            info = 'Не удалось получить информацию о видео'
+        info = f'Видео: {self.metadata.title}' \
+               f'\nФормат: {self.metadata.format}' \
+               f'\nПродолжительность: {self.metadata.duration} | Опубликовано: {self.metadata.upload_date}' \
+               f'\nАвтор: {self.metadata.uploader}' \
+               f'\n\nВыбран профиль загрузки: {self.title}'
         return info
 
     def download(self) -> VideoFile | AudioFile | None:

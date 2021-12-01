@@ -22,7 +22,7 @@ class MediaGrabberController(Controller):
         media_file = downloader.download()
         if media_file:
             media_file.move_to_downloads()
-            print(f'\nИнформация о медиафайле: {media_file.info}')
+            print(f'Скачан медиафайл: {media_file.info}')
             return True
         else:
             return False

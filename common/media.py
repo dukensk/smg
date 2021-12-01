@@ -71,7 +71,8 @@ class AudioFile(MediaFile):
     @property
     def info(self) -> str:
         try:
-            return f'{self.name_with_extension} | {self.formatted_size} | {self.duration[:-3]} | аудио | ' \
+            return f'{self.name_with_extension}' \
+                   f'\n{self.formatted_size} | {self.duration[:-3]} | аудио | ' \
                    f'{self.codec_name} | {self.bitrate} kbps | {self.samplerate} Hz | каналов: {self.channels}'
         except FileNotFoundError:
             return f'\n{Style.DIM}{Fore.LIGHTRED_EX}ОШИБКА:{Style.RESET_ALL} Файла {self.path} не существует'
