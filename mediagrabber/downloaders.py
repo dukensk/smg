@@ -213,27 +213,27 @@ class Mp4x4KVideoDownloader(MediaDownloader):
         return super(Mp4x4KVideoDownloader, self).download()
 
 
-class Webm1080pVideoDownloader(MediaDownloader):
-    """WEBM 1080p video downloader"""
+class BestQuality1080pVideoDownloader(MediaDownloader):
+    """Best quality 1080p video downloader"""
 
-    title: str = 'Видео, 1080p, webm'
+    title: str = 'Видео, 1080p, наилучшее качество'
 
     @property
     def _format(self) -> str:
         return 'bestvideo[height<=1080]+bestaudio/best[height<=1080]'
 
     def download(self) -> VideoFile | None:
-        return super(Webm1080pVideoDownloader, self).download()
+        return super(BestQuality1080pVideoDownloader, self).download()
 
 
-class Webm1440pVideoDownloader(MediaDownloader):
-    """WEBM 1440p video downloader"""
+class BestQuality1440pVideoDownloader(MediaDownloader):
+    """Best quality 1440p video downloader"""
 
-    title: str = 'Видео, 1440p, webm'
+    title: str = 'Видео, 1440p, наилучшее качество'
 
     @property
     def _format(self) -> str:
         return 'bestvideo[height<=1440]+bestaudio/best[height<=1440]'
 
     def download(self) -> VideoFile | None:
-        return super(Webm1440pVideoDownloader, self).download()
+        return super(BestQuality1440pVideoDownloader, self).download()
