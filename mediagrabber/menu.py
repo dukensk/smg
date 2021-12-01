@@ -4,8 +4,8 @@ from common.menu import FactoryMenu, MenuItem
 from mediagrabber.downloaders import BestQualityVideoDownloader, MediaDownloader, M4aAudioDownloader
 
 media_downloaders = {
-    'audio_m4a': MenuItem('Аудио, m4a  (оптимально для YouTube)', M4aAudioDownloader),
-    'video_best_quality': MenuItem('Видео в максимальном качестве', BestQualityVideoDownloader),
+    'audio_m4a': MenuItem(M4aAudioDownloader.title, M4aAudioDownloader),
+    'video_best_quality': MenuItem(BestQualityVideoDownloader.title, BestQualityVideoDownloader),
 }
 
 

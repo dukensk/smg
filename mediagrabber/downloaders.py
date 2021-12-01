@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import datetime as dt
 from pathlib import Path
 import yt_dlp
 from colorama import Style, Fore
@@ -10,6 +11,9 @@ from common.media import AudioFile, VideoFile
 
 class MediaDownloader(FileDownloader, ABC):
     """Abstract media downloader class"""
+
+    title: str = 'Загрузчик медиафайлов'
+
     INPUT_URL_MESSAGE = 'Введите URL видео'
     """message when requesting file url"""
 
@@ -49,6 +53,24 @@ class MediaDownloader(FileDownloader, ABC):
             ydl_opts['postprocessors'] = self._postprocessors
         return ydl_opts
 
+    @property
+    def info(self) -> str:
+        ydl_opts = {
+            "quiet": True
+        }
+        try:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                meta = ydl.extract_info(self._url, download=False)
+                info = f'Видео: {meta.get("title")}' \
+                       f'\nФормат: {meta.get("format")}' \
+                       f'\nПродолжительность: {str(dt.timedelta(seconds=meta.get("duration")))} | ' \
+                       f'Опубликовано: {dt.datetime.strptime(meta.get("upload_date"), "%Y%m%d").date().strftime("%d.%m.%Y")}' \
+                       f'\nАвтор: {meta.get("uploader")}' \
+                       f'\n\nВыбран профиль загрузки: {self.title}'
+        except yt_dlp.DownloadError:
+            info = 'Не удалось получить информацию о видео'
+        return info
+
     def download(self) -> VideoFile | AudioFile | None:
         try:
             with yt_dlp.YoutubeDL(self._ydl_opts) as ydl:
@@ -70,6 +92,8 @@ class MediaDownloader(FileDownloader, ABC):
 class BestQualityVideoDownloader(MediaDownloader):
     """Best quality video downloader"""
 
+    title: str = 'Видео в максимальном качестве'
+
     @property
     def _format(self) -> str:
         return 'bestvideo+bestaudio/best'
@@ -81,10 +105,13 @@ class BestQualityVideoDownloader(MediaDownloader):
 class M4aAudioDownloader(MediaDownloader):
     """M4A audio downloader"""
 
+    title: str = 'Аудио, m4a (оптимально для YouTube)'
+
     @property
     def _format(self) -> str:
         return 'bestaudio[ext=m4a]/best'
 
+    @property
     def _postprocessors(self) -> list[dict[str, str]] | None:
         return [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'}]
 
