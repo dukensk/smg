@@ -1,12 +1,14 @@
 from typing import Type
 
 from common.menu import FactoryMenu, MenuItem
-from mediagrabber.downloaders import BestQualityVideoDownloader, MediaDownloader, M4aAudioDownloader, Mp4x1080pVideoDownloader
+from mediagrabber.downloaders import BestQualityVideoDownloader, MediaDownloader, M4aAudioDownloader, Mp4x1080pVideoDownloader, \
+    Mp4x1440pVideoDownloader
 
 media_downloaders = {
     'audio_m4a': MenuItem(M4aAudioDownloader.title, M4aAudioDownloader),
     'video_best_quality': MenuItem(BestQualityVideoDownloader.title, BestQualityVideoDownloader),
     'video_mp4_1080p': MenuItem(Mp4x1080pVideoDownloader.title, Mp4x1080pVideoDownloader),
+    'video_mp4_1440p': MenuItem(Mp4x1440pVideoDownloader.title, Mp4x1440pVideoDownloader),
 }
 
 

@@ -183,5 +183,18 @@ class Mp4x1080pVideoDownloader(MediaDownloader):
     def _format(self) -> str:
         return 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[height<=1080]'
 
-    def download(self) -> AudioFile | None:
+    def download(self) -> VideoFile | None:
         return super(Mp4x1080pVideoDownloader, self).download()
+
+
+class Mp4x1440pVideoDownloader(MediaDownloader):
+    """MP4 1440p video downloader"""
+
+    title: str = 'Видео, 1440p, mp4'
+
+    @property
+    def _format(self) -> str:
+        return 'bestvideo[height<=1440][ext=mp4]+bestaudio[ext=m4a]/best[height<=1440]'
+
+    def download(self) -> VideoFile | None:
+        return super(Mp4x1440pVideoDownloader, self).download()
