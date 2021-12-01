@@ -82,7 +82,7 @@ class VideoFile(MediaFile):
     @property
     def info(self) -> str:
         return f'{self.name_with_extension}' \
-               f'\n{self.formatted_size} | видео'
+               f'\n{self.formatted_size} | {self.duration[:-3]} | видео'
 
 
 class ImageFile(File):
