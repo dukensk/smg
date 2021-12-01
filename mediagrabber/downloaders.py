@@ -211,3 +211,16 @@ class Mp4x4KVideoDownloader(MediaDownloader):
 
     def download(self) -> VideoFile | None:
         return super(Mp4x4KVideoDownloader, self).download()
+
+
+class Webm1080pVideoDownloader(MediaDownloader):
+    """WEBM 1080p video downloader"""
+
+    title: str = 'Видео, 1080p, webm'
+
+    @property
+    def _format(self) -> str:
+        return 'bestvideo[height<=1080]+bestaudio/best[height<=1080]'
+
+    def download(self) -> VideoFile | None:
+        return super(Webm1080pVideoDownloader, self).download()
