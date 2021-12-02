@@ -2,8 +2,7 @@ import os
 from abc import ABC, abstractmethod
 from time import sleep
 
-import keyboard
-
+from common.cpgetch import _Getch, get_key_code
 from smg.version import app_version
 
 
@@ -52,10 +51,14 @@ class Controller(ABC):
     def _is_escaped(self) -> bool:
         """Asks the user whether to change the application mode"""
         sleep(0.2)
-        print('\nНажмите ENTER, чтобы продолжить или ESC, чтобы сменить режим работы')
+        print('\nНажмите одну из клавиш:'
+              '\n[ENTER] – продолжить в том же режиме'
+              '\n[ESC] или [Backspace] – сменить режим работы приложения')
+        inkey = _Getch()
         while True:
-            key = keyboard.read_key(suppress=True)
-            if key == 'enter':
+            sleep(0.1)
+            key = inkey()
+            if key == get_key_code('enter'):
                 return False
-            if key == 'esc':
+            if key == get_key_code('esc') or key == get_key_code('backspace'):
                 return True
