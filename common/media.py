@@ -44,6 +44,11 @@ class MediaFile(File):
 
 
 class AudioFile(MediaFile):
+    EXTENSION_M4A = '.m4a'
+    EXTENSION_MP3 = '.mp3'
+    EXTENSION_AAC = '.aac'
+    EXTENSION_OGG = '.ogg'
+    EXTENSION_WAV = '.wav'
 
     @property
     def bitrate(self) -> int:
@@ -79,6 +84,12 @@ class AudioFile(MediaFile):
 
 
 class VideoFile(MediaFile):
+    EXTENSION_MP4 = '.mp4'
+    EXTENSION_MKV = '.mkv'
+    EXTENSION_AVI = '.avi'
+    EXTENSION_FLV = '.flv'
+    EXTENSION_WEBM = '.webm'
+
     @property
     def info(self) -> str:
         return f'{self.name_with_extension}' \
@@ -86,6 +97,12 @@ class VideoFile(MediaFile):
 
 
 class ImageFile(File):
+    EXTENSION_JPG = '.jpg'
+    EXTENSION_JPEG = '.jpeg'
+    EXTENSION_PNG = '.png'
+    EXTENSION_GIF = '.gif'
+    EXTENSION_BMP = '.bmp'
+
     @property
     def info(self) -> str:
         return f'{self.name_with_extension} | {self.formatted_size} | изображение'
@@ -95,21 +112,23 @@ def create_file_object(path: Path) -> File | AudioFile | VideoFile | ImageFile:
     """Factory function to create a file object according to the extension of the physical file"""
     file_types = {
         # audio
-        '.mp3': AudioFile,
-        '.aac': AudioFile,
-        '.m4a': AudioFile,
-        '.ogg': AudioFile,
+        AudioFile.EXTENSION_MP3: AudioFile,
+        AudioFile.EXTENSION_AAC: AudioFile,
+        AudioFile.EXTENSION_M4A: AudioFile,
+        AudioFile.EXTENSION_OGG: AudioFile,
+        AudioFile.EXTENSION_WAV: AudioFile,
         # video
-        '.mp4': VideoFile,
-        '.mkv': VideoFile,
-        '.avi': VideoFile,
-        '.flv': VideoFile,
-        '.webm': VideoFile,
+        VideoFile.EXTENSION_MP4: VideoFile,
+        VideoFile.EXTENSION_MKV: VideoFile,
+        VideoFile.EXTENSION_AVI: VideoFile,
+        VideoFile.EXTENSION_FLV: VideoFile,
+        VideoFile.EXTENSION_WEBM: VideoFile,
         # images
-        '.jpg': ImageFile,
-        '.jpeg': ImageFile,
-        '.png': ImageFile,
-        '.bmp': ImageFile,
+        ImageFile.EXTENSION_JPG: ImageFile,
+        ImageFile.EXTENSION_JPEG: ImageFile,
+        ImageFile.EXTENSION_PNG: ImageFile,
+        ImageFile.EXTENSION_GIF: ImageFile,
+        ImageFile.EXTENSION_BMP: ImageFile,
     }
 
     file_type = file_types.get(path.suffix)
