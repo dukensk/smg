@@ -99,7 +99,7 @@ class MediaDownloader(FileDownloader, ABC):
     @property
     def _postprocessors(self) -> list[dict[str, str]] | None:
         """Postprocessors for converting uploaded media"""
-        return None
+        return [{'key': 'FFmpegMetadata'}]
 
     @property
     def _ydl_opts(self):
@@ -168,7 +168,10 @@ class M4aAudioDownloader(MediaDownloader):
 
     @property
     def _postprocessors(self) -> list[dict[str, str]] | None:
-        return [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'}]
+        return [
+            {'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'},
+            {'key': 'FFmpegMetadata'}
+        ]
 
     def download(self) -> AudioFile | None:
         return super(M4aAudioDownloader, self).download()
