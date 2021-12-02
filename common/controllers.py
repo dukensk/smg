@@ -50,10 +50,9 @@ class Controller(ABC):
     @property
     def _is_escaped(self) -> bool:
         """Asks the user whether to change the application mode"""
-        sleep(0.2)
         print('\nНажмите одну из клавиш:'
-              '\n[ENTER] – продолжить в том же режиме'
-              '\n[ESC] или [Backspace] – сменить режим работы приложения')
+              '\n[↲] ENTER – продолжить в том же режиме'
+              '\n[←] BACKSPACE или [ESC] – сменить режим работы приложения')
         inkey = _Getch()
         while True:
             sleep(0.1)
