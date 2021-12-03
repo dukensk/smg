@@ -56,6 +56,10 @@ class FileDownloader:
     def _create_file(self, path: Path):
         return create_file_object(path)
 
+    @property
+    def url(self):
+        return self._url
+
     def download(self) -> File | None:
         """Downloads a file"""
         download_attempt = 0
