@@ -43,11 +43,6 @@ class Controller(ABC):
         """Controller title"""
 
     @property
-    @abstractmethod
-    def menu_title(self) -> str:
-        """Controller title in the menu"""
-
-    @property
     def _is_escaped(self) -> bool:
         """Asks the user whether to change the application mode"""
         print('\nНажмите одну из клавиш:'
