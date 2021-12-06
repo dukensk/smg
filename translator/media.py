@@ -66,6 +66,9 @@ class TranslatableAudioFile(AudioFile, TranslatableMediaFile):
 class TranslatableVideoFile(VideoFile, TranslatableMediaFile):
     """Video file to which you can add voiceover"""
 
+    def extract_audio(self) -> TranslatableAudioFile:
+        return TranslatableAudioFile(super(TranslatableVideoFile, self).extract_audio().path)
+
     def add_voiceover(self, voiceover: VoiceOver) -> bool:
         pass
 
