@@ -2,10 +2,12 @@ import datetime
 from functools import lru_cache
 from json import loads
 from pathlib import Path
+import subprocess
 from subprocess import check_output
 
 from colorama import Style, Fore
 
+import settings
 from common.filesystem import File
 
 
@@ -94,6 +96,27 @@ class VideoFile(MediaFile):
     def info(self) -> str:
         return f'{self.name_with_extension}' \
                f'\n{self.formatted_size} | {self.duration[:-3]} | видео'
+
+    @property
+    def _extracted_audio_filename(self) -> str:
+        return f'{self.name}{AudioFile.EXTENSION_M4A}'
+
+    @property
+    def _extracted_audio_path(self) -> Path:
+        return settings.TEMP_PATH / self._extracted_audio_filename
+
+    def extract_audio(self) -> AudioFile:
+        """Extract audio"""
+        print('\nИзвлекаем аудио...')
+        subprocess.call(['ffmpeg',
+                         '-i', self.path,
+                         '-vn',
+                         '-acodec', 'copy',
+                         self._extracted_audio_path],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.STDOUT)
+        print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+        return AudioFile(self._extracted_audio_path)
 
 
 class ImageFile(File):
