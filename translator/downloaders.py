@@ -2,7 +2,10 @@ from pathlib import Path
 
 import settings
 from common.downloaders import FileDownloader
-from translator.media import VoiceOver
+from mediagrabber.menu import MediaDownloadersMenu
+from mediagrabber.universal_downloader import UniversalMediaDownloader
+from translator.media import VoiceOver, TranslatableVideoFile, TranslatableAudioFile, convert_to_translatable_mediafile
+from translator.menu import media_downloaders
 
 
 class VoiceOverDownloader(FileDownloader):
@@ -22,3 +25,12 @@ class VoiceOverDownloader(FileDownloader):
 
     def download(self) -> VoiceOver | None:
         return super().download()
+
+
+class TranslatableMediaDownloader(UniversalMediaDownloader):
+
+    def _init_downloader(self):
+        self._downloader = MediaDownloadersMenu(media_downloaders, self._url).choose()
+
+    def download(self) -> TranslatableAudioFile | TranslatableVideoFile | None:
+        return convert_to_translatable_mediafile(super(TranslatableMediaDownloader, self).download())
