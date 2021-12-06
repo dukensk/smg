@@ -21,7 +21,10 @@ class TranslatorController(Controller):
         if media_file:
             media_file.add_voiceover(voiceover)
             media_file.move_to_downloads()
-            print(f'Скачан медиафайл: {media_file.info}')
+            self.show_app_header()
+            print(f'\n{media_downloader.info}')
+            print(f'\n{Style.DIM}{Fore.LIGHTGREEN_EX}ВСЕ ОПЕРАЦИИ УСПЕШНО ЗАВЕРШЕНЫ{Style.RESET_ALL}')
+            print(f'Переведен медиафайл: {media_file.info}')
             return True
         else:
             return False
@@ -32,7 +35,7 @@ class TranslatorController(Controller):
         print('\nПолучаем метаданные...')
         info = media_downloader.info
         self.show_app_header()
-        print(f'\n{info}\n')
+        print(f'\n{info}')
         voiceover_downloader = VoiceOverDownloader()
         self.show_app_header()
         print(f'\n{info}\n')
@@ -42,6 +45,7 @@ class TranslatorController(Controller):
             -> tuple[TranslatableAudioFile | TranslatableVideoFile, VoiceOver]:
         voiceover = voiceover_downloader.download()
         if voiceover:
+            print('\nСкачиваем медиафайл...')
             media_file = media_downloader.download()
         else:
             media_file = None
