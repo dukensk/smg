@@ -118,6 +118,33 @@ class VideoFile(MediaFile):
         print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
         return AudioFile(self._extracted_audio_path)
 
+    @property
+    def _output_file_path(self) -> Path:
+        return self.path.parent.absolute() / self._output_file_name
+
+    @property
+    def _output_file_name(self) -> str:
+        return f'{self.name}_output{self.extension}'
+
+    def replace_audio(self, audiofile: AudioFile) -> bool:
+        """Replaces the audio track in the video"""
+        print('\nЗаменяем аудио...')
+        output_file_path = self._output_file_path
+        subprocess.call(['ffmpeg',
+                         '-i', self.path,
+                         '-i', audiofile.path,
+                         '-c', 'copy',
+                         '-map', '0:v:0',
+                         '-map', '1:a:0',
+                         output_file_path],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.STDOUT
+                        )
+        self.remove()
+        output_file_path.rename(self.path)
+        print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+        return True
+
 
 class ImageFile(File):
     EXTENSION_JPG = '.jpg'
