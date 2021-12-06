@@ -8,6 +8,7 @@ from colorama import Style, Fore
 import settings
 from common.downloaders import FileDownloader
 from common.media import AudioFile, VideoFile
+from common.service import is_youtube
 
 
 class MetaDataLoader:
@@ -159,18 +160,26 @@ class BestQualityVideoDownloader(MediaDownloader):
 class M4aAudioDownloader(MediaDownloader):
     """M4A audio downloader"""
 
-    title: str = 'Аудио, m4a (оптимально для YouTube)'
+    title: str = 'Аудио, m4a'
 
     @property
     def _format(self) -> str:
-        return 'bestaudio[ext=m4a]/best'
+        return 'bestaudio[ext=m4a]/best' if is_youtube(self.url) else 'bestaudio/best'
 
     @property
     def _postprocessors(self) -> list[dict[str, str]] | None:
-        return [
-            {'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'},
-            {'key': 'FFmpegMetadata'}
-        ]
+        if is_youtube(self.url):
+            postprocessors = [
+                {'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'},
+                {'key': 'FFmpegMetadata'}
+            ]
+        else:
+            postprocessors = [
+                {'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '192'},
+                {'key': 'FFmpegMetadata'}
+            ]
+
+        return postprocessors
 
     def download(self) -> AudioFile | None:
         return super(M4aAudioDownloader, self).download()
