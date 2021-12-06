@@ -124,6 +124,7 @@ class TranslatableVideoFile(VideoFile, TranslatableMediaFile):
         self.replace_audio(audio)
         audio.remove()
         voiceover.remove()
+        return True
 
 
 def convert_to_translatable_mediafile(mediafile: VideoFile | AudioFile) -> TranslatableAudioFile | TranslatableVideoFile | None:
