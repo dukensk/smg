@@ -44,6 +44,14 @@ class MediaFile(File):
         """Duration in seconds"""
         return float(self.media_info.get('format').get('duration'))
 
+    @property
+    def _output_file_path(self) -> Path:
+        return self.path.parent.absolute() / self._output_file_name
+
+    @property
+    def _output_file_name(self) -> str:
+        return f'{self.name}_output{self.extension}'
+
 
 class AudioFile(MediaFile):
     EXTENSION_M4A = '.m4a'
@@ -117,14 +125,6 @@ class VideoFile(MediaFile):
                         stderr=subprocess.STDOUT)
         print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
         return AudioFile(self._extracted_audio_path)
-
-    @property
-    def _output_file_path(self) -> Path:
-        return self.path.parent.absolute() / self._output_file_name
-
-    @property
-    def _output_file_name(self) -> str:
-        return f'{self.name}_output{self.extension}'
 
     def replace_audio(self, audiofile: AudioFile) -> bool:
         """Replaces the audio track in the video"""
