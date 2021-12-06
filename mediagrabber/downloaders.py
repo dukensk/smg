@@ -132,8 +132,7 @@ class MediaDownloader(FileDownloader, ABC):
                 yinfo = ydl.extract_info(self._url, download=True)
             file_path = ydl.prepare_filename(yinfo)
 
-            print(f'\n{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
-            print('Все операции успешно завершены. Можно скачать что-нибудь еще.')
+            print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
         except yt_dlp.DownloadError:
             print(f'\n\n{Style.DIM}{Fore.LIGHTRED_EX}YOU DIED{Style.RESET_ALL}')
             print('\nНе удалось скачать видео. Нам очень жаль. :('
