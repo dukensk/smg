@@ -43,7 +43,7 @@ class VoiceOver(AudioFile):
                             stderr=subprocess.STDOUT)
             self._replace_path_and_remove_old_file(self._preprocessed_path)
             self._preprocessed = True
-            print(Style.DIM + Fore.GREEN + 'ГОТОВО' + Style.RESET_ALL)
+            print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
         else:
             print('\nЗакадровый перевод уже подготовлен, дополнительная обработка не требуется')
 
@@ -58,9 +58,58 @@ class TranslatableMediaFile(ABC):
 
 class TranslatableAudioFile(AudioFile, TranslatableMediaFile):
     """Audio file to which you can add voiceover"""
+    _preprocessed: bool
+
+    def __init__(self, path: Path, autopreprocess: bool = True):
+        super(TranslatableAudioFile, self).__init__(path)
+        self._preprocessed = False
+        if not autopreprocess:
+            self.preprocess()
+
+    @property
+    def is_preprocessed(self):
+        return self._preprocessed
+
+    @property
+    def _preprocessed_filename(self) -> str:
+        return self.name if self.is_preprocessed else f'{self.name}_preprocessed{self.EXTENSION_M4A}'
+
+    @property
+    def _preprocessed_path(self) -> Path:
+        return self.path if self.is_preprocessed else settings.TEMP_PATH / self._preprocessed_filename
+
+    def preprocess(self):
+        if not self.is_preprocessed:
+            print('Подготавливаем аудио...')
+            subprocess.call(['ffmpeg',
+                             '-i', self.path,
+                             '-af', 'volume=' + str(settings.TRANSLATOR_VOLUME_ORIGINAL_AUDIO),
+                             self._preprocessed_path],
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.STDOUT)
+            self._replace_path_and_remove_old_file(self._preprocessed_path)
+            self._preprocessed = True
+            print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+
+        else:
+            print('\nАудио уже по подготовлено к переводу, дополнительная обработка не требуется')
 
     def add_voiceover(self, voiceover: VoiceOver) -> bool:
-        pass
+        print('\nНакладываем закадровый перевод...')
+        output_file_path = self._output_file_path
+        subprocess.call(['ffmpeg',
+                         '-i', voiceover.path,
+                         '-i', self.path,
+                         '-filter_complex', 'amix=inputs=2:duration=first',
+                         '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
+                         output_file_path],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.STDOUT
+                        )
+        self.remove()
+        output_file_path.rename(self.path)
+        print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+        return True
 
 
 class TranslatableVideoFile(VideoFile, TranslatableMediaFile):
@@ -70,7 +119,11 @@ class TranslatableVideoFile(VideoFile, TranslatableMediaFile):
         return TranslatableAudioFile(super(TranslatableVideoFile, self).extract_audio().path)
 
     def add_voiceover(self, voiceover: VoiceOver) -> bool:
-        pass
+        audio = self.extract_audio()
+        audio.add_voiceover(voiceover)
+        self.replace_audio(audio)
+        audio.remove()
+        voiceover.remove()
 
 
 def convert_to_translatable_mediafile(mediafile: VideoFile | AudioFile) -> TranslatableAudioFile | TranslatableVideoFile | None:
