@@ -15,7 +15,6 @@ class TranslatorController(Controller):
     def title(self) -> str:
         return 'Перевод аудио и видео с YouTube, Twitch, Vimeo и т.п.'
 
-
     def main(self) -> bool:
         media_downloader, voiceover_downloader = self._get_downloaders()
         media_file, voiceover = self._download_media_files(media_downloader, voiceover_downloader)
