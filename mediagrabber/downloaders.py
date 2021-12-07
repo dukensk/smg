@@ -54,9 +54,13 @@ class MetaDataLoader:
         return duration
 
     @property
-    def upload_date(self) -> str | None:
+    def upload_date(self) -> str:
         """Upload date of the downloaded media file"""
-        return dt.datetime.strptime(self._metadata.get('upload_date'), '%Y%m%d').date().strftime('%d.%m.%Y')
+        try:
+            upload_date = dt.datetime.strptime(self._metadata.get('upload_date'), '%Y%m%d').date().strftime('%d.%m.%Y')
+        except TypeError:
+            upload_date = 'ХЗ'
+        return upload_date
 
     @property
     def uploader(self) -> str | None:
