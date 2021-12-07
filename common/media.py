@@ -121,9 +121,9 @@ class VideoFile(MediaFile):
         return f'{self.width}x{self.height}'
 
     @property
-    def framerate(self) -> float:
+    def framerate(self) -> str:
         """video framerate"""
-        return float(self.media_info.get('streams')[0].get('r_frame_rate').split('/')[0]) / 1000
+        return self.media_info.get('streams')[0].get('r_frame_rate')[:-2]
 
     @property
     def _extracted_audio_filename(self) -> str:
