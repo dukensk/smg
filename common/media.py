@@ -103,7 +103,22 @@ class VideoFile(MediaFile):
     @property
     def info(self) -> str:
         return f'{self.name_with_extension}' \
-               f'\n{self.formatted_size} | {self.duration[:-3]} | видео'
+               f'\n{self.formatted_size} | {self.duration[:-3]} | видео | {self.resolution}'
+
+    @property
+    def width(self) -> int:
+        """video width"""
+        return int(self.media_info.get('streams')[0].get('width'))
+
+    @property
+    def height(self) -> int:
+        """video height"""
+        return int(self.media_info.get('streams')[0].get('height'))
+
+    @property
+    def resolution(self) -> str:
+        """video resolution"""
+        return f'{self.width}x{self.height}'
 
     @property
     def _extracted_audio_filename(self) -> str:
