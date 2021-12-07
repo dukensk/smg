@@ -5,7 +5,7 @@ from mediagrabber.controllers import MediaGrabberController
 from translator.controllers import TranslatorController
 
 controllers = {
-    'mediagrabber': MenuItem('Media Grabber', MediaGrabberController),
+    'mediagrabber': MenuItem('Mediagrabber', MediaGrabberController),
     'translator': MenuItem('Translator', TranslatorController),
     'directlink': MenuItem('Скачивание файла по прямой ссылке', DirectLinkController),
 }
