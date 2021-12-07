@@ -123,7 +123,7 @@ class VideoFile(MediaFile):
     @property
     def framerate(self) -> float:
         """video framerate"""
-        return float(str(self.media_info.get('streams')[0].get('r_frame_rate')).split('/')[0]) / 1000
+        return float(self.media_info.get('streams')[0].get('r_frame_rate').split('/')[0]) / 1000
 
     @property
     def _extracted_audio_filename(self) -> str:
