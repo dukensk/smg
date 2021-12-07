@@ -7,6 +7,10 @@ from mediagrabber.universal_downloader import UniversalMediaDownloader
 class MediaGrabberController(Controller):
 
     @property
+    def header(self):
+        return f'MEDIAGRABBER ❯❯ {super(MediaGrabberController, self).header}'
+
+    @property
     def title(self) -> str:
         return 'Скачивание аудио и видео с YouTube, Twitch, Vimeo и т.п.'
 

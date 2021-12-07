@@ -8,12 +8,13 @@ from translator.media import VoiceOver, TranslatableVideoFile, TranslatableAudio
 class TranslatorController(Controller):
 
     @property
+    def header(self):
+        return f'TRANSLATOR ❯❯ {super(TranslatorController, self).header}'
+
+    @property
     def title(self) -> str:
         return 'Перевод аудио и видео с YouTube, Twitch, Vimeo и т.п.'
 
-    @property
-    def menu_title(self) -> str:
-        return 'Translator'
 
     def main(self) -> bool:
         media_downloader, voiceover_downloader = self._get_downloaders()

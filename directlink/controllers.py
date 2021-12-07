@@ -5,6 +5,10 @@ from directlink.downloaders import DirectLinkDownloader
 class DirectLinkController(Controller):
 
     @property
+    def header(self):
+        return f'DIRECTLINK ❯❯ {super(DirectLinkController, self).header}'
+
+    @property
     def title(self) -> str:
         return 'Скачивание файла по прямой ссылке'
 
