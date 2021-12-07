@@ -45,9 +45,13 @@ class MetaDataLoader:
         return self._metadata.get('format')
 
     @property
-    def duration(self) -> str | None:
+    def duration(self) -> str:
         """Duration of the downloaded media file"""
-        return str(dt.timedelta(seconds=float(self._metadata.get('duration'))))
+        try:
+            duration = str(dt.timedelta(seconds=float(self._metadata.get('duration'))))
+        except TypeError:
+            duration = 'ХЗ'
+        return duration
 
     @property
     def upload_date(self) -> str | None:
