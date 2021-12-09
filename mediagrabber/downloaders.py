@@ -21,6 +21,7 @@ class MetaDataLoader:
     @lru_cache(maxsize=1)
     def _get_metadata_by_url(self, url: str) -> dict[str, str]:
         ydl_opts = {
+            'noplaylist': self._noplaylist,
             'quiet': True
         }
         try:
@@ -66,6 +67,11 @@ class MetaDataLoader:
     def uploader(self) -> str | None:
         """Author of the downloaded media file"""
         return self._metadata.get('uploader')
+
+    @property
+    def _noplaylist(self) -> bool:
+        """Whether to ignore playlists, downloading only certain files"""
+        return True
 
 
 class MediaDownloader(FileDownloader, ABC):
