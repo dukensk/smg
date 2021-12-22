@@ -8,7 +8,7 @@ class MediaGrabberController(Controller):
 
     @property
     def header(self):
-        return f'MEDIAGRABBER ❯❯ {super(MediaGrabberController, self).header}'
+        return f'{Fore.LIGHTGREEN_EX}MEDIAGRABBER ❯❯{Style.RESET_ALL} {super(MediaGrabberController, self).header}'
 
     @property
     def title(self) -> str:

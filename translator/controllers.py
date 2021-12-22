@@ -9,7 +9,7 @@ class TranslatorController(Controller):
 
     @property
     def header(self):
-        return f'TRANSLATOR ❯❯ {super(TranslatorController, self).header}'
+        return f'{Fore.MAGENTA}TRANSLATOR ❯❯{Style.RESET_ALL} {super(TranslatorController, self).header}'
 
     @property
     def title(self) -> str:
