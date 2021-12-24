@@ -28,7 +28,7 @@ def is_youtube(url: str) -> bool:
     if not is_url(url):
         return False
 
-    youtube_domains = [
+    youtube_domains = (
         'www.youtube.com',
         'youtube.com',
         'www.youtu.be',
@@ -41,6 +41,7 @@ def is_youtube(url: str) -> bool:
         'youtube.nl',
         'youtube-nocookie.com',
         'youtube.ru',
-    ]
+    )
+
     domain = urlparse(url).netloc
     return domain in youtube_domains
