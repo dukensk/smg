@@ -1,6 +1,7 @@
 from colorama import Style, Fore
 
 from common.controllers import Controller
+from common.notifications import show_push_notification
 from mediagrabber.universal_downloader import UniversalMediaDownloader
 
 
@@ -28,6 +29,11 @@ class MediaGrabberController(Controller):
             print(f'\n{info}')
             print(f'\n{Style.DIM}{Fore.LIGHTGREEN_EX}ВСЕ ОПЕРАЦИИ УСПЕШНО ЗАВЕРШЕНЫ{Style.RESET_ALL}')
             print(f'Скачан медиафайл: {media_file.info}')
+            show_push_notification('SMG MEDIAGRABBER',
+                                   f'Скачан медиафайл: {media_file.name_with_extension} [{media_file.formatted_size}]',
+                                   'mediagrabber_icon.ico')
             return True
         else:
+            show_push_notification('SMG MEDIAGRABBER',
+                                   f'Не удалось скачать медиафайл: {downloader.metadata.title}', 'mediagrabber_icon.ico')
             return False

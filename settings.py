@@ -21,3 +21,8 @@ TRANSLATOR_OUTPUT_AUDIO_BITRATE = '192k'
 TRANSLATOR_VOLUME_BOOST = '8dB'
 
 DOWNLOAD_ATTEMPTS_LIMIT = 3
+
+ENABLE_PUSH_NOTIFICATION = os.environ.get('ENABLE_PUSH_NOTIFICATION', default=True)
+'''Allows system push notifications'''
+
+ICONS_PATH = Path(__file__).resolve().parent / 'icons'

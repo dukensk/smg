@@ -3,7 +3,7 @@ from pathlib import Path
 import settings
 from common.downloaders import FileDownloader
 from common.media import AudioFile, VideoFile
-from mediagrabber.downloaders import MediaDownloader
+from mediagrabber.downloaders import MediaDownloader, MetaDataLoader
 from mediagrabber.menu import MediaDownloadersMenu, media_downloaders
 
 
@@ -30,3 +30,7 @@ class UniversalMediaDownloader(FileDownloader):
 
     def download(self) -> AudioFile | VideoFile | None:
         return self._downloader.download()
+
+    @property
+    def metadata(self) -> MetaDataLoader:
+        return self._downloader.metadata
