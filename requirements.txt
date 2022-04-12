@@ -6,4 +6,4 @@ websockets==10.2
 wget==3.2
 yt-dlp==2022.4.8
 validators==0.18.2
-win10toast==0.9
+winotify==1.1.0

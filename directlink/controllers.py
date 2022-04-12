@@ -20,8 +20,10 @@ class DirectLinkController(Controller):
         if file:
             file.move_to_downloads()
             print(f'\nИнформация о файле: {file.info}')
-            show_push_notification('SMG DIRECTLINK', f'Скачан файл: {file.name_with_extension} [{file.formatted_size}]')
+            show_push_notification('Скачан файл', f'{file.name_with_extension} [{file.formatted_size}]', 'smg_icon.ico',
+                                   'SMG: DIRECTLINK')
             return True
         else:
-            show_push_notification('SMG DIRECTLINK', f'Не удалось скачать файл по прямой ссылке: {downloader.url}')
+            show_push_notification('Не удалось скачать файл по прямой ссылке', f'{downloader.url}', 'smg_icon.ico',
+                                   'SMG: DIRECTLINK')
             return False

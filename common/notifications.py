@@ -1,12 +1,13 @@
 import os
 import platform
-from win10toast import ToastNotifier
+from winotify import Notification
 import settings
 
 
-def show_push_notification(title: str, message: str, icon: str = 'smg_icon.ico') -> bool:
+def show_push_notification(title: str, message: str, icon: str = 'smg_icon.ico', app_id: str = 'SMG') -> bool:
     """
     Shows system push notifications
+    :param app_id:
     :param title: title of the message
     :param message: message text
     :param icon: name of the icon file from the icons directory
@@ -27,7 +28,8 @@ def show_push_notification(title: str, message: str, icon: str = 'smg_icon.ico')
         notify-send "{title}" "{message}" --icon="{icon_path}"
         '''
     elif platform_name == 'Windows':
-        ToastNotifier().show_toast(title, message, icon_path)
+        toast = Notification(app_id=app_id, title=title, msg=message, icon=icon_path)
+        toast.show()
         return True
     else:
         return True

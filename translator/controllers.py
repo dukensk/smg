@@ -26,13 +26,13 @@ class TranslatorController(Controller):
             print(f'\n{media_downloader.info}')
             print(f'\n{Style.DIM}{Fore.LIGHTGREEN_EX}ВСЕ ОПЕРАЦИИ УСПЕШНО ЗАВЕРШЕНЫ{Style.RESET_ALL}')
             print(f'Переведен медиафайл: {media_file.info}')
-            show_push_notification('SMG TRANSLATOR',
-                                   f'Переведен медиафайл: {media_file.name_with_extension} [{media_file.formatted_size}]',
-                                   'translator_icon.ico')
+            show_push_notification('Переведен медиафайл',
+                                   f'{media_file.name_with_extension} [{media_file.formatted_size}]',
+                                   'translator_icon.ico', 'SMG: TRANSLATOR')
             return True
         else:
-            show_push_notification('SMG TRANSLATOR',
-                                   f'Не удалось перевести: {media_downloader.metadata.title}', 'translator_icon.ico')
+            show_push_notification('Не удалось перевести',
+                                   f'{media_downloader.metadata.title}', 'translator_icon.ico', 'SMG: TRANSLATOR')
             return False
 
     def _get_downloaders(self) -> tuple[TranslatableMediaDownloader, VoiceOverDownloader]:
