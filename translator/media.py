@@ -112,11 +112,32 @@ class TranslatableAudioFile(AudioFile, TranslatableMediaFile):
         return True
 
 
+class TranslatableAudioTrackForVideoFile(TranslatableAudioFile):
+    """Audio track file for video to which you can add voiceover"""
+
+    def add_voiceover(self, voiceover: VoiceOver) -> bool:
+        print('\nНакладываем закадровый перевод...')
+        output_file_path = self._output_file_path
+        subprocess.call(['ffmpeg',
+                         '-i', voiceover.path,
+                         '-i', self.path,
+                         '-filter_complex', 'amix=inputs=2:duration=first',
+                         '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE_IN_VIDEOFILE,
+                         output_file_path],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.STDOUT
+                        )
+        self.remove()
+        output_file_path.rename(self.path)
+        print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+        return True
+
+
 class TranslatableVideoFile(VideoFile, TranslatableMediaFile):
     """Video file to which you can add voiceover"""
 
-    def extract_audio(self) -> TranslatableAudioFile:
-        return TranslatableAudioFile(super(TranslatableVideoFile, self).extract_audio().path)
+    def extract_audio(self) -> TranslatableAudioTrackForVideoFile:
+        return TranslatableAudioTrackForVideoFile(super(TranslatableVideoFile, self).extract_audio().path)
 
     def add_voiceover(self, voiceover: VoiceOver) -> bool:
         audio = self.extract_audio()
