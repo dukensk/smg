@@ -36,7 +36,7 @@ class VoiceOver(AudioFile):
                              '-i', self.path,
                              '-ar', '44100',
                              '-ac', '2',
-                             '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
+                             '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE_IN_VIDEOFILE,
                              '-af', 'volume=' + str(settings.TRANSLATOR_VOLUME_BOOST),
                              self._preprocessed_path],
                             stdout=subprocess.DEVNULL,
@@ -101,7 +101,7 @@ class TranslatableAudioFile(AudioFile, TranslatableMediaFile):
                          '-i', voiceover.path,
                          '-i', self.path,
                          '-filter_complex', 'amix=inputs=2:duration=first',
-                         '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE,
+                         '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE_IN_AUDIOFILE,
                          output_file_path],
                         stdout=subprocess.DEVNULL,
                         stderr=subprocess.STDOUT
