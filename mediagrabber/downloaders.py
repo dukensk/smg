@@ -142,18 +142,26 @@ class MediaDownloader(FileDownloader, ABC):
         return info
 
     def download(self) -> VideoFile | AudioFile | None:
-        try:
-            with yt_dlp.YoutubeDL(self._ydl_opts) as ydl:
-                yinfo = ydl.extract_info(self._url, download=True)
-            file_path = ydl.prepare_filename(yinfo)
+        download_attempt = 0
+        file_path = None
 
-            print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
-        except yt_dlp.DownloadError:
-            print(f'\n\n{Style.DIM}{Fore.LIGHTRED_EX}YOU DIED{Style.RESET_ALL}')
-            print('\nНе удалось скачать видео. Нам очень жаль. :('
-                  '\nТак бывает, если оно еще не до конца обработалось на сервисе или вы ввели неправильную ссылку. '
-                  'Попробуйте позже.')
-            file_path = None
+        while not file_path and download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
+            try:
+                with yt_dlp.YoutubeDL(self._ydl_opts) as ydl:
+                    yinfo = ydl.extract_info(self._url, download=True)
+                file_path = ydl.prepare_filename(yinfo)
+                print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+            except yt_dlp.DownloadError:
+                download_attempt += 1
+                file_path = None
+                if download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
+                    print(f'\n\n{Style.DIM}{Fore.LIGHTYELLOW_EX}ОЙ!{Style.RESET_ALL}')
+                    print(f'Что-то пошло не так, пробуем возобновить загрузку [{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
+                else:
+                    print(f'\n\n{Style.DIM}{Fore.LIGHTRED_EX}YOU DIED{Style.RESET_ALL}')
+                    print('\nНе удалось скачать видео. Нам очень жаль. :('
+                          '\nТак бывает, если оно еще не до конца обработалось на сервисе или вы ввели неправильную ссылку. '
+                          'Попробуйте позже.')
 
         return self._create_file(Path(file_path)) if file_path else None
 
