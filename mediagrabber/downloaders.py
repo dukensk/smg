@@ -192,6 +192,7 @@ class M4aAudioDownloader(MediaDownloader):
     def _postprocessors(self) -> list[dict[str, str]] | None:
         if is_youtube(self.url):
             postprocessors = [
+                {'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'},
                 {'key': 'FFmpegMetadata'}
             ]
         else:
