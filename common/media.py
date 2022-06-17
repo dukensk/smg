@@ -123,7 +123,20 @@ class VideoFile(MediaFile):
     @property
     def framerate(self) -> str:
         """video framerate"""
-        return self.media_info.get('streams')[0].get('r_frame_rate')[:-2]
+        raw_framerate = self.media_info.get('streams')[0].get('r_frame_rate')
+        framerate = self._parse_framerate(raw_framerate)
+        return framerate
+
+    @staticmethod
+    def _parse_framerate(raw_framerate: str) -> str:
+        if not '/' in raw_framerate:
+            framerate = raw_framerate[:-2]
+        else:
+            framerate_items = raw_framerate.split('/')
+            dividend = int(framerate_items[0])
+            divider = int(framerate_items[1])
+            framerate = str(round(dividend / divider, 2))
+        return framerate
 
     @property
     def _extracted_audio_filename(self) -> str:
