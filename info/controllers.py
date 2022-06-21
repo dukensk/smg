@@ -1,7 +1,4 @@
-from colorama import Style, Fore
-
 from common.controllers import Controller
-from common.notifications import show_push_notification
 from info.downloaders import InfoDownloader
 
 
