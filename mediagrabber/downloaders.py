@@ -156,8 +156,8 @@ class MediaDownloader(FileDownloader, ABC):
                 file_path = None
                 if download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
                     print(f'\n\n{Style.DIM}{Fore.LIGHTYELLOW_EX}ОЙ!{Style.RESET_ALL}')
-                    print(
-                        f'Что-то пошло не так, пробуем возобновить загрузку [{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
+                    print(f'Что-то пошло не так, '
+                          f'пробуем возобновить загрузку [{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
                 else:
                     print(f'\n\n{Style.DIM}{Fore.LIGHTRED_EX}YOU DIED{Style.RESET_ALL}')
                     print('\nНе удалось скачать видео. Нам очень жаль. :('
