@@ -1,1 +1,1 @@
-app_version: str = '0.3.2'
+app_version: str = '0.4.1'
