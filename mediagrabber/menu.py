@@ -3,7 +3,7 @@ from typing import Type
 from common.menu import FactoryMenu, MenuItem
 from mediagrabber.downloaders import BestQualityVideoDownloader, MediaDownloader, M4aAudioDownloader, Mp4x1080pVideoDownloader, \
     Mp4x1440pVideoDownloader, Mp4x4KVideoDownloader, BestQuality1080pVideoDownloader, BestQuality1440pVideoDownloader, \
-    BestQuality4KVideoDownloader
+    BestQuality4KVideoDownloader, Mp4x720pVideoDownloader
 
 media_downloaders = {
     'audio_m4a': MenuItem(M4aAudioDownloader.title, M4aAudioDownloader),
@@ -14,6 +14,7 @@ media_downloaders = {
     'video_best_quality_1440p': MenuItem(BestQuality1440pVideoDownloader.title, BestQuality1440pVideoDownloader),
     'video_best_quality_4k': MenuItem(BestQuality4KVideoDownloader.title, BestQuality4KVideoDownloader),
     'video_best_quality': MenuItem(BestQualityVideoDownloader.title, BestQualityVideoDownloader),
+    'video_mp4_720p': MenuItem(Mp4x720pVideoDownloader.title, Mp4x720pVideoDownloader),
 }
 
 

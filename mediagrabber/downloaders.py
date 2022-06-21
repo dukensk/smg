@@ -156,7 +156,8 @@ class MediaDownloader(FileDownloader, ABC):
                 file_path = None
                 if download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
                     print(f'\n\n{Style.DIM}{Fore.LIGHTYELLOW_EX}ОЙ!{Style.RESET_ALL}')
-                    print(f'Что-то пошло не так, пробуем возобновить загрузку [{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
+                    print(
+                        f'Что-то пошло не так, пробуем возобновить загрузку [{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
                 else:
                     print(f'\n\n{Style.DIM}{Fore.LIGHTRED_EX}YOU DIED{Style.RESET_ALL}')
                     print('\nНе удалось скачать видео. Нам очень жаль. :('
@@ -218,6 +219,19 @@ class Mp4x1080pVideoDownloader(MediaDownloader):
 
     def download(self) -> VideoFile | None:
         return super(Mp4x1080pVideoDownloader, self).download()
+
+
+class Mp4x720pVideoDownloader(MediaDownloader):
+    """MP4 720p video downloader"""
+
+    title: str = 'Видео, 720p, mp4'
+
+    @property
+    def _format(self) -> str:
+        return 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720]'
+
+    def download(self) -> VideoFile | None:
+        return super(Mp4x720pVideoDownloader, self).download()
 
 
 class Mp4x1440pVideoDownloader(MediaDownloader):
