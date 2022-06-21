@@ -1,4 +1,3 @@
-import settings
 from mediagrabber.downloaders import MediaDownloader
 
 
