@@ -4,6 +4,6 @@ pycryptodomex==3.15.0
 python-dotenv==0.20.0
 websockets==10.3
 wget==3.2
-yt-dlp==2022.8.8
+yt-dlp==2022.8.14
 validators==0.20.0
 winotify==1.1.0
