@@ -123,7 +123,6 @@ class MediaDownloader(FileDownloader, ABC):
             'format': self._format,
             'outtmpl': str(self._save_path) + '/%(title)s.%(ext)s',
             'concurrent-fragments': self._concurent_fragments,
-            'writethumbnail': 'true',
         }
         if self._postprocessors:
             ydl_opts['postprocessors'] = self._postprocessors
@@ -195,14 +194,12 @@ class M4aAudioDownloader(MediaDownloader):
         if is_youtube(self.url):
             postprocessors = [
                 {'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'},
-                {'key': 'FFmpegMetadata'},
-                {'key': 'EmbedThumbnail', 'already_have_thumbnail': False}
+                {'key': 'FFmpegMetadata'}
             ]
         else:
             postprocessors = [
                 {'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '192'},
-                {'key': 'FFmpegMetadata'},
-                {'key': 'EmbedThumbnail', 'already_have_thumbnail': False}
+                {'key': 'FFmpegMetadata'}
             ]
 
         return postprocessors
