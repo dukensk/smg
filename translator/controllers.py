@@ -24,7 +24,7 @@ class TranslatorController(Controller):
             media_file.move_to_downloads()
             self.show_app_header()
             print(f'\n{media_downloader.info}')
-            print(f'\n{Style.RESET_ALL}{Style.DIM}{Fore.LIGHTGREEN_EX}ВСЕ ОПЕРАЦИИ УСПЕШНО ЗАВЕРШЕНЫ{Style.RESET_ALL}')
+            print(f'\n{Style.DIM}{Fore.GREEN}ВСЕ ОПЕРАЦИИ УСПЕШНО ЗАВЕРШЕНЫ{Style.RESET_ALL}')
             print(f'Переведен медиафайл: {media_file.info}')
             show_push_notification('Переведен медиафайл',
                                    f'{media_file.name_with_extension} [{media_file.formatted_size}]',
