@@ -1,9 +1,9 @@
 colorama==0.4.6
-mutagen==1.46.0
-pycryptodomex==3.18.0
+mutagen==1.47.0
+pycryptodomex==3.19.0
 python-dotenv==1.0.0
 websockets==11.0.3
 wget==3.2
-yt-dlp==2023.7.6
-validators==0.20.0
+yt-dlp==2023.9.24
+validators==0.22.0
 winotify==1.1.0
