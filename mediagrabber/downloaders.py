@@ -311,7 +311,7 @@ class Mkv4KVideoDownloader(MediaDownloader):
 
     @property
     def _format(self) -> str:
-        return 'bestvideo[height<=4096]+bestaudio/best'
+        return 'bestvideo[height<=4096]+bestaudio[ext=m4a]/best'
 
     def download(self) -> VideoFile | None:
         return super(Mkv4KVideoDownloader, self).download()
