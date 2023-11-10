@@ -297,3 +297,21 @@ class BestQuality4KVideoDownloader(MediaDownloader):
 
     def download(self) -> VideoFile | None:
         return super(BestQuality4KVideoDownloader, self).download()
+
+class Mkv4KVideoDownloader(MediaDownloader):
+    """MP4 4K video downloader"""
+
+    title: str = 'Видео, 4K, mkv'
+
+    @property
+    def _ydl_opts(self):
+        options = super()._ydl_opts
+        options['merge_output_format'] = 'mkv'
+        return options
+
+    @property
+    def _format(self) -> str:
+        return 'bestvideo[height<=4096]+bestaudio/best'
+
+    def download(self) -> VideoFile | None:
+        return super(Mkv4KVideoDownloader, self).download()
