@@ -298,7 +298,8 @@ class BestQuality4KVideoDownloader(MediaDownloader):
     def download(self) -> VideoFile | None:
         return super(BestQuality4KVideoDownloader, self).download()
 
-class Mkv4KVideoDownloader(MediaDownloader):
+
+class Mkvx4KVideoDownloader(MediaDownloader):
     """MKV 4K video downloader"""
 
     title: str = 'Видео, 4K, mkv'
@@ -314,4 +315,61 @@ class Mkv4KVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=4096]+bestaudio[ext=m4a]/best'
 
     def download(self) -> VideoFile | None:
-        return super(Mkv4KVideoDownloader, self).download()
+        return super(Mkvx4KVideoDownloader, self).download()
+
+
+class Mkvx1080pVideoDownloader(MediaDownloader):
+    """MKV 1080p video downloader"""
+
+    title: str = 'Видео, 1080p, mkv'
+
+    @property
+    def _ydl_opts(self):
+        options = super()._ydl_opts
+        options['merge_output_format'] = 'mkv'
+        return options
+
+    @property
+    def _format(self) -> str:
+        return 'bestvideo[height<=1080]+bestaudio[ext=m4a]/best'
+
+    def download(self) -> VideoFile | None:
+        return super(Mkvx1080pVideoDownloader, self).download()
+
+
+class Mkvx1440pVideoDownloader(MediaDownloader):
+    """MKV 1440p video downloader"""
+
+    title: str = 'Видео, 1440p, mkv'
+
+    @property
+    def _ydl_opts(self):
+        options = super()._ydl_opts
+        options['merge_output_format'] = 'mkv'
+        return options
+
+    @property
+    def _format(self) -> str:
+        return 'bestvideo[height<=1440]+bestaudio[ext=m4a]/best'
+
+    def download(self) -> VideoFile | None:
+        return super(Mkvx1440pVideoDownloader, self).download()
+
+
+class Mkvx720pVideoDownloader(MediaDownloader):
+    """MKV 720p video downloader"""
+
+    title: str = 'Видео, 720p, mkv'
+
+    @property
+    def _ydl_opts(self):
+        options = super()._ydl_opts
+        options['merge_output_format'] = 'mkv'
+        return options
+
+    @property
+    def _format(self) -> str:
+        return 'bestvideo[height<=720]+bestaudio[ext=m4a]/best'
+
+    def download(self) -> VideoFile | None:
+        return super(Mkvx720pVideoDownloader, self).download()
