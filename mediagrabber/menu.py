@@ -13,7 +13,6 @@ media_downloaders = {
     'video_mp4_4k': MenuItem(Mp4x4KVideoDownloader.title, Mp4x4KVideoDownloader),
     'video_best_quality_1080p': MenuItem(BestQuality1080pVideoDownloader.title, BestQuality1080pVideoDownloader),
     'video_best_quality_1440p': MenuItem(BestQuality1440pVideoDownloader.title, BestQuality1440pVideoDownloader),
-    # 'video_best_quality_4k': MenuItem(BestQuality4KVideoDownloader.title, BestQuality4KVideoDownloader),
     'video_best_quality': MenuItem(BestQualityVideoDownloader.title, BestQualityVideoDownloader),
     'video_mp4_720p': MenuItem(Mp4x720pVideoDownloader.title, Mp4x720pVideoDownloader),
 }
