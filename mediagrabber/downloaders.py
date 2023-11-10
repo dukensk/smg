@@ -299,7 +299,7 @@ class BestQuality4KVideoDownloader(MediaDownloader):
         return super(BestQuality4KVideoDownloader, self).download()
 
 class Mkv4KVideoDownloader(MediaDownloader):
-    """MP4 4K video downloader"""
+    """MKV 4K video downloader"""
 
     title: str = 'Видео, 4K, mkv'
 
