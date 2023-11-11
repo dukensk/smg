@@ -60,6 +60,21 @@ class AudioFile(MediaFile):
     EXTENSION_OGG = '.ogg'
     EXTENSION_WAV = '.wav'
 
+    EXTENSIONS_CHOICES = {
+        'aac': EXTENSION_M4A,
+        'mp3': EXTENSION_MP3,
+        'vorbis': EXTENSION_OGG,
+        'opus': EXTENSION_OGG,
+        'wav': EXTENSION_WAV
+    }
+
+    # $output_extensions = [
+    #     'aac' = > 'm4a',
+    # 'mp3' = > 'mp3',
+    # 'opus' = > 'opus',
+    # 'vorbis' = > 'ogg',
+    # ];
+
     @property
     def bitrate(self) -> int:
         """bitrate, kbps"""
@@ -139,8 +154,17 @@ class VideoFile(MediaFile):
         return framerate
 
     @property
+    def _audio_codec(self) -> str:
+        """Determining the codec of the audio track"""
+        command = ['ffprobe', '-v', 'error', '-select_streams', 'a:0', '-show_entries', 'stream=codec_name', '-of',
+                   'default=noprint_wrappers=1:nokey=1', self.path]
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        return result.stdout.strip()
+
+    @property
     def _extracted_audio_filename(self) -> str:
-        return f'{self.name}{AudioFile.EXTENSION_M4A}'
+        extension = AudioFile.EXTENSIONS_CHOICES.get(self._audio_codec, '.unknown')
+        return f'{self.name}{extension}'
 
     @property
     def _extracted_audio_path(self) -> Path:

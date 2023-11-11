@@ -312,7 +312,7 @@ class Mkvx4KVideoDownloader(MediaDownloader):
 
     @property
     def _format(self) -> str:
-        return 'bestvideo[height<=4096]+bestaudio[ext=m4a]/best'
+        return 'bestvideo[height<=4096]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
         return super(Mkvx4KVideoDownloader, self).download()
@@ -331,7 +331,7 @@ class Mkvx1080pVideoDownloader(MediaDownloader):
 
     @property
     def _format(self) -> str:
-        return 'bestvideo[height<=1080]+bestaudio[ext=m4a]/best'
+        return 'bestvideo[height<=1080]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
         return super(Mkvx1080pVideoDownloader, self).download()
@@ -350,7 +350,7 @@ class Mkvx1440pVideoDownloader(MediaDownloader):
 
     @property
     def _format(self) -> str:
-        return 'bestvideo[height<=1440]+bestaudio[ext=m4a]/best'
+        return 'bestvideo[height<=1440]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
         return super(Mkvx1440pVideoDownloader, self).download()
@@ -369,7 +369,7 @@ class Mkvx720pVideoDownloader(MediaDownloader):
 
     @property
     def _format(self) -> str:
-        return 'bestvideo[height<=720]+bestaudio[ext=m4a]/best'
+        return 'bestvideo[height<=720]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
         return super(Mkvx720pVideoDownloader, self).download()
