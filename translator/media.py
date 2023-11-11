@@ -19,7 +19,7 @@ class VoiceOver(AudioFile):
 
     @property
     def _preprocessed_filename(self) -> str:
-        return self.name if self.is_preprocessed else f'{self.name}_preprocessed{self.EXTENSION_M4A}'
+        return self.name if self.is_preprocessed else f'{self.name}_preprocessed{self.EXTENSION_OGG}'
 
     @property
     def _preprocessed_path(self) -> Path:
@@ -29,12 +29,13 @@ class VoiceOver(AudioFile):
     def is_preprocessed(self):
         return self._preprocessed
 
-    def preprocess(self):
+    def preprocess(self, target_sample_rate: int | str = 44100):
         if not self.is_preprocessed:
             print('\nПодготавливаем закадровый перевод...')
             subprocess.call(['ffmpeg',
                              '-i', self.path,
-                             '-ar', '44100',
+                             '-ar',  str(target_sample_rate),
+                             '-acodec', 'libvorbis',
                              '-ac', '2',
                              '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE_IN_VIDEOFILE,
                              '-af', 'volume=' + str(settings.TRANSLATOR_VOLUME_BOOST),

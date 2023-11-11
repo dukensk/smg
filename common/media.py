@@ -154,7 +154,7 @@ class VideoFile(MediaFile):
         return framerate
 
     @property
-    def _audio_codec(self) -> str:
+    def audio_codec(self) -> str:
         """Determining the codec of the audio track"""
         command = ['ffprobe', '-v', 'error', '-select_streams', 'a:0', '-show_entries', 'stream=codec_name', '-of',
                    'default=noprint_wrappers=1:nokey=1', self.path]
@@ -162,8 +162,16 @@ class VideoFile(MediaFile):
         return result.stdout.strip()
 
     @property
+    def audio_sample_rate(self) -> int:
+        """Determines the sampling rate of the audio track"""
+        command = ['ffprobe', '-v', 'error', '-select_streams', 'a:0', '-show_entries', 'stream=sample_rate', '-of',
+                   'default=noprint_wrappers=1:nokey=1', self.path]
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        return int(result.stdout.strip())
+
+    @property
     def _extracted_audio_filename(self) -> str:
-        extension = AudioFile.EXTENSIONS_CHOICES.get(self._audio_codec, '.unknown')
+        extension = AudioFile.EXTENSIONS_CHOICES.get(self.audio_codec, '.unknown')
         return f'{self.name}{extension}'
 
     @property

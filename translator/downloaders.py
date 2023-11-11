@@ -21,7 +21,7 @@ class VoiceOverDownloader(FileDownloader):
         return settings.TEMP_PATH
 
     def _create_file(self, path: Path) -> VoiceOver:
-        return VoiceOver(path)
+        return VoiceOver(path, autopreprocess=False)
 
     def download(self) -> VoiceOver | None:
         return super().download()
