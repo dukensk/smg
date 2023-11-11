@@ -68,13 +68,6 @@ class AudioFile(MediaFile):
         'wav': EXTENSION_WAV
     }
 
-    # $output_extensions = [
-    #     'aac' = > 'm4a',
-    # 'mp3' = > 'mp3',
-    # 'opus' = > 'opus',
-    # 'vorbis' = > 'ogg',
-    # ];
-
     @property
     def bitrate(self) -> int:
         """bitrate, kbps"""
@@ -106,6 +99,21 @@ class AudioFile(MediaFile):
                    f'{self.codec_name} | {self.bitrate} kbps | {self.samplerate} Hz | каналов: {self.channels}'
         except FileNotFoundError:
             return f'\n{Style.DIM}{Fore.LIGHTRED_EX}ОШИБКА:{Style.RESET_ALL} Файла {self.path} не существует'
+
+    @property
+    def audio_sample_rate(self) -> int:
+        """Determines the sampling rate of the audiofile"""
+        command = [
+            'ffprobe',
+            '-v', 'error',
+            '-select_streams', 'a:0',
+            '-show_entries', 'stream=sample_rate',
+            '-of', 'default=noprint_wrappers=1:nokey=1',
+            self.path
+        ]
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        return int(result.stdout.strip())
+
 
 
 class VideoFile(MediaFile):
