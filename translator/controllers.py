@@ -26,7 +26,7 @@ class TranslatorController(Controller):
             media_file.move_to_downloads()
             self.show_app_header()
             print(f'\n{media_downloader.info}')
-            print(f'\n{Style.DIM}{Fore.LIGHTGREEN_EX}ВСЕ ОПЕРАЦИИ УСПЕШНО ЗАВЕРШЕНЫ{Style.RESET_ALL}')
+            print(f'\n{Style.NORMAL}{Fore.LIGHTGREEN_EX}ВСЕ ОПЕРАЦИИ УСПЕШНО ЗАВЕРШЕНЫ{Style.RESET_ALL}')
             print(f'Переведен медиафайл: {media_file.info}')
             show_push_notification('Переведен медиафайл',
                                    f'{media_file.name_with_extension} [{media_file.formatted_size}]',
@@ -57,7 +57,7 @@ class TranslatorController(Controller):
             media_file = media_downloader.download()
         else:
             media_file = None
-            print(f'{Style.RESET_ALL}{Style.DIM}{Fore.RED}  \n\nYOU DIED{Style.RESET_ALL}')
+            print(f'{Style.RESET_ALL}{Style.NORMAL}{Fore.RED}  \n\nYOU DIED{Style.RESET_ALL}')
             print('\nБез закадрового перевода нет смысла качать видео. :('
                   '\nПопробуйте скачать что-то еще.')
             print(f'Проблемное  видео: {media_downloader.url}')
