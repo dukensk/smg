@@ -73,7 +73,7 @@ class TranslatableAudioFile(AudioFile, TranslatableMediaFile):
 
     @property
     def _preprocessed_filename(self) -> str:
-        return self.name if self.is_preprocessed else f'{self.name}_preprocessed{self.EXTENSION_M4A}'
+        return self.name if self.is_preprocessed else f'{self.name}_preprocessed{self.EXTENSION_OGG}'
 
     @property
     def _preprocessed_path(self) -> Path:
