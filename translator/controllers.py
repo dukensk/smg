@@ -19,7 +19,7 @@ class TranslatorController(Controller):
     def main(self) -> bool:
         media_downloader, voiceover_downloader = self._get_downloaders()
         media_file, voiceover = self._download_media_files(media_downloader, voiceover_downloader)
-        voiceover.preprocess(media_file.audio_sample_rate)
+        voiceover.preprocess(media_file.audio_sample_rate, media_file.audio_codec)
 
         if media_file:
             media_file.add_voiceover(voiceover)
