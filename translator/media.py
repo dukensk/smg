@@ -29,13 +29,13 @@ class VoiceOver(AudioFile):
     def is_preprocessed(self):
         return self._preprocessed
 
-    def preprocess(self, target_sample_rate: int | str = 44100):
+    def preprocess(self, target_sample_rate: int | str = 44100, codec: str = 'libvorbis'):
         if not self.is_preprocessed:
             print('\nПодготавливаем закадровый перевод...')
             subprocess.call(['ffmpeg',
                              '-i', self.path,
-                             '-ar',  str(target_sample_rate),
-                             '-acodec', 'libvorbis',
+                             '-ar', str(target_sample_rate),
+                             '-acodec', self._get_preprocessing_acodec(codec),
                              '-ac', '2',
                              '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE_IN_VIDEOFILE,
                              '-af', 'volume=' + str(settings.TRANSLATOR_VOLUME_BOOST),
@@ -47,6 +47,16 @@ class VoiceOver(AudioFile):
             print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
         else:
             print('\nЗакадровый перевод уже подготовлен, дополнительная обработка не требуется')
+
+    def _get_preprocessing_acodec(self, codec: str):
+        acodecs = {
+            'opus': 'libopus',
+            'vorbis': 'libvorbis',
+        }
+        preprocessing_acodec = acodecs.get(codec)
+        if not preprocessing_acodec:
+            preprocessing_acodec = 'libvorbis'
+        return preprocessing_acodec
 
 
 class TranslatableMediaFile(ABC):
@@ -124,6 +134,7 @@ class TranslatableAudioTrackForVideoFile(TranslatableAudioFile):
                          '-i', self.path,
                          '-filter_complex', 'amix=inputs=2:duration=first',
                          '-ab', settings.TRANSLATOR_OUTPUT_AUDIO_BITRATE_IN_VIDEOFILE,
+                         '-acodec', self._get_acodec(self.audio_codec),
                          output_file_path],
                         stdout=subprocess.DEVNULL,
                         stderr=subprocess.STDOUT
@@ -132,6 +143,16 @@ class TranslatableAudioTrackForVideoFile(TranslatableAudioFile):
         output_file_path.rename(self.path)
         print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
         return True
+
+    def _get_acodec(self, codec: str):
+        acodecs = {
+            'opus': 'libopus',
+            'aac': 'aac',
+        }
+        acodec = acodecs.get(codec)
+        if not acodec:
+            acodec = 'copy'
+        return acodec
 
 
 class TranslatableVideoFile(VideoFile, TranslatableMediaFile):

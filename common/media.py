@@ -1,7 +1,7 @@
 import datetime
 from functools import lru_cache
 from json import loads
-from pathlib import Path
+from pathlib import Path, PurePath
 import subprocess
 from subprocess import check_output
 
@@ -82,6 +82,11 @@ class AudioFile(MediaFile):
     def codec_name(self) -> str:
         """Codec name"""
         return str(self.media_info.get('streams')[0].get('codec_name'))
+
+    @property
+    def audio_codec(self) -> str:
+        """Codec name"""
+        return self.codec_name
 
     @property
     def channels(self) -> int:
@@ -231,6 +236,16 @@ class ImageFile(File):
         return f'{self.name_with_extension} | {self.formatted_size} | изображение'
 
 
+def check_and_correct_path(path: Path, file_types: {str: AudioFile|VideoFile|ImageFile}) -> Path:
+    """Checks and corrects the extension in the path to the downloaded file"""
+    if not path.is_file():
+        for extension in file_types.keys():
+            possible_path = Path(f'{PurePath(path).stem}{extension}')
+            if possible_path.is_file():
+                path = possible_path
+    return path
+
+
 def create_file_object(path: Path) -> File | AudioFile | VideoFile | ImageFile:
     """Factory function to create a file object according to the extension of the physical file"""
     file_types = {
@@ -253,6 +268,8 @@ def create_file_object(path: Path) -> File | AudioFile | VideoFile | ImageFile:
         ImageFile.EXTENSION_GIF: ImageFile,
         ImageFile.EXTENSION_BMP: ImageFile,
     }
+
+    path = check_and_correct_path(path, file_types)
 
     file_type = file_types.get(path.suffix)
     if not file_type:
