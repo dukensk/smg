@@ -117,6 +117,7 @@ class TranslatableAudioFile(AudioFile, TranslatableMediaFile):
                         stdout=subprocess.DEVNULL,
                         stderr=subprocess.STDOUT
                         )
+        voiceover.remove()
         self.remove()
         output_file_path.rename(self.path)
         print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
