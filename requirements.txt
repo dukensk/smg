@@ -5,5 +5,5 @@ python-dotenv==1.0.1
 websockets==12.0
 wget==3.2
 yt-dlp==2024.3.10
-validators==0.22.0
+validators==0.24.0
 winotify==1.1.0
