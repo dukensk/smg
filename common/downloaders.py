@@ -37,7 +37,7 @@ class FileDownloader:
         while not is_url(url):
             url = input(f'\n{self.INPUT_URL_MESSAGE}: ')
             if not is_url(url):
-                print(f'{Style.DIM}{Fore.LIGHTRED_EX}{self.INPUT_URL_ERROR_MESSAGE}{Style.RESET_ALL}')
+                print(f'{Style.NORMAL}{Fore.LIGHTRED_EX}{self.INPUT_URL_ERROR_MESSAGE}{Style.RESET_ALL}')
         return url
 
     @property
@@ -48,10 +48,10 @@ class FileDownloader:
         print(f'\n{self.START_DOWNLOADING_MESSAGE}')
 
     def _show_finish_downloading_message(self):
-        print(f'\n{Style.DIM}{Fore.LIGHTGREEN_EX}{self.FINISH_DOWNLOADING_MESSAGE}{Style.RESET_ALL}')
+        print(f'\n{Style.NORMAL}{Fore.LIGHTGREEN_EX}{self.FINISH_DOWNLOADING_MESSAGE}{Style.RESET_ALL}')
 
     def _show_error_downloading_message(self):
-        print(f'\n{Style.DIM}{Fore.LIGHTRED_EX}{self.ERROR_DOWNLOADING_MESSAGE}{Style.RESET_ALL}')
+        print(f'\n{Style.NORMAL}{Fore.LIGHTRED_EX}{self.ERROR_DOWNLOADING_MESSAGE}{Style.RESET_ALL}')
 
     def _create_file(self, path: Path):
         return create_file_object(path)

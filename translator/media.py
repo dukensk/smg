@@ -44,7 +44,7 @@ class VoiceOver(AudioFile):
                             stderr=subprocess.STDOUT)
             self._replace_path_and_remove_old_file(self._preprocessed_path)
             self._preprocessed = True
-            print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+            print(f'{Style.NORMAL}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
         else:
             print('\nЗакадровый перевод уже подготовлен, дополнительная обработка не требуется')
 
@@ -100,7 +100,7 @@ class TranslatableAudioFile(AudioFile, TranslatableMediaFile):
                             stderr=subprocess.STDOUT)
             self._replace_path_and_remove_old_file(self._preprocessed_path)
             self._preprocessed = True
-            print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+            print(f'{Style.NORMAL}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
 
         else:
             print('\nАудио уже по подготовлено к переводу, дополнительная обработка не требуется')
@@ -120,7 +120,7 @@ class TranslatableAudioFile(AudioFile, TranslatableMediaFile):
         voiceover.remove()
         self.remove()
         output_file_path.rename(self.path)
-        print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+        print(f'{Style.NORMAL}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
         return True
 
 
@@ -142,7 +142,7 @@ class TranslatableAudioTrackForVideoFile(TranslatableAudioFile):
                         )
         self.remove()
         output_file_path.rename(self.path)
-        print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+        print(f'{Style.NORMAL}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
         return True
 
     def _get_acodec(self, codec: str):

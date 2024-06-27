@@ -67,11 +67,11 @@ class FactoryMenu:
             return item
         except ValueError:
             print(
-                f'\n{Style.DIM}{Fore.LIGHTRED_EX}ВЫ ВВЕЛИ НЕКОРРЕКТНОЕ ЗНАЧЕНИЕ{Style.RESET_ALL}'
+                f'\n{Style.NORMAL}{Fore.LIGHTRED_EX}ВЫ ВВЕЛИ НЕКОРРЕКТНОЕ ЗНАЧЕНИЕ{Style.RESET_ALL}'
                 f'\nНеобходимо ввести число в диапазоне от {self.min_index} до {self.max_index}')
         except IndexError:
             print(
-                f'\n{Style.DIM}{Fore.LIGHTRED_EX}ПУНКТА МЕНЮ С ТАКИМ НОМЕРОМ НЕ СУЩЕСТВУЕТ{Style.RESET_ALL}'
+                f'\n{Style.NORMAL}{Fore.LIGHTRED_EX}ПУНКТА МЕНЮ С ТАКИМ НОМЕРОМ НЕ СУЩЕСТВУЕТ{Style.RESET_ALL}'
                 f'\nНеобходимо ввести число в диапазоне от {self.min_index} до {self.max_index}')
 
     def _create_instance(self, object_type: Type):

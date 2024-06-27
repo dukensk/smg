@@ -103,7 +103,7 @@ class AudioFile(MediaFile):
                    f'\n{self.formatted_size} | {self.duration[:-3]} | аудио | ' \
                    f'{self.codec_name} | {self.bitrate} kbps | {self.samplerate} Hz | каналов: {self.channels}'
         except FileNotFoundError:
-            return f'\n{Style.DIM}{Fore.LIGHTRED_EX}ОШИБКА:{Style.RESET_ALL} Файла {self.path} не существует'
+            return f'\n{Style.NORMAL}{Fore.LIGHTRED_EX}ОШИБКА:{Style.RESET_ALL} Файла {self.path} не существует'
 
     @property
     def audio_sample_rate(self) -> int:
@@ -201,7 +201,7 @@ class VideoFile(MediaFile):
                          self._extracted_audio_path],
                         stdout=subprocess.DEVNULL,
                         stderr=subprocess.STDOUT)
-        print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+        print(f'{Style.NORMAL}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
         return AudioFile(self._extracted_audio_path)
 
     def replace_audio(self, audiofile: AudioFile) -> bool:
@@ -220,7 +220,7 @@ class VideoFile(MediaFile):
                         )
         self.remove()
         output_file_path.rename(self.path)
-        print(f'{Style.DIM}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
+        print(f'{Style.NORMAL}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
         return True
 
 
