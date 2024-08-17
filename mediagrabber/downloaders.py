@@ -35,6 +35,10 @@ class MetaDataLoader:
                     metadata = ydl.extract_info(url, download=False)
             except (yt_dlp.DownloadError, TransportError):
                 download_attempt += 1
+                if download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
+                    print(f'\n\n{Style.NORMAL}{Fore.LIGHTYELLOW_EX}ОЙ!{Style.RESET_ALL}')
+                    print(f'Что-то пошло не так, '
+                          f'повторно пробуем получить метаданные [{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
         return metadata
 
     @property
