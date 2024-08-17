@@ -33,9 +33,7 @@ class MetaDataLoader:
             try:
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     metadata = ydl.extract_info(url, download=False)
-            except yt_dlp.DownloadError:
-                download_attempt += 1
-            except TransportError:
+            except (yt_dlp.DownloadError, TransportError):
                 download_attempt += 1
         return metadata
 
@@ -159,7 +157,7 @@ class MediaDownloader(FileDownloader, ABC):
                     yinfo = ydl.extract_info(self._url, download=True)
                 file_path = ydl.prepare_filename(yinfo)
                 print(f'{Style.NORMAL}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
-            except yt_dlp.DownloadError:
+            except (yt_dlp.DownloadError, TransportError):
                 download_attempt += 1
                 file_path = None
                 if download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
