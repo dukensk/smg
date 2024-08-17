@@ -4,6 +4,7 @@ from functools import lru_cache
 from pathlib import Path
 import yt_dlp
 from colorama import Style, Fore
+from yt_dlp.networking.exceptions import TransportError
 
 import settings
 from common.downloaders import FileDownloader
@@ -24,11 +25,18 @@ class MetaDataLoader:
             'noplaylist': self._noplaylist,
             'quiet': True
         }
-        try:
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                metadata = ydl.extract_info(url, download=False)
-        except yt_dlp.DownloadError:
-            metadata = {}
+
+        download_attempt = 0
+        metadata = {}
+
+        while not metadata and download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
+            try:
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    metadata = ydl.extract_info(url, download=False)
+            except yt_dlp.DownloadError:
+                download_attempt += 1
+            except TransportError:
+                download_attempt += 1
         return metadata
 
     @property
