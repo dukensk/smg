@@ -10,6 +10,7 @@ import settings
 from common.downloaders import FileDownloader
 from common.media import AudioFile, VideoFile
 from common.service import is_youtube
+from .messages import DownloadErrorMessage, MetadataLoadingErrorMessage
 
 
 class MetaDataLoader:
@@ -36,9 +37,9 @@ class MetaDataLoader:
             except (yt_dlp.DownloadError, TransportError):
                 download_attempt += 1
                 if download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
-                    print(f'\n\n{Style.NORMAL}{Fore.LIGHTYELLOW_EX}ОЙ!{Style.RESET_ALL}')
-                    print(f'Что-то пошло не так, '
-                          f'повторно пробуем получить метаданные [{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
+                    print(f'\n\n{Style.NORMAL}{Fore.LIGHTYELLOW_EX}{MetadataLoadingErrorMessage.get_title()}{Style.RESET_ALL}')
+                    print(f'{MetadataLoadingErrorMessage.get_text()} '
+                          f'[{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
         return metadata
 
     @property
@@ -165,9 +166,9 @@ class MediaDownloader(FileDownloader, ABC):
                 download_attempt += 1
                 file_path = None
                 if download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
-                    print(f'\n\n{Style.NORMAL}{Fore.LIGHTYELLOW_EX}ОЙ!{Style.RESET_ALL}')
-                    print(f'Что-то пошло не так, '
-                          f'пробуем возобновить загрузку [{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
+                    print(f'\n\n{Style.NORMAL}{Fore.LIGHTYELLOW_EX}{DownloadErrorMessage.get_title()}{Style.RESET_ALL}')
+                    print(
+                        f'{DownloadErrorMessage.get_text()} [{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
                 else:
                     print(f'\n\n{Style.NORMAL}{Fore.LIGHTRED_EX}YOU DIED{Style.RESET_ALL}')
                     print('\nНе удалось скачать видео. Нам очень жаль. :('
