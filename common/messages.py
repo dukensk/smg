@@ -5,9 +5,9 @@ import random
 class RandomMessageGenerator(ABC):
     """Random message generator"""
 
-    _titles: [str]
+    _titles: [str] = ['Варианты заголовков сообщения не заданы']
 
-    _texts: [str]
+    _texts: [str] = ['Варианты текстов сообщения не заданы']
 
     @classmethod
     def get_title(cls) -> str:
