@@ -125,23 +125,17 @@ class MediaDownloader(FileDownloader, ABC):
     @property
     def _postprocessors(self) -> list[dict[str, str]] | None:
         """Postprocessors for converting uploaded media"""
-        postprocessors = []
-
-        postprocessors.append({
+        postprocessors = [{
             'key': 'SponsorBlock',
             'categories': ['selfpromo', 'sponsor'],
             # Run this immediately after extraction is complete
             'when': 'pre_process'
-        })
-
-        postprocessors.append({
+        }, {
             'key': 'ModifyChapters',
-        })
-
-        postprocessors.append({'key': 'FFmpegMetadata',
-                               'add_chapters': True,
-                               'add_metadata': True,
-                               })
+        }, {'key': 'FFmpegMetadata',
+            'add_chapters': True,
+            'add_metadata': True,
+            }]
 
         return postprocessors
 
@@ -186,7 +180,8 @@ class MediaDownloader(FileDownloader, ABC):
                 if download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
                     print(f'\n\n{Style.NORMAL}{Fore.LIGHTYELLOW_EX}{DownloadErrorMessage.get_title()}{Style.RESET_ALL}')
                     print(
-                        f'{DownloadErrorMessage.get_text()} [{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
+                        f'{DownloadErrorMessage.get_text()} [{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...'
+                    )
                 else:
                     print(f'\n\n{Style.NORMAL}{Fore.LIGHTRED_EX}YOU DIED{Style.RESET_ALL}')
                     print('\nНе удалось скачать видео. Нам очень жаль. :('
@@ -220,18 +215,14 @@ class M4aAudioDownloader(MediaDownloader):
 
     @property
     def _postprocessors(self) -> list[dict[str, str]] | None:
-        postprocessors = []
-
-        postprocessors.append({
+        postprocessors = [{
             'key': 'SponsorBlock',
             'categories': ['selfpromo', 'sponsor'],
             # Run this immediately after extraction is complete
             'when': 'pre_process'
-        })
-
-        postprocessors.append({
+        }, {
             'key': 'ModifyChapters',
-        })
+        }]
 
         if is_youtube(self.url):
             postprocessors.append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'})
