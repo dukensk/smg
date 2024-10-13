@@ -125,7 +125,25 @@ class MediaDownloader(FileDownloader, ABC):
     @property
     def _postprocessors(self) -> list[dict[str, str]] | None:
         """Postprocessors for converting uploaded media"""
-        return [{'key': 'FFmpegMetadata'}]
+        postprocessors = []
+
+        postprocessors.append({
+            'key': 'SponsorBlock',
+            'categories': ['selfpromo', 'sponsor'],
+            # Run this immediately after extraction is complete
+            'when': 'pre_process'
+        })
+
+        postprocessors.append({
+            'key': 'ModifyChapters',
+        })
+
+        postprocessors.append({'key': 'FFmpegMetadata',
+                               'add_chapters': True,
+                               'add_metadata': True,
+                               })
+
+        return postprocessors
 
     @property
     def _ydl_opts(self):
@@ -202,16 +220,28 @@ class M4aAudioDownloader(MediaDownloader):
 
     @property
     def _postprocessors(self) -> list[dict[str, str]] | None:
+        postprocessors = []
+
+        postprocessors.append({
+            'key': 'SponsorBlock',
+            'categories': ['selfpromo', 'sponsor'],
+            # Run this immediately after extraction is complete
+            'when': 'pre_process'
+        })
+
+        postprocessors.append({
+            'key': 'ModifyChapters',
+        })
+
         if is_youtube(self.url):
-            postprocessors = [
-                {'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'},
-                {'key': 'FFmpegMetadata'}
-            ]
+            postprocessors.append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'})
         else:
-            postprocessors = [
-                {'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '192'},
-                {'key': 'FFmpegMetadata'}
-            ]
+            postprocessors.append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '192'})
+
+        postprocessors.append({'key': 'FFmpegMetadata',
+                               'add_chapters': True,
+                               'add_metadata': True,
+                               })
 
         return postprocessors
 
