@@ -7,3 +7,4 @@ websockets==13.1
 wget==3.2
 validators==0.34.0
 winotify==1.1.0
+ruff==0.7.1
