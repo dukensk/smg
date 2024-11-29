@@ -3,7 +3,6 @@ colorama==0.4.6
 mutagen==1.47.0
 pycryptodomex==3.21.0
 python-dotenv==1.0.1
-websockets==14.1
 wget==3.2
 validators==0.34.0
 winotify==1.1.0
