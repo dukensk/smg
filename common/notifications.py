@@ -22,11 +22,11 @@ def show_push_notification(title: str, message: str, icon: str = 'smg_icon.ico',
     if platform_name == 'Darwin':
         command = '''
         osascript -e 'display notification "{message}" with title "{title}"'
-        '''
+        '''  # noqa: Q001
     elif platform_name == 'Linux':
         command = f'''
         notify-send "{title}" "{message}" --icon="{icon_path}"
-        '''
+        '''  # noqa: Q001
     elif platform_name == 'Windows':
         toast = Notification(app_id=app_id, title=title, msg=message, icon=icon_path)
         toast.show()
