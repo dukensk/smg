@@ -1,4 +1,4 @@
-yt-dlp[default]==2024.12.03
+yt-dlp[default]==2024.12.13
 colorama==0.4.6
 mutagen==1.47.0
 pycryptodomex==3.21.0
