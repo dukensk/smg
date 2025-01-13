@@ -146,6 +146,8 @@ class MediaDownloader(FileDownloader, ABC):
             'format': self._format,
             'outtmpl': str(self._save_path) + '/%(title)s.%(ext)s',
             'concurrent-fragments': self._concurent_fragments,
+            'compat_options': ['prefer-vp9-sort'],
+
         }
         if self._postprocessors:
             ydl_opts['postprocessors'] = self._postprocessors
@@ -344,7 +346,7 @@ class Mkvx4KVideoDownloader(MediaDownloader):
 
     @property
     def _format(self) -> str:
-        return 'bestvideo[height<=4096]+bestaudio/best'
+        return 'bestvideo[height<=4096][vcodec=vp9]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
         return super(Mkvx4KVideoDownloader, self).download()
@@ -363,7 +365,7 @@ class Mkvx1080pVideoDownloader(MediaDownloader):
 
     @property
     def _format(self) -> str:
-        return 'bestvideo[height<=1080]+bestaudio/best'
+        return 'bestvideo[height<=1080][vcodec=vp9]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
         return super(Mkvx1080pVideoDownloader, self).download()
@@ -382,7 +384,7 @@ class Mkvx1440pVideoDownloader(MediaDownloader):
 
     @property
     def _format(self) -> str:
-        return 'bestvideo[height<=1440]+bestaudio/best'
+        return 'bestvideo[height<=1440][vcodec=vp9]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
         return super(Mkvx1440pVideoDownloader, self).download()
@@ -401,7 +403,7 @@ class Mkvx720pVideoDownloader(MediaDownloader):
 
     @property
     def _format(self) -> str:
-        return 'bestvideo[height<=720]+bestaudio/best'
+        return 'bestvideo[height<=720][vcodec=vp9]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
         return super(Mkvx720pVideoDownloader, self).download()
