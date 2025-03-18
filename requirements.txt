@@ -13,4 +13,5 @@ validators==0.34.0
 websockets==14.1
 wget==3.2
 winotify==1.1.0
-yt-dlp[default]==2025.02.19
+yt-dlp[default]
+# yt-dlp[default]==2025.02.19
