@@ -15,6 +15,7 @@ from .messages import DownloadErrorMessage, MetadataLoadingErrorMessage
 
 class MetaDataLoader:
     """Media metadata loader"""
+
     _url: str
 
     def __init__(self, url: str = None):
@@ -22,10 +23,7 @@ class MetaDataLoader:
 
     @lru_cache(maxsize=1)
     def _get_metadata_by_url(self, url: str) -> dict[str, str]:
-        ydl_opts = {
-            'noplaylist': self._noplaylist,
-            'quiet': True
-        }
+        ydl_opts = {'noplaylist': self._noplaylist, 'quiet': True}
 
         download_attempt = 0
         metadata = {}
@@ -38,8 +36,10 @@ class MetaDataLoader:
                 download_attempt += 1
                 if download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
                     print(f'\n\n{Style.NORMAL}{Fore.LIGHTYELLOW_EX}{MetadataLoadingErrorMessage.get_title()}{Style.RESET_ALL}')
-                    print(f'{MetadataLoadingErrorMessage.get_text()} '
-                          f'[{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...')
+                    print(
+                        f'{MetadataLoadingErrorMessage.get_text()} '
+                        f'[{download_attempt}/{settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT}]...'
+                    )
         return metadata
 
     @property
@@ -125,17 +125,22 @@ class MediaDownloader(FileDownloader, ABC):
     @property
     def _postprocessors(self) -> list[dict[str, str]] | None:
         """Postprocessors for converting uploaded media"""
-        postprocessors = [{
-            'key': 'SponsorBlock',
-            'categories': ['selfpromo', 'sponsor'],
-            # Run this immediately after extraction is complete
-            'when': 'pre_process'
-        }, {
-            'key': 'ModifyChapters',
-        }, {'key': 'FFmpegMetadata',
-            'add_chapters': True,
-            'add_metadata': True,
-            }]
+        postprocessors = [
+            {
+                'key': 'SponsorBlock',
+                'categories': ['selfpromo', 'sponsor'],
+                # Run this immediately after extraction is complete
+                'when': 'pre_process',
+            },
+            {
+                'key': 'ModifyChapters',
+            },
+            {
+                'key': 'FFmpegMetadata',
+                'add_chapters': True,
+                'add_metadata': True,
+            },
+        ]
 
         return postprocessors
 
@@ -147,7 +152,6 @@ class MediaDownloader(FileDownloader, ABC):
             'outtmpl': str(self._save_path) + '/%(title)s.%(ext)s',
             'concurrent-fragments': self._concurent_fragments,
             'compat_options': ['prefer-vp9-sort'],
-
         }
         if self._postprocessors:
             ydl_opts['postprocessors'] = self._postprocessors
@@ -159,11 +163,13 @@ class MediaDownloader(FileDownloader, ABC):
 
     @property
     def info(self) -> str:
-        info = f'Видео: {self.metadata.title}' \
-               f'\nФормат: {self.metadata.format}' \
-               f'\nПродолжительность: {self.metadata.duration} | Опубликовано: {self.metadata.upload_date}' \
-               f'\nАвтор: {self.metadata.uploader}' \
-               f'\n\nВыбран профиль загрузки: {self.title}'
+        info = (
+            f'Видео: {self.metadata.title}'
+            f'\nФормат: {self.metadata.format}'
+            f'\nПродолжительность: {self.metadata.duration} | Опубликовано: {self.metadata.upload_date}'
+            f'\nАвтор: {self.metadata.uploader}'
+            f'\n\nВыбран профиль загрузки: {self.title}'
+        )
         return info
 
     def download(self) -> VideoFile | AudioFile | None:
@@ -186,9 +192,11 @@ class MediaDownloader(FileDownloader, ABC):
                     )
                 else:
                     print(f'\n\n{Style.NORMAL}{Fore.LIGHTRED_EX}YOU DIED{Style.RESET_ALL}')
-                    print('\nНе удалось скачать видео. Нам очень жаль. :('
-                          '\nТак бывает, если оно еще не до конца обработалось на сервисе или вы ввели неправильную ссылку. '
-                          'Попробуйте позже.')
+                    print(
+                        '\nНе удалось скачать видео. Нам очень жаль. :('
+                        '\nТак бывает, если оно еще не до конца обработалось на сервисе или вы ввели неправильную ссылку. '
+                        'Попробуйте позже.'
+                    )
 
         return self._create_file(Path(file_path)) if file_path else None
 
@@ -217,24 +225,30 @@ class M4aAudioDownloader(MediaDownloader):
 
     @property
     def _postprocessors(self) -> list[dict[str, str]] | None:
-        postprocessors = [{
-            'key': 'SponsorBlock',
-            'categories': ['selfpromo', 'sponsor'],
-            # Run this immediately after extraction is complete
-            'when': 'pre_process'
-        }, {
-            'key': 'ModifyChapters',
-        }]
+        postprocessors = [
+            {
+                'key': 'SponsorBlock',
+                'categories': ['selfpromo', 'sponsor'],
+                # Run this immediately after extraction is complete
+                'when': 'pre_process',
+            },
+            {
+                'key': 'ModifyChapters',
+            },
+        ]
 
         if is_youtube(self.url):
             postprocessors.append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '128'})
         else:
             postprocessors.append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a', 'preferredquality': '192'})
 
-        postprocessors.append({'key': 'FFmpegMetadata',
-                               'add_chapters': True,
-                               'add_metadata': True,
-                               })
+        postprocessors.append(
+            {
+                'key': 'FFmpegMetadata',
+                'add_chapters': True,
+                'add_metadata': True,
+            }
+        )
 
         return postprocessors
 
