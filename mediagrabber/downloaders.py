@@ -152,7 +152,6 @@ class MediaDownloader(FileDownloader, ABC):
             'outtmpl': str(self._save_path) + '/%(title)s.%(ext)s',
             'concurrent-fragments': self._concurent_fragments,
             'compat_options': ['prefer-vp9-sort'],
-            'cookies-from-browser': 'firefox',
         }
         if self._postprocessors:
             ydl_opts['postprocessors'] = self._postprocessors
