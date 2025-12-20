@@ -23,7 +23,11 @@ class MetaDataLoader:
 
     @lru_cache(maxsize=1)
     def _get_metadata_by_url(self, url: str) -> dict[str, str]:
-        ydl_opts = {'noplaylist': self._noplaylist, 'quiet': True}
+        ydl_opts = {
+            'noplaylist': self._noplaylist,
+            'quiet': True,
+            'cookiesfrombrowser': ('firefox', None, None, None),
+        }
 
         download_attempt = 0
         metadata = {}
@@ -152,6 +156,7 @@ class MediaDownloader(FileDownloader, ABC):
             'outtmpl': str(self._save_path) + '/%(title)s.%(ext)s',
             'concurrent-fragments': self._concurent_fragments,
             'compat_options': ['prefer-vp9-sort'],
+            'cookiesfrombrowser': ('firefox', None, None, None),
         }
         if self._postprocessors:
             ydl_opts['postprocessors'] = self._postprocessors
