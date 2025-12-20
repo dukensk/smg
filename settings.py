@@ -34,3 +34,5 @@ ENABLE_PUSH_NOTIFICATION = os.environ.get('ENABLE_PUSH_NOTIFICATION', default=Tr
 """Allows system push notifications"""  # noqa: Q001
 
 ICONS_PATH = ROOT_PATH / 'icons'
+
+COOKIES_FROM_BROWSER = os.environ.get('COOKIES_FROM_BROWSER', default='firefox')
