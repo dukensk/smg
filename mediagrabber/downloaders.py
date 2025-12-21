@@ -95,7 +95,7 @@ class MediaDownloader(FileDownloader, ABC):
     title: str = 'Загрузчик медиафайлов'
 
     INPUT_URL_MESSAGE = 'Введите URL видео'
-    """message when requesting file url"""
+    '''message when requesting file url'''
 
     _metadata: MetaDataLoader
 
