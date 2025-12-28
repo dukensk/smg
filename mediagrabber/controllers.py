@@ -1,4 +1,4 @@
-from colorama import Style, Fore
+from colorama import Fore, Style
 
 from common.controllers import Controller
 from common.notifications import show_push_notification
