@@ -1,11 +1,11 @@
 import datetime
+import subprocess
 from functools import lru_cache
 from json import loads
 from pathlib import Path, PurePath
-import subprocess
 from subprocess import check_output
 
-from colorama import Style, Fore
+from colorama import Fore, Style
 
 import settings
 from common.filesystem import File
