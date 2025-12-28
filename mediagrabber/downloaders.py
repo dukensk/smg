@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
 import datetime as dt
+from abc import ABC, abstractmethod
 from functools import lru_cache
 from pathlib import Path
+
 import yt_dlp
-from colorama import Style, Fore
+from colorama import Fore, Style
 from yt_dlp.networking.exceptions import TransportError
 
 import settings
 from common.downloaders import FileDownloader
 from common.media import AudioFile, VideoFile
 from common.service import is_youtube
+
 from .messages import DownloadErrorMessage, MetadataLoadingErrorMessage
 
 
