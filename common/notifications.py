@@ -1,6 +1,6 @@
 import os
 import platform
-from winotify import Notification
+
 import settings
 
 
@@ -28,6 +28,7 @@ def show_push_notification(title: str, message: str, icon: str = 'smg_icon.ico',
         notify-send "{title}" "{message}" --icon="{icon_path}"
         '''  # noqa: Q001
     elif platform_name == 'Windows':
+        from winotify import Notification
         toast = Notification(app_id=app_id, title=title, msg=message, icon=icon_path)
         toast.show()
         return True

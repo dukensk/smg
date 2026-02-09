@@ -1,3 +1,6 @@
+import platform
+
+
 class _Getch:
     """Gets a single character from standard input. Does not echo to the screen. Cross-platform solution.
     Using:
@@ -12,13 +15,15 @@ class _Getch:
     """
 
     def __init__(self):
-        try:
+        platform_name = platform.system()
+        if platform_name == 'Windows':
             self.impl = _GetchWindows()
-        except ImportError:
+        else:
             self.impl = _GetchUnix()
 
     def __call__(self):
         return self.impl()
+
 
 
 class _GetchUnix:
@@ -27,8 +32,8 @@ class _GetchUnix:
 
     def __call__(self):
         import sys
-        import tty
         import termios
+        import tty
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
         try:
