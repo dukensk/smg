@@ -6,9 +6,9 @@ echo 'Устанавливаем SMG'
 mkdir -p ~/.local/bin
 
 echo 'Создаем симлинки'
-ln -s ../scripts/smg.sh ~/.local/bin/smg
-ln -s ../scripts/mediagrabber.sh ~/.local/bin/mediagrabber
-ln -s ../scripts/translator.sh ~/.local/bin/translator
+ln -s ~/opt/smg/scripts/smg.sh ~/.local/bin/smg
+ln -s ~/opt/smg/scripts/mediagrabber.sh ~/.local/bin/mediagrabber
+ln -s ~/opt/smg/scripts/translator.sh ~/.local/bin/translator
 
 
 echo 'Делаем скрипт исполняемым'
