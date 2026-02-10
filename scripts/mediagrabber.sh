@@ -1,3 +1,3 @@
 #!/bin/bash
-cd "$(dirname "$0")"
+cd "$(dirname "$(readlink -f "$0")")"
 uv run ../smg.py mediagrabber
