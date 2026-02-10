@@ -25,25 +25,6 @@ class _Getch:
         return self.impl()
 
 
-
-class _GetchUnix:
-    def __init__(self):
-        pass
-
-    def __call__(self):
-        import sys
-        import termios
-        import tty
-        fd = sys.stdin.fileno()
-        old_settings = termios.tcgetattr(fd)
-        try:
-            tty.setraw(sys.stdin.fileno())
-            ch = sys.stdin.read(1)
-        finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-        return ch
-
-
 class _GetchWindows:
     def __init__(self):
         pass
@@ -53,7 +34,16 @@ class _GetchWindows:
         return msvcrt.getch()
 
 
-key_codes = {
+class _GetchUnix:
+    def __init__(self):
+        pass
+
+    def __call__(self):
+        import getch
+        return getch.getch()
+
+
+windows_key_codes = {
     'enter': b'\r',
     'esc': b'\x1b',
     'backspace': b'\x08',
@@ -71,7 +61,30 @@ key_codes = {
     '0': b'0',
 }
 
+unix_key_codes = {
+    'enter': '\n',
+    'esc': '\x1b',
+    'backspace': '\x7f',
+    'tab': '\t',
+    'space': ' ',
+    '1': '1',
+    '2': '2',
+    '3': '3',
+    '4': '4',
+    '5': '5',
+    '6': '6',
+    '7': '7',
+    '8': '8',
+    '9': '9',
+    '0': '0',
+}
+
 
 def get_key_code(key: str) -> bytes | None:
     """Returns the code corresponding to the keys on the keyboard"""
-    return key_codes.get(key)
+    platform_name = platform.system()
+    if platform_name == 'Windows':
+        key_code = windows_key_codes.get(key)
+    else:
+        key_code = unix_key_codes.get(key)
+    return key_code
