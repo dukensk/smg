@@ -13,8 +13,8 @@ ln -s ../scripts/translator.sh ~/.local/bin/translator
 
 echo 'Делаем скрипт исполняемым'
 chmod +x ../scripts/smg.sh
-chmod +x ../scripts/smg.sh
-chmod +x ../scripts/smg.sh
+chmod +x ../scripts/mediagrabber.sh
+chmod +x ../scripts/translator.sh
 
 # Добавляем ~/.local/bin в PATH (если ещё не добавлен)
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc  # или ~/.zshrc
