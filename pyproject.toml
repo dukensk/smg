@@ -1,0 +1,24 @@
+[project]
+name = "smg"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "brotli==1.2.0",
+    "certifi==2025.11.12",
+    "charset-normalizer==3.4.4",
+    "colorama==0.4.6",
+    "idna==3.11",
+    "mutagen==1.47.0",
+    "pycryptodomex==3.23.0",
+    "python-dotenv==1.2.1",
+    "requests==2.32.5",
+    "urllib3==2.6.2",
+    "validators==0.35.0",
+    "websockets==15.0.1",
+    "wget==3.2",
+    "winotify==1.1.0",
+    "yt-dlp-ejs==0.4.0",
+    "yt-dlp[default]>=2026.2.4",
+]
