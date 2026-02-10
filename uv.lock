@@ -113,6 +113,12 @@ wheels = [
 ]
 
 [[package]]
+name = "getch"
+version = "1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/cc/a4/c696c05e0ff9d05b1886cb0210101083db7d330ff964a6d7cd98ad2b2064/getch-1.0.tar.gz", hash = "sha256:a6c22717c10051ce65b8fb7bddb171af705b1175e694a73be956990f6089d8b1", size = 1302, upload-time = "2013-05-03T01:54:41.513Z" }
+
+[[package]]
 name = "idna"
 version = "3.11"
 source = { registry = "https://pypi.org/simple" }
@@ -191,6 +197,7 @@ dependencies = [
     { name = "certifi" },
     { name = "charset-normalizer" },
     { name = "colorama" },
+    { name = "getch" },
     { name = "idna" },
     { name = "mutagen" },
     { name = "pycryptodomex" },
@@ -211,6 +218,7 @@ requires-dist = [
     { name = "certifi", specifier = "==2025.11.12" },
     { name = "charset-normalizer", specifier = "==3.4.4" },
     { name = "colorama", specifier = "==0.4.6" },
+    { name = "getch", specifier = ">=1.0" },
     { name = "idna", specifier = "==3.11" },
     { name = "mutagen", specifier = "==1.47.0" },
     { name = "pycryptodomex", specifier = "==3.23.0" },

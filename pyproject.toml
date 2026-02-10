@@ -9,6 +9,7 @@ dependencies = [
     "certifi==2025.11.12",
     "charset-normalizer==3.4.4",
     "colorama==0.4.6",
+    "getch>=1.0",
     "idna==3.11",
     "mutagen==1.47.0",
     "pycryptodomex==3.23.0",
