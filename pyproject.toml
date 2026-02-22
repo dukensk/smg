@@ -20,6 +20,6 @@ dependencies = [
     "websockets==15.0.1",
     "wget==3.2",
     "winotify==1.1.0",
-    "yt-dlp-ejs==0.4.0",
-    "yt-dlp[default]>=2026.2.4",
+    "yt-dlp-ejs==0.5.0",
+    "yt-dlp[default]>=2026.2.21",
 ]
