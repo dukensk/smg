@@ -6,7 +6,7 @@ class InfoController(Controller):
 
     @property
     def header(self):
-        return f'INFO ❯❯ {super(InfoController, self).header}'
+        return f'INFO ❯❯ {super().header}'
 
     @property
     def title(self) -> str:

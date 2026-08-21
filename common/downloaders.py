@@ -1,9 +1,9 @@
+import ssl
 from pathlib import Path
 from urllib.error import ContentTooShortError
-import ssl
 
 import wget
-from colorama import Style, Fore
+from colorama import Fore, Style
 
 import settings
 from common.filesystem import File

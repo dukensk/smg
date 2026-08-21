@@ -1,9 +1,18 @@
-from typing import Type
 
 from common.menu import FactoryMenu, MenuItem
-from mediagrabber.downloaders import BestQualityVideoDownloader, MediaDownloader, M4aAudioDownloader, Mp4x1080pVideoDownloader, \
-    Mp4x1440pVideoDownloader, Mp4x4KVideoDownloader, Mp4x720pVideoDownloader, Mkvx4KVideoDownloader, Mkvx1080pVideoDownloader, \
-    Mkvx1440pVideoDownloader, Mkvx720pVideoDownloader
+from mediagrabber.downloaders import (
+    BestQualityVideoDownloader,
+    M4aAudioDownloader,
+    MediaDownloader,
+    Mkvx4KVideoDownloader,
+    Mkvx720pVideoDownloader,
+    Mkvx1080pVideoDownloader,
+    Mkvx1440pVideoDownloader,
+    Mp4x4KVideoDownloader,
+    Mp4x720pVideoDownloader,
+    Mp4x1080pVideoDownloader,
+    Mp4x1440pVideoDownloader,
+)
 
 media_downloaders = {
     'audio_m4a': MenuItem(M4aAudioDownloader.title, M4aAudioDownloader),
@@ -25,7 +34,7 @@ class MediaDownloadersMenu(FactoryMenu):
     _url: str = None
 
     def __init__(self, items: dict[str, MenuItem] = None, url: str = None):
-        super(MediaDownloadersMenu, self).__init__(items)
+        super().__init__(items)
         self._url = url
 
     @property
@@ -33,9 +42,9 @@ class MediaDownloadersMenu(FactoryMenu):
         return 'Выберите предпочтительный формат'
 
     def choose(self, item_key: str = None) -> MediaDownloader:
-        return super(MediaDownloadersMenu, self).choose(item_key)
+        return super().choose(item_key)
 
-    def _create_instance(self, object_type: Type):
+    def _create_instance(self, object_type: type):
         """
         Creates an instance of an object
         :param object_type: тип создаваемого объекта

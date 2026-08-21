@@ -1,8 +1,8 @@
 import subprocess
-from pathlib import Path
 from abc import ABC, abstractmethod
+from pathlib import Path
 
-from colorama import Style, Fore
+from colorama import Fore, Style
 
 import settings
 from common.media import AudioFile, VideoFile
@@ -12,7 +12,7 @@ class VoiceOver(AudioFile):
     _preprocessed: bool
 
     def __init__(self, path: Path, autopreprocess=True):
-        super(VoiceOver, self).__init__(path)
+        super().__init__(path)
         self._preprocessed = False
         if autopreprocess:
             self.preprocess()
@@ -72,7 +72,7 @@ class TranslatableAudioFile(AudioFile, TranslatableMediaFile):
     _preprocessed: bool
 
     def __init__(self, path: Path, autopreprocess: bool = True):
-        super(TranslatableAudioFile, self).__init__(path)
+        super().__init__(path)
         self._preprocessed = False
         if not autopreprocess:
             self.preprocess()
@@ -160,7 +160,7 @@ class TranslatableVideoFile(VideoFile, TranslatableMediaFile):
     """Video file to which you can add voiceover"""
 
     def extract_audio(self) -> TranslatableAudioTrackForVideoFile:
-        return TranslatableAudioTrackForVideoFile(super(TranslatableVideoFile, self).extract_audio().path)
+        return TranslatableAudioTrackForVideoFile(super().extract_audio().path)
 
     def add_voiceover(self, voiceover: VoiceOver) -> bool:
         audio = self.extract_audio()

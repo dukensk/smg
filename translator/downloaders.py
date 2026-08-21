@@ -4,7 +4,7 @@ import settings
 from common.downloaders import FileDownloader
 from mediagrabber.menu import MediaDownloadersMenu
 from mediagrabber.universal_downloader import UniversalMediaDownloader
-from translator.media import VoiceOver, TranslatableVideoFile, TranslatableAudioFile, convert_to_translatable_mediafile
+from translator.media import TranslatableAudioFile, TranslatableVideoFile, VoiceOver, convert_to_translatable_mediafile
 from translator.menu import media_downloaders
 
 
@@ -33,4 +33,4 @@ class TranslatableMediaDownloader(UniversalMediaDownloader):
         self._downloader = MediaDownloadersMenu(media_downloaders, self._url).choose()
 
     def download(self) -> TranslatableAudioFile | TranslatableVideoFile | None:
-        return convert_to_translatable_mediafile(super(TranslatableMediaDownloader, self).download())
+        return convert_to_translatable_mediafile(super().download())

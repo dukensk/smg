@@ -1,16 +1,16 @@
-from colorama import Style, Fore
+from colorama import Fore, Style
 
 from common.controllers import Controller
 from common.notifications import show_push_notification
-from translator.downloaders import VoiceOverDownloader, TranslatableMediaDownloader
-from translator.media import VoiceOver, TranslatableVideoFile, TranslatableAudioFile
+from translator.downloaders import TranslatableMediaDownloader, VoiceOverDownloader
+from translator.media import TranslatableAudioFile, TranslatableVideoFile, VoiceOver
 
 
 class TranslatorController(Controller):
 
     @property
     def header(self):
-        return f'{Fore.LIGHTMAGENTA_EX}TRANSLATOR ❯❯{Style.RESET_ALL} {super(TranslatorController, self).header}'
+        return f'{Fore.LIGHTMAGENTA_EX}TRANSLATOR ❯❯{Style.RESET_ALL} {super().header}'
 
     @property
     def title(self) -> str:

@@ -14,7 +14,7 @@ from common.filesystem import File
 class MediaFile(File):
 
     def __init__(self, path: Path):
-        super(MediaFile, self).__init__(path)
+        super().__init__(path)
 
     @property
     def media_info(self) -> dict:
@@ -136,12 +136,12 @@ class VideoFile(MediaFile):
     @property
     def width(self) -> int:
         """video width"""
-        return int(self.media_info.get('streams')[0].get('width'))
+        return int(self.media_info.get('streams')[0].get('width') or 0)
 
     @property
     def height(self) -> int:
         """video height"""
-        return int(self.media_info.get('streams')[0].get('height'))
+        return int(self.media_info.get('streams')[0].get('height') or 0)
 
     @property
     def resolution(self) -> str:
@@ -157,7 +157,7 @@ class VideoFile(MediaFile):
 
     @staticmethod
     def _parse_framerate(raw_framerate: str) -> str:
-        if not '/' in raw_framerate:
+        if '/' not in raw_framerate:
             framerate = raw_framerate[:-2]
         else:
             framerate_items = raw_framerate.split('/')

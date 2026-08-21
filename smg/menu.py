@@ -20,4 +20,4 @@ class MainMenu(FactoryMenu):
         return 'Выберите режим работы приложения'
 
     def choose(self, item_key: str = None) -> Controller:
-        return super(MainMenu, self).choose(item_key)
+        return super().choose(item_key)

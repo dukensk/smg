@@ -1,8 +1,7 @@
-from abc import ABC
 import random
 
 
-class RandomMessageGenerator(ABC):
+class RandomMessageGenerator:
     """Random message generator"""
 
     _titles: [str] = ['Варианты заголовков сообщения не заданы']

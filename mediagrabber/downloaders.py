@@ -97,12 +97,12 @@ class MediaDownloader(FileDownloader, ABC):
     title: str = 'Загрузчик медиафайлов'
 
     INPUT_URL_MESSAGE = 'Введите URL видео'
-    '''message when requesting file url'''
+    """message when requesting file url"""
 
     _metadata: MetaDataLoader
 
     def __init__(self, url: str = None):
-        super(MediaDownloader, self).__init__(url)
+        super().__init__(url)
         self._init_metadata()
 
     def _init_metadata(self):
@@ -218,7 +218,7 @@ class BestQualityVideoDownloader(MediaDownloader):
         return 'bestvideo+bestaudio/best'
 
     def download(self) -> VideoFile | None:
-        return super(BestQualityVideoDownloader, self).download()
+        return super().download()
 
 
 class M4aAudioDownloader(MediaDownloader):
@@ -260,7 +260,7 @@ class M4aAudioDownloader(MediaDownloader):
         return postprocessors
 
     def download(self) -> AudioFile | None:
-        return super(M4aAudioDownloader, self).download()
+        return super().download()
 
 
 class Mp4x1080pVideoDownloader(MediaDownloader):
@@ -273,7 +273,7 @@ class Mp4x1080pVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[height<=1080]'
 
     def download(self) -> VideoFile | None:
-        return super(Mp4x1080pVideoDownloader, self).download()
+        return super().download()
 
 
 class Mp4x720pVideoDownloader(MediaDownloader):
@@ -286,7 +286,7 @@ class Mp4x720pVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720]'
 
     def download(self) -> VideoFile | None:
-        return super(Mp4x720pVideoDownloader, self).download()
+        return super().download()
 
 
 class Mp4x1440pVideoDownloader(MediaDownloader):
@@ -299,7 +299,7 @@ class Mp4x1440pVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=1440][ext=mp4]+bestaudio[ext=m4a]/best[height<=1440]'
 
     def download(self) -> VideoFile | None:
-        return super(Mp4x1440pVideoDownloader, self).download()
+        return super().download()
 
 
 class Mp4x4KVideoDownloader(MediaDownloader):
@@ -312,7 +312,7 @@ class Mp4x4KVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=4096][ext=mp4]+bestaudio[ext=m4a]/best[height<=4096]'
 
     def download(self) -> VideoFile | None:
-        return super(Mp4x4KVideoDownloader, self).download()
+        return super().download()
 
 
 class BestQuality1080pVideoDownloader(MediaDownloader):
@@ -325,7 +325,7 @@ class BestQuality1080pVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=1080]+bestaudio/best[height<=1080]'
 
     def download(self) -> VideoFile | None:
-        return super(BestQuality1080pVideoDownloader, self).download()
+        return super().download()
 
 
 class BestQuality1440pVideoDownloader(MediaDownloader):
@@ -338,7 +338,7 @@ class BestQuality1440pVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=1440]+bestaudio/best[height<=1440]'
 
     def download(self) -> VideoFile | None:
-        return super(BestQuality1440pVideoDownloader, self).download()
+        return super().download()
 
 
 class BestQuality4KVideoDownloader(MediaDownloader):
@@ -351,7 +351,7 @@ class BestQuality4KVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=4096]+bestaudio/best[height<=4096]'
 
     def download(self) -> VideoFile | None:
-        return super(BestQuality4KVideoDownloader, self).download()
+        return super().download()
 
 
 class Mkvx4KVideoDownloader(MediaDownloader):
@@ -370,7 +370,7 @@ class Mkvx4KVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=4096][vcodec=vp9]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
-        return super(Mkvx4KVideoDownloader, self).download()
+        return super().download()
 
 
 class Mkvx1080pVideoDownloader(MediaDownloader):
@@ -389,7 +389,7 @@ class Mkvx1080pVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=1080][vcodec=vp9]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
-        return super(Mkvx1080pVideoDownloader, self).download()
+        return super().download()
 
 
 class Mkvx1440pVideoDownloader(MediaDownloader):
@@ -408,7 +408,7 @@ class Mkvx1440pVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=1440][vcodec=vp9]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
-        return super(Mkvx1440pVideoDownloader, self).download()
+        return super().download()
 
 
 class Mkvx720pVideoDownloader(MediaDownloader):
@@ -427,4 +427,4 @@ class Mkvx720pVideoDownloader(MediaDownloader):
         return 'bestvideo[height<=720][vcodec=vp9]+bestaudio/best'
 
     def download(self) -> VideoFile | None:
-        return super(Mkvx720pVideoDownloader, self).download()
+        return super().download()

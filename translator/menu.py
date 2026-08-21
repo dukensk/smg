@@ -1,6 +1,15 @@
 from common.menu import MenuItem
-from mediagrabber.downloaders import M4aAudioDownloader, Mp4x1080pVideoDownloader, Mp4x1440pVideoDownloader, Mp4x4KVideoDownloader, \
-    Mp4x720pVideoDownloader, Mkvx4KVideoDownloader, Mkvx1080pVideoDownloader, Mkvx1440pVideoDownloader, Mkvx720pVideoDownloader
+from mediagrabber.downloaders import (
+    M4aAudioDownloader,
+    Mkvx4KVideoDownloader,
+    Mkvx720pVideoDownloader,
+    Mkvx1080pVideoDownloader,
+    Mkvx1440pVideoDownloader,
+    Mp4x4KVideoDownloader,
+    Mp4x720pVideoDownloader,
+    Mp4x1080pVideoDownloader,
+    Mp4x1440pVideoDownloader,
+)
 
 media_downloaders = {
     'audio_m4a': MenuItem(M4aAudioDownloader.title, M4aAudioDownloader),

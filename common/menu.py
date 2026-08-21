@@ -1,13 +1,12 @@
 from dataclasses import dataclass
-from typing import Type
 
-from colorama import Style, Fore
+from colorama import Fore, Style
 
 
 @dataclass
 class MenuItem:
     label: str = None
-    object_type: Type = None
+    object_type: type = None
 
 
 class FactoryMenu:
@@ -40,7 +39,7 @@ class FactoryMenu:
     @property
     def _input_message(self) -> str:
         """The message that appears when entering the menu item number"""
-        return f'Выберите пункт меню'
+        return 'Выберите пункт меню'
 
     def __str__(self):
         numbered_list = []
@@ -74,7 +73,7 @@ class FactoryMenu:
                 f'\n{Style.NORMAL}{Fore.LIGHTRED_EX}ПУНКТА МЕНЮ С ТАКИМ НОМЕРОМ НЕ СУЩЕСТВУЕТ{Style.RESET_ALL}'
                 f'\nНеобходимо ввести число в диапазоне от {self.min_index} до {self.max_index}')
 
-    def _create_instance(self, object_type: Type):
+    def _create_instance(self, object_type: type):
         """
         Creates an instance of an object
         :param object_type: тип создаваемого объекта

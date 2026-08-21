@@ -7,7 +7,7 @@ class DirectLinkController(Controller):
 
     @property
     def header(self):
-        return f'DIRECTLINK ❯❯ {super(DirectLinkController, self).header}'
+        return f'DIRECTLINK ❯❯ {super().header}'
 
     @property
     def title(self) -> str:

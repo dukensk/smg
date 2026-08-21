@@ -14,7 +14,7 @@ class UniversalMediaDownloader(FileDownloader):
     _downloader: MediaDownloader
 
     def __init__(self, url: str = None):
-        super(UniversalMediaDownloader, self).__init__(url)
+        super().__init__(url)
         self._init_downloader()
 
     def _init_downloader(self):
