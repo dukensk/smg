@@ -78,11 +78,11 @@ class File:
         if self.size < 1024:
             size = f'{self.size} Б'
         elif 1024 <= self.size < 1024 * 1024:
-            size = f'{"%.2f" % self.size_in_kb} Кб'
+            size = f'{f"{self.size_in_kb:.2f}"} Кб'
         elif 1024 * 1024 <= self.size < 1024 * 1024 * 1024:
-            size = f'{"%.2f" % self.size_in_mb} Мб'
+            size = f'{f"{self.size_in_mb:.2f}"} Мб'
         elif self.size >= 1024 * 1024 * 1024:
-            size = f'{"%.2f" % self.size_in_gb} Гб'
+            size = f'{f"{self.size_in_gb:.2f}"} Гб'
         else:
             size = f'{self.size} Б'
         return size
