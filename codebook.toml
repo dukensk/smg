@@ -1,0 +1,17 @@
+dictionaries = [
+    "en_us",
+    "ru",
+]
+words = [
+    "Textual's",
+    "cli",
+    "dlp",
+    "ejs",
+    "loguru",
+    "mypy",
+    "pydantic",
+    "smg",
+    "vot",
+    "vot",
+    "медиа",
+]
