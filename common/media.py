@@ -117,7 +117,7 @@ class AudioFile(MediaFile):
             '-of', 'default=noprint_wrappers=1:nokey=1',
             self.path
         ]
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.run(command, capture_output=True, text=True)
         return int(result.stdout.strip())
 
 
@@ -172,7 +172,7 @@ class VideoFile(MediaFile):
         """Determining the codec of the audio track"""
         command = ['ffprobe', '-v', 'error', '-select_streams', 'a:0', '-show_entries', 'stream=codec_name', '-of',
                    'default=noprint_wrappers=1:nokey=1', self.path]
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.run(command, capture_output=True, text=True)
         return result.stdout.strip()
 
     @property
@@ -180,7 +180,7 @@ class VideoFile(MediaFile):
         """Determines the sampling rate of the audio track"""
         command = ['ffprobe', '-v', 'error', '-select_streams', 'a:0', '-show_entries', 'stream=sample_rate', '-of',
                    'default=noprint_wrappers=1:nokey=1', self.path]
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.run(command, capture_output=True, text=True)
         return int(result.stdout.strip())
 
     @property
