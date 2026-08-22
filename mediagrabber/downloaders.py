@@ -23,6 +23,7 @@ class MetaDataLoader:
     def __init__(self, url: str = None):
         self._url = url
 
+    @classmethod
     @lru_cache(maxsize=1)
     def _get_metadata_by_url(self, url: str) -> dict[str, str]:
         ydl_opts = {
@@ -38,7 +39,7 @@ class MetaDataLoader:
             try:
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     metadata = ydl.extract_info(url, download=False)
-            except (yt_dlp.DownloadError, TransportError):
+            except yt_dlp.DownloadError, TransportError:
                 download_attempt += 1
                 if download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:
                     print(f'\n\n{Style.NORMAL}{Fore.LIGHTYELLOW_EX}{MetadataLoadingErrorMessage.get_title()}{Style.RESET_ALL}')
@@ -50,7 +51,7 @@ class MetaDataLoader:
 
     @property
     def _metadata(self) -> dict[str, str]:
-        return self._get_metadata_by_url(self._url)
+        return self.__class__._get_metadata_by_url(self._url)
 
     @property
     def title(self) -> str | None:
@@ -189,7 +190,7 @@ class MediaDownloader(FileDownloader, ABC):
                     yinfo = ydl.extract_info(self._url, download=True)
                 file_path = ydl.prepare_filename(yinfo)
                 print(f'{Style.NORMAL}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
-            except (yt_dlp.DownloadError, TransportError):
+            except yt_dlp.DownloadError, TransportError:
                 download_attempt += 1
                 file_path = None
                 if download_attempt < settings.MEDIAGRABBER_DOWNLOAD_ATTEMPTS_LIMIT:

@@ -18,10 +18,11 @@ class MediaFile(File):
 
     @property
     def media_info(self) -> dict:
-        return self._get_media_info_by_path(self.path)
+        return self.__class__._get_media_info_by_path(self.path)
 
+    @classmethod
     @lru_cache(maxsize=1)
-    def _get_media_info_by_path(self, path: Path) -> dict:
+    def _get_media_info_by_path(cls, path: Path) -> dict:
         if not path.exists():
             raise FileNotFoundError
 
