@@ -19,7 +19,7 @@ class Controller(ABC):
         return True
 
     @abstractmethod
-    def main(self):
+    def main(self) -> bool:
         """The main controller method in which the main work should take place"""
 
     def show_app_header(self):
