@@ -152,17 +152,25 @@ class MediaDownloader(FileDownloader, ABC):
         return postprocessors
 
     @property
+    def _postprocessor_args(self) -> dict[str, list[str]] | None:
+
+        return None
+
+    @property
     def _ydl_opts(self):
         ydl_opts = {
             'noplaylist': self._noplaylist,
             'format': self._format,
-            'outtmpl': str(self._save_path) + '/%(title)s.%(ext)s',
+            # 'outtmpl': str(self._save_path) + '/%(title)s.%(ext)s',
+            'outtmpl': '%(title)s.%(ext)s',
             'concurrent-fragments': self._concurent_fragments,
             'compat_options': ['prefer-vp9-sort'],
             'cookiesfrombrowser': (settings.COOKIES_FROM_BROWSER, None, None, None),
         }
         if self._postprocessors:
             ydl_opts['postprocessors'] = self._postprocessors
+        if self._postprocessor_args:
+            ydl_opts['postprocessor_args'] = self._postprocessor_args
         return ydl_opts
 
     @property
@@ -188,7 +196,9 @@ class MediaDownloader(FileDownloader, ABC):
             try:
                 with yt_dlp.YoutubeDL(self._ydl_opts) as ydl:
                     yinfo = ydl.extract_info(self._url, download=True)
-                file_path = ydl.prepare_filename(yinfo)
+                    file_path = yinfo['requested_downloads'][0]['filepath']
+                # file_path = ydl.prepare_filename(yinfo)
+
                 print(f'{Style.NORMAL}{Fore.LIGHTGREEN_EX}ГОТОВО{Style.RESET_ALL}')
             except yt_dlp.DownloadError, TransportError:
                 download_attempt += 1
@@ -259,6 +269,91 @@ class M4aAudioDownloader(MediaDownloader):
         )
 
         return postprocessors
+
+    def download(self) -> AudioFile | None:
+        return super().download()
+
+
+class OpusAudioDownloader(MediaDownloader):
+    """Opus audio downloader"""
+
+    title: str = 'Аудио, opus'
+
+    @property
+    def _format(self) -> str:
+        return 'bestaudio'
+
+    @property
+    def _postprocessors(self) -> list[dict[str, str]] | None:
+        postprocessors = [
+            {
+                'key': 'SponsorBlock',
+                'categories': ['selfpromo', 'sponsor'],
+                # Run this immediately after extraction is complete
+                'when': 'pre_process',
+            },
+            {
+                'key': 'ModifyChapters',
+            },
+        ]
+
+        postprocessors.append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'opus', 'preferredquality': '64'})
+
+        postprocessors.append(
+            {
+                'key': 'FFmpegMetadata',
+                'add_chapters': True,
+                'add_metadata': True,
+            }
+        )
+
+        return postprocessors
+
+    def download(self) -> AudioFile | None:
+        return super().download()
+
+
+class Opus64KbpsAudioDownloader(MediaDownloader):
+    """Opus 64 Kbps audio downloader"""
+
+    title: str = 'Аудио, opus, 64 kbps'
+
+    @property
+    def _format(self) -> str:
+        return 'bestaudio/best'
+
+    @property
+    def _postprocessors(self) -> list[dict[str, str]] | None:
+        postprocessors = [
+            {
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'opus',
+            },
+            {
+                'key': 'SponsorBlock',
+                'categories': ['selfpromo', 'sponsor'],
+                # Run this immediately after extraction is complete
+                'when': 'pre_process',
+            },
+            {
+                'key': 'ModifyChapters',
+            },
+        ]
+
+        postprocessors.append(
+            {
+                'key': 'FFmpegMetadata',
+                'add_chapters': True,
+                'add_metadata': True,
+            }
+        )
+
+        return postprocessors
+
+    @property
+    def _postprocessor_args(self) -> dict[str, list[str]] | None:
+        postprocessor_args = {'extractaudio': ['-c:a', 'libopus', '-b:a', '64k']}
+        return postprocessor_args
 
     def download(self) -> AudioFile | None:
         return super().download()

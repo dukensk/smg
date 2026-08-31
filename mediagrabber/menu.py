@@ -1,4 +1,3 @@
-
 from common.menu import FactoryMenu, MenuItem
 from mediagrabber.downloaders import (
     BestQualityVideoDownloader,
@@ -12,10 +11,12 @@ from mediagrabber.downloaders import (
     Mp4x720pVideoDownloader,
     Mp4x1080pVideoDownloader,
     Mp4x1440pVideoDownloader,
+    Opus64KbpsAudioDownloader,
+    OpusAudioDownloader,
 )
 
 media_downloaders = {
-    'audio_m4a': MenuItem(M4aAudioDownloader.title, M4aAudioDownloader),
+    'audio_opus_64kbps': MenuItem(Opus64KbpsAudioDownloader.title, Opus64KbpsAudioDownloader),
     'video_mkv_4k': MenuItem(Mkvx4KVideoDownloader.title, Mkvx4KVideoDownloader),
     'video_mkv_1080p': MenuItem(Mkvx1080pVideoDownloader.title, Mkvx1080pVideoDownloader),
     'video_mkv_720p': MenuItem(Mkvx720pVideoDownloader.title, Mkvx720pVideoDownloader),
@@ -25,6 +26,8 @@ media_downloaders = {
     'video_best_quality': MenuItem(BestQualityVideoDownloader.title, BestQualityVideoDownloader),
     'video_mkv_1440p': MenuItem(Mkvx1440pVideoDownloader.title, Mkvx1440pVideoDownloader),
     'video_mp4_1440p': MenuItem(Mp4x1440pVideoDownloader.title, Mp4x1440pVideoDownloader),
+    'audio_opus': MenuItem(OpusAudioDownloader.title, OpusAudioDownloader),
+    'audio_m4a': MenuItem(M4aAudioDownloader.title, M4aAudioDownloader),
 }
 
 

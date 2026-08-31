@@ -59,13 +59,14 @@ class AudioFile(MediaFile):
     EXTENSION_MP3 = '.mp3'
     EXTENSION_AAC = '.aac'
     EXTENSION_OGG = '.ogg'
+    EXTENSION_OPUS = '.opus'
     EXTENSION_WAV = '.wav'
 
     EXTENSIONS_CHOICES = {
         'aac': EXTENSION_M4A,
         'mp3': EXTENSION_MP3,
         'vorbis': EXTENSION_OGG,
-        'opus': EXTENSION_OGG,
+        'opus': EXTENSION_OPUS,
         'wav': EXTENSION_WAV
     }
 
