@@ -83,6 +83,7 @@ def copy_chapters_to_description(mediafile: MediaFile) -> None:
 
     subprocess.call(['ffmpeg',
                          '-i', original_file_path,
+                         '-map_metadata', '-1',      # Очистить все существующие метаданные
                          '-c', 'copy',               # Копируем поток без перекодирования
                          *metadata_args,              # Применяем все извлеченные теги
                          output_file_path],
