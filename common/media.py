@@ -18,7 +18,10 @@ class MediaFile(File):
 
     @property
     def media_info(self) -> dict:
-        return self.__class__._get_media_info_by_path(self.path)
+        try:
+            return self.__class__._get_media_info_by_path(self.path)
+        except FileNotFoundError:
+            return {}
 
     @classmethod
     @lru_cache(maxsize=1)
@@ -43,7 +46,7 @@ class MediaFile(File):
     @property
     def duration_in_seconds(self):
         """Duration in seconds"""
-        return float(self.media_info.get('format').get('duration'))
+        return float(self.media_info.get('format', {}).get('duration', 0))
 
     @property
     def _output_file_path(self) -> Path:
@@ -73,17 +76,17 @@ class AudioFile(MediaFile):
     @property
     def bitrate(self) -> int:
         """bitrate, kbps"""
-        return int(int(self.media_info.get('format').get('bit_rate')) / 1000)
+        return int(int(self.media_info.get('format', {}).get('bit_rate', 0)) / 1000)
 
     @property
     def samplerate(self) -> int:
         """Sampling frequency, Hz"""
-        return int(self.media_info.get('streams')[0].get('sample_rate'))
+        return int(self.media_info.get('streams', {})[0].get('sample_rate', 0))
 
     @property
     def codec_name(self) -> str:
         """Codec name"""
-        return str(self.media_info.get('streams')[0].get('codec_name'))
+        return str(self.media_info.get('streams', {})[0].get('codec_name', ''))
 
     @property
     def audio_codec(self) -> str:
@@ -93,7 +96,7 @@ class AudioFile(MediaFile):
     @property
     def channels(self) -> int:
         """Count of channels"""
-        return int(self.media_info.get('streams')[0].get('channels'))
+        return int(self.media_info.get('streams', {})[0].get('channels', 0))
 
     def __str__(self):
         return f'{self.name_with_extension}'
@@ -138,12 +141,12 @@ class VideoFile(MediaFile):
     @property
     def width(self) -> int:
         """video width"""
-        return int(self.media_info.get('streams')[0].get('width') or 0)
+        return int(self.media_info.get('streams', {})[0].get('width') or 0)
 
     @property
     def height(self) -> int:
         """video height"""
-        return int(self.media_info.get('streams')[0].get('height') or 0)
+        return int(self.media_info.get('streams', {})[0].get('height') or 0)
 
     @property
     def resolution(self) -> str:
@@ -153,7 +156,7 @@ class VideoFile(MediaFile):
     @property
     def framerate(self) -> str:
         """video framerate"""
-        raw_framerate = self.media_info.get('streams')[0].get('r_frame_rate')
+        raw_framerate = self.media_info.get('streams', {})[0].get('r_frame_rate')
         framerate = self._parse_framerate(raw_framerate)
         return framerate
 
