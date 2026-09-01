@@ -260,6 +260,7 @@ def create_file_object(path: Path) -> File | AudioFile | VideoFile | ImageFile:
         AudioFile.EXTENSION_M4A: AudioFile,
         AudioFile.EXTENSION_OGG: AudioFile,
         AudioFile.EXTENSION_WAV: AudioFile,
+        AudioFile.EXTENSION_OPUS: AudioFile,
         # video
         VideoFile.EXTENSION_MP4: VideoFile,
         VideoFile.EXTENSION_MKV: VideoFile,
@@ -281,3 +282,13 @@ def create_file_object(path: Path) -> File | AudioFile | VideoFile | ImageFile:
         file_type = File
 
     return file_type(path)
+
+
+def is_audio_file(mediafile: MediaFile) -> bool:
+    """Checks if the media file is an audio file"""
+    return isinstance(mediafile, AudioFile)
+
+
+def is_video_file(mediafile: MediaFile) -> bool:
+    """Checks if the media file is a video file"""
+    return isinstance(mediafile, VideoFile)
