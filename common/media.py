@@ -2,7 +2,7 @@ import datetime
 import subprocess
 from functools import lru_cache
 from json import loads
-from pathlib import Path, PurePath
+from pathlib import Path
 from subprocess import check_output
 
 from colorama import Fore, Style
@@ -241,11 +241,11 @@ class ImageFile(File):
         return f'{self.name_with_extension} | {self.formatted_size} | изображение'
 
 
-def check_and_correct_path(path: Path, file_types: {str: AudioFile|VideoFile|ImageFile}) -> Path:
+def check_and_correct_path(path: Path, file_types: dict[str, type]) -> Path:
     """Checks and corrects the extension in the path to the downloaded file"""
     if not path.is_file():
         for extension in file_types.keys():
-            possible_path = Path(f'{PurePath(path).stem}{extension}')
+            possible_path = path.with_suffix(extension)
             if possible_path.is_file():
                 path = possible_path
     return path
