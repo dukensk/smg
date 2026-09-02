@@ -13,8 +13,8 @@ def format_time(seconds: float) -> str:
     return f'{hours:02}:{minutes:02}:{secs:02}'
 
 
-def get_all_metadata(mediafile: MediaFile) -> list[str]:
-    """Извлекает все метаданные и формирует список глав для Description."""
+def extract_file_info(mediafile: MediaFile) -> dict:
+    """Извлекает метаданные и главы из аудиофайла."""
     cmd = [
         'ffprobe',
         '-v',
@@ -23,75 +23,106 @@ def get_all_metadata(mediafile: MediaFile) -> list[str]:
         'json',
         '-show_format',
         '-show_streams',
-        '-show_chapters',  # Важно: извлекаем главы (Menu)
+        '-show_chapters',
         str(mediafile.path),
     ]
+
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
-        return []
+        raise RuntimeError(f'ffprobe failed: {result.stderr.strip()}')
 
-    data = json.loads(result.stdout)
+    return json.loads(result.stdout)
+
+
+def extract_tags(data: dict) -> dict[str, str]:
+    """Собирает все метатеги из формата и аудио-потока."""
     tags = {}
 
-    # 1. Собираем все существующие теги в словарь
+    # Приоритет у тегов контейнера (format)
     if 'format' in data and 'tags' in data['format']:
         tags.update(data['format']['tags'])
 
+    # Тегі аудио-потока добавляем, если отсутствуют
     for stream in data.get('streams', []):
         if stream.get('codec_type') == 'audio' and 'tags' in stream:
-            # Добавляем теги потока, если их еще нет в словаре (приоритет формату)
-            for k, v in stream['tags'].items():
-                if k not in tags:
-                    tags[k] = v
+            for key, value in stream['tags'].items():
+                if key not in tags:
+                    tags[key] = value
 
-    # 2. Обработка глав (Menu)
+    return tags
+
+
+def build_chapters_list(chapters: list[dict]) -> str:
+    """Формирует список глав в формате HH:MM:SS Title."""
+    lines = []
+    for i, chap in enumerate(chapters):
+        start_ms = float(chap['start'])
+        start_sec = start_ms / 1000.0
+
+        # Первая глава всегда начинается с 00:00:00
+        if i == 0 and start_sec > 0:i
+            time_str = '00:00:00'
+        else:
+            time_str = format_time(start_sec)
+
+        title = chap.get('tags', {}).get('title', 'Untitled')
+        lines.append(f'{time_str} {title}')
+
+    return '\n'.join(lines)
+
+
+def prepare_metadata(mediafile: MediaFile) -> dict[str, str]:
+    """Готовит финальный словарь метатегов для записи в файл."""
+    data = extract_file_info(mediafile)
+    tags = extract_tags(data)
     chapters = data.get('chapters', [])
+
+    # Заменяем description главами, только если их >= 3
     if len(chapters) >= 3:
-        chapter_lines = []
-        for i, chap in enumerate(chapters):
-            start_time_ms = float(chap['start'])
-            start_time_sec = start_time_ms / 1000.0
+        tags['description'] = build_chapters_list(chapters)
 
-            # Правило: Первая глава должна начинаться строго с 00:00:00
-            if i == 0 and start_time_sec > 0:
-                time_str = '00:00:00'
-            else:
-                time_str = format_time(start_time_sec)
-
-            title = chap.get('tags', {}).get('title', 'Untitled')
-            chapter_lines.append(f'{time_str} {title}')
-
-        # Заменяем или добавляем Description списком глав
-        tags['description'] = '\n'.join(chapter_lines)
-
+    # Удаляем synopsis и comment
     tags.pop('synopsis', None)
     tags.pop('comment', None)
 
-    # 3. Преобразуем словарь в список аргументов для FFmpeg
-    metadata_args = []
+    return tags
+
+
+def build_metadata_args(tags: dict[str, str]) -> list[str]:
+    """Формирует список -metadata аргументов для FFmpeg."""
+    args = []
     for key, value in tags.items():
-        metadata_args.extend(['-metadata', f'{key}={value}'])
-    return metadata_args
+        # FFmpeg понимает \n как перенос строки в значениях метаданных
+        escaped = value.replace('\\', '\\\\').replace('"', '\\"')
+        args.extend(['-metadata', f'{key}={escaped}'])
+    return args
 
 
 def copy_chapters_to_description(mediafile: MediaFile) -> None:
-    """Копирует главы из файла в метатег описание"""
-    original_file_path = mediafile.path
-    output_file_path = original_file_path.with_suffix('.ogg')
+    """Копирует главы из секции Menu в метатег description."""
+    input_path = mediafile.path
+    output_path = mediafile.path.with_suffix('.opus.tmp')
 
-    metadata_args = get_all_metadata(mediafile)
+    tags = prepare_metadata(mediafile)
 
-    subprocess.call(['ffmpeg',
-                         '-i', original_file_path,
-                         '-map_metadata', '-1',      # Очистить все существующие метаданные
-                         '-c', 'copy',               # Копируем поток без перекодирования
-                         *metadata_args,              # Применяем все извлеченные теги
-                         output_file_path],
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.STDOUT)
+    metadata_args = build_metadata_args(tags)
 
-    if original_file_path.exists():
-        original_file_path.unlink()
+    cmd = [
+        'ffmpeg',
+        '-y',
+        '-i', str(input_path),
+        '-map_metadata', '-1',   # очистить оригинальные метаданные
+        '-c', 'copy',
+        *metadata_args,
+        str(output_path),
+    ]
 
-    if output_file_path.exists():
-        output_file_path.rename(original_file_path)
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        raise RuntimeError(f'ffmpeg failed: {result.stderr.strip()}')
+
+    # Атомарная замена файла
+    if input_path.exists():
+        input_path.unlink()
+
+    output_path.rename(input_path)
