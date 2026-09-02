@@ -1,7 +1,5 @@
-from ast import TryStar
 import json
 import subprocess
-from sys import addaudithook
 
 from mutagen.oggopus import OggOpus
 
@@ -136,6 +134,7 @@ def copy_chapters_to_description(mediafile: MediaFile) -> None:
 
 
 def get_chapter_tags(mediafile: MediaFile):
+    """Извлекает теги глав из медиафайла"""
     source = OggOpus(mediafile.path)
     # Извлекаем только теги глав (регистронезависимо)
     chapters_tags = {
@@ -151,6 +150,7 @@ def get_chapter_tags(mediafile: MediaFile):
 
 
 def add_chapters(mediafile: MediaFile, chapters_tags: dict):
+    """Добавляет главы из chapters_tags в теги медиафайла"""
     if not chapters_tags:
         return
 
