@@ -1,5 +1,9 @@
+from ast import TryStar
 import json
 import subprocess
+from sys import addaudithook
+
+from mutagen.oggopus import OggOpus
 
 from common.media import MediaFile, is_audio_file
 
@@ -131,9 +135,37 @@ def copy_chapters_to_description(mediafile: MediaFile) -> None:
     output_path.rename(input_path)
 
 
+def get_chapter_tags(mediafile: MediaFile):
+    source = OggOpus(mediafile.path)
+    # Извлекаем только теги глав (регистронезависимо)
+    chapters_tags = {
+        key: value
+        for key, value in source.tags
+        if key.upper().startswith('CHAPTER')
+    }
+
+    if not chapters_tags:
+        chapters_tags = {}
+
+    return chapters_tags
+
+
+def add_chapters(mediafile: MediaFile, chapters_tags: dict):
+    if not chapters_tags:
+        return
+
+    target = OggOpus(mediafile.path)
+    for key, value in chapters_tags.items():
+        target.tags[key] = value
+
+    target.save()
+
+
 def chapters_postprocess(mediafile: MediaFile) -> MediaFile:
     """Постобработка глав в медиафайле"""
     if is_audio_file(mediafile):
+        chapters_tags = get_chapter_tags(mediafile)
         copy_chapters_to_description(mediafile)
+        add_chapters(mediafile, chapters_tags)
 
     return mediafile
