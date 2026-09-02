@@ -1,7 +1,7 @@
 import json
 import subprocess
 
-from common.media import MediaFile
+from common.media import MediaFile, is_audio_file
 
 
 def format_time(seconds: float) -> str:
@@ -129,3 +129,11 @@ def copy_chapters_to_description(mediafile: MediaFile) -> None:
         input_path.unlink()
 
     output_path.rename(input_path)
+
+
+def chapters_postprocess(mediafile: MediaFile) -> MediaFile:
+    """Постобработка глав в медиафайле"""
+    if is_audio_file(mediafile):
+        copy_chapters_to_description(mediafile)
+
+    return mediafile
