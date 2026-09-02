@@ -42,7 +42,7 @@ def extract_tags(data: dict) -> dict[str, str]:
     if 'format' in data and 'tags' in data['format']:
         tags.update(data['format']['tags'])
 
-    # Тегі аудио-потока добавляем, если отсутствуют
+    # Теги аудио-потока добавляем, если отсутствуют
     for stream in data.get('streams', []):
         if stream.get('codec_type') == 'audio' and 'tags' in stream:
             for key, value in stream['tags'].items():
@@ -56,11 +56,11 @@ def build_chapters_list(chapters: list[dict]) -> str:
     """Формирует список глав в формате HH:MM:SS Title."""
     lines = []
     for i, chap in enumerate(chapters):
-        start_ms = float(chap['start'])
-        start_sec = start_ms / 1000.0
+        # ffprobe обычно использует 'start_time' в секундах.
+        start_sec = float(chap.get('start_time', chap.get('start', 0)))
 
         # Первая глава всегда начинается с 00:00:00
-        if i == 0 and start_sec > 0:i
+        if i == 0 and start_sec > 0:
             time_str = '00:00:00'
         else:
             time_str = format_time(start_sec)
@@ -71,11 +71,13 @@ def build_chapters_list(chapters: list[dict]) -> str:
     return '\n'.join(lines)
 
 
-def prepare_metadata(mediafile: MediaFile) -> dict[str, str]:
-    """Готовит финальный словарь метатегов для записи в файл."""
+def prepare_metadata(mediafile: MediaFile) -> tuple[dict[str, str], str]:
+    """Готовит финальный словарь метатегов и формат файла."""
     data = extract_file_info(mediafile)
     tags = extract_tags(data)
     chapters = data.get('chapters', [])
+    # Получаем format_name из данных ffprobe (например, 'ogg')
+    fmt = data.get('format', {}).get('format_name', 'ogg')
 
     # Заменяем description главами, только если их >= 3
     if len(chapters) >= 3:
@@ -85,7 +87,7 @@ def prepare_metadata(mediafile: MediaFile) -> dict[str, str]:
     tags.pop('synopsis', None)
     tags.pop('comment', None)
 
-    return tags
+    return tags, fmt
 
 
 def build_metadata_args(tags: dict[str, str]) -> list[str]:
@@ -93,7 +95,7 @@ def build_metadata_args(tags: dict[str, str]) -> list[str]:
     args = []
     for key, value in tags.items():
         # FFmpeg понимает \n как перенос строки в значениях метаданных
-        escaped = value.replace('\\', '\\\\').replace('"', '\\"')
+        escaped = str(value).replace('\\', '\\\\').replace('"', '\\"')
         args.extend(['-metadata', f'{key}={escaped}'])
     return args
 
@@ -101,10 +103,10 @@ def build_metadata_args(tags: dict[str, str]) -> list[str]:
 def copy_chapters_to_description(mediafile: MediaFile) -> None:
     """Копирует главы из секции Menu в метатег description."""
     input_path = mediafile.path
-    output_path = mediafile.path.with_suffix('.opus.tmp')
+    # Создаем временный файл с расширением, отличным от оригинала
+    output_path = input_path.with_suffix(input_path.suffix + '.tmp')
 
-    tags = prepare_metadata(mediafile)
-
+    tags, fmt = prepare_metadata(mediafile)
     metadata_args = build_metadata_args(tags)
 
     cmd = [
@@ -113,6 +115,7 @@ def copy_chapters_to_description(mediafile: MediaFile) -> None:
         '-i', str(input_path),
         '-map_metadata', '-1',   # очистить оригинальные метаданные
         '-c', 'copy',
+        '-f', fmt,              # Явно указываем формат (исправляет вашу ошибку)
         *metadata_args,
         str(output_path),
     ]
