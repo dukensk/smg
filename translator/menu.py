@@ -22,5 +22,4 @@ media_downloaders = {
     'video_mp4_720p': MenuItem(Mp4x720pVideoDownloader.title, Mp4x720pVideoDownloader),
     'video_mkv_1440p': MenuItem(Mkvx1440pVideoDownloader.title, Mkvx1440pVideoDownloader),
     'video_mp4_1440p': MenuItem(Mp4x1440pVideoDownloader.title, Mp4x1440pVideoDownloader),
-    'audio_m4a': MenuItem(M4aAudioDownloader.title, M4aAudioDownloader),
 }
