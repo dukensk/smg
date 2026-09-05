@@ -277,7 +277,7 @@ class M4aAudioDownloader(MediaDownloader):
 class OpusAudioDownloader(MediaDownloader):
     """Opus audio downloader"""
 
-    title: str = 'Аудио, opus'
+    title: str = 'Аудио, opus, Макс. битрейт'
 
     @property
     def _format(self) -> str:
