@@ -1,7 +1,6 @@
 from common.menu import FactoryMenu, MenuItem
 from mediagrabber.downloaders import (
     BestQualityVideoDownloader,
-    M4aAudioDownloader,
     MediaDownloader,
     Mkvx4KVideoDownloader,
     Mkvx720pVideoDownloader,
@@ -27,7 +26,6 @@ media_downloaders = {
     'video_mkv_1440p': MenuItem(Mkvx1440pVideoDownloader.title, Mkvx1440pVideoDownloader),
     'video_mp4_1440p': MenuItem(Mp4x1440pVideoDownloader.title, Mp4x1440pVideoDownloader),
     'audio_opus': MenuItem(OpusAudioDownloader.title, OpusAudioDownloader),
-    'audio_m4a': MenuItem(M4aAudioDownloader.title, M4aAudioDownloader),
 }
 
 
