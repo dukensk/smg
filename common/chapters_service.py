@@ -29,7 +29,7 @@ def extract_file_info(mediafile: MediaFile) -> dict:
         str(mediafile.path),
     ]
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, errors='replace')
     if result.returncode != 0:
         raise RuntimeError(f'ffprobe failed: {result.stderr.strip()}')
 
@@ -122,7 +122,7 @@ def copy_chapters_to_description(mediafile: MediaFile) -> None:
         str(output_path),
     ]
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, errors='replace')
     if result.returncode != 0:
         raise RuntimeError(f'ffmpeg failed: {result.stderr.strip()}')
 
