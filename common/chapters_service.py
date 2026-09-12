@@ -133,13 +133,15 @@ def copy_chapters_to_description(mediafile: MediaFile) -> None:
     output_path.rename(input_path)
 
 
+
 def get_chapter_tags(mediafile: MediaFile):
     """Извлекает теги глав из медиафайла"""
     source = OggOpus(mediafile.path)
     # Извлекаем только теги глав (регистронезависимо)
+    # Исправлено: добавлены .items() и обработка None через or {}
     chapters_tags = {
         key: value
-        for key, value in source.tags
+        for key, value in (source.tags or {}).items()
         if key.upper().startswith('CHAPTER')
     }
 
