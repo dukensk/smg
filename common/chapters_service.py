@@ -138,7 +138,6 @@ def get_chapter_tags(mediafile: MediaFile):
     """Извлекает теги глав из медиафайла"""
     source = OggOpus(mediafile.path)
     # Извлекаем только теги глав (регистронезависимо)
-    # Исправлено: добавлены .items() и обработка None через or {}
     chapters_tags = {
         key: value
         for key, value in (source.tags or {}).items()
