@@ -1,7 +1,9 @@
 import json
 import subprocess
+from typing import Any, cast
 
 from mutagen.oggopus import OggOpus
+from mutagen.oggvorbis import OggVorbis
 
 from common.media import MediaFile, is_audio_file
 
@@ -114,10 +116,14 @@ def copy_chapters_to_description(mediafile: MediaFile) -> None:
     cmd = [
         'ffmpeg',
         '-y',
-        '-i', str(input_path),
-        '-map_metadata', '-1',   # очистить оригинальные метаданные
-        '-c', 'copy',
-        '-f', fmt,              # Явно указываем формат (исправляет вашу ошибку)
+        '-i',
+        str(input_path),
+        '-map_metadata',
+        '-1',  # очистить оригинальные метаданные
+        '-c',
+        'copy',
+        '-f',
+        fmt,  # Явно указываем формат (исправляет вашу ошибку)
         *metadata_args,
         str(output_path),
     ]
@@ -133,16 +139,11 @@ def copy_chapters_to_description(mediafile: MediaFile) -> None:
     output_path.rename(input_path)
 
 
-
 def get_chapter_tags(mediafile: MediaFile):
     """Извлекает теги глав из медиафайла"""
     source = OggOpus(mediafile.path)
     # Извлекаем только теги глав (регистронезависимо)
-    chapters_tags = {
-        key: value
-        for key, value in (source.tags or {}).items()
-        if key.upper().startswith('CHAPTER')
-    }
+    chapters_tags = {key: value for key, value in (source.tags or {}).items() if key.upper().startswith('CHAPTER')}
 
     if not chapters_tags:
         chapters_tags = {}
@@ -156,8 +157,14 @@ def add_chapters(mediafile: MediaFile, chapters_tags: dict):
         return
 
     target = OggOpus(mediafile.path)
+
+    if target.tags is None:
+        target.tags = cast(Any, OggVorbis())
+
+    tags = cast(OggVorbis, target.tags)
+
     for key, value in chapters_tags.items():
-        target.tags[key] = value
+        tags[key] = value
 
     target.save()
 
