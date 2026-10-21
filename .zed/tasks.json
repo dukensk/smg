@@ -109,7 +109,7 @@
   },
 
   {
-    "label": "UV: Установить зависимости",
+    "label": "UV: Установить зависимости (sync)",
     "command": "uv",
     "args": ["sync"],
     "use_new_terminal": false,
